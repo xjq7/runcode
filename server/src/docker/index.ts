@@ -1,4 +1,5 @@
-import Docker from 'dockerode';
+import Docker, { Container } from 'dockerode';
+import fs from 'fs';
 import dockerConfig from '../config/docker';
 import * as cpp from './cpp';
 
@@ -42,16 +43,17 @@ export async function run({ image, code }: { image: string; code: string }) {
           'bash',
           '-c',
           `cat > code.cpp << EOF ${code} \
-            g++ code.cpp -o code.out \
-            && ./code.out`,
+          g++ code.cpp -o code.out \
+          && ./code.out`,
         ],
         process.stdout
       )
-      .then(function (data) {
+      .then(async function (data) {
         const output = data[0];
-        const container = data[1];
+        const container: Container = data[1];
+        const readstream = await container.logs({ stdout: true, stderr: true });
         container.remove();
-        resolve(output);
+        resolve(readstream.toString());
         return output;
       })
       .then(function (data) {
@@ -59,6 +61,8 @@ export async function run({ image, code }: { image: string; code: string }) {
         return data;
       })
       .catch(function (error) {
+        console.log(error, 'err');
+
         resolve(error);
       });
   });

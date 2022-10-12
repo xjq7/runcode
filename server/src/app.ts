@@ -13,7 +13,10 @@ router.post('/run', async (ctx, next) => {
 
   const { code } = body;
 
-  if (typeof code !== 'string') return;
+  if (typeof code !== 'string') {
+    ctx.throw();
+    return;
+  }
 
   const output = await docker.run({
     image: 'cpp:11',
@@ -31,7 +34,7 @@ router.post('/run', async (ctx, next) => {
 app.use(router.routes()).use(router.allowedMethods());
 
 app.on('error', (err) => {
-  console.error('server error', err);
+  console.error('server error211', err);
 });
 
 app.listen(3000);
