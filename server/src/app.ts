@@ -14,9 +14,12 @@ router.post('/run', async (ctx, next) => {
   const { code } = body;
 
   if (typeof code !== 'string') return;
-  console.log(code);
 
-  const output = await docker.run({ image: 'cpp:11', code });
+  const output = await docker.run({
+    image: 'cpp:11',
+    code: '\n' + decodeURI(code) + '\n' + 'EOF' + '\n',
+  });
+
   ctx.body = {
     code: 0,
     data: {

@@ -41,9 +41,9 @@ export async function run({ image, code }: { image: string; code: string }) {
         [
           'bash',
           '-c',
-          `cat > code.cpp << EOF ${code}\
-          && g++ code.cpp -o code.out\
-          && ./code.out`,
+          `cat > code.cpp << EOF ${code} \
+            g++ code.cpp -o code.out \
+            && ./code.out`,
         ],
         process.stdout
       )
@@ -56,9 +56,10 @@ export async function run({ image, code }: { image: string; code: string }) {
       })
       .then(function (data) {
         console.log('container removed');
+        return data;
       })
-      .catch(function (data) {
-        resolve(data[0]);
+      .catch(function (error) {
+        resolve(error);
       });
   });
 }
