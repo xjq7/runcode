@@ -1,4 +1,4 @@
-import { Editor } from '~/components/CodeEditor';
+import Editor from '~/components/CodeEditor';
 
 const Component = () => {
   return <Editor />;
