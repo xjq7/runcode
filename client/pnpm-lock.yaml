@@ -7,6 +7,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.0.0
   '@vitejs/plugin-react': ^2.1.0
   eslint: ^8.0.1
+  eslint-config-prettier: ^8.5.0
   eslint-config-standard-with-typescript: ^23.0.0
   eslint-plugin-import: ^2.25.2
   eslint-plugin-n: ^15.0.0
@@ -29,6 +30,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.40.0_eslint@8.25.0+typescript@4.8.4
   '@vitejs/plugin-react': 2.1.0_vite@3.1.7
   eslint: 8.25.0
+  eslint-config-prettier: 8.5.0_eslint@8.25.0
   eslint-config-standard-with-typescript: 23.0.0_344d2ee9c3d555cc5ea0ef845575d9a8
   eslint-plugin-import: 2.26.0_eslint@8.25.0
   eslint-plugin-n: 15.3.0_eslint@8.25.0
@@ -1115,6 +1117,15 @@ packages:
   /escape-string-regexp/4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@8.25.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.25.0
     dev: true
 
   /eslint-config-standard-with-typescript/23.0.0_344d2ee9c3d555cc5ea0ef845575d9a8:
