@@ -1,38 +1,10 @@
 import Docker, { Container } from 'dockerode';
 import dockerConfig from '../config/docker';
-import * as cpp from './cpp';
 import { CodeEnv, CodeType, FileSuffix } from './type';
-
-const env: string[] = ['cpp:11'];
 
 const docker = new Docker({
   ...dockerConfig,
 });
-
-export async function init() {
-  // const images = await docker.listImages();
-
-  // const imagesSet = new Set<string>(
-  //   images.reduce<string[]>((acc, cur) => {
-  //     if (cur.RepoTags) {
-  //       acc = acc.concat(cur.RepoTags);
-  //     }
-  //     return acc;
-  //   }, [])
-  // );
-
-  // const notBuildEnv = env.filter((env) => !imagesSet.has(env));
-
-  await Promise.all(
-    env.map(async (env) => {
-      if (env.includes('cpp')) {
-        const version = env.split(':')[1];
-        return await cpp.buildImage({ version });
-      }
-      return await Promise.resolve();
-    })
-  );
-}
 
 interface CodeDockerOption {
   env: CodeEnv;
@@ -43,7 +15,7 @@ interface CodeDockerOption {
 const imageMap: Record<CodeType, CodeDockerOption> = {
   cpp: {
     env: CodeEnv.cpp,
-    shell: 'g++ code.cpp -o code.out && ./codeout',
+    shell: 'g++ code.cpp -o code.out && ./code.out',
     fileSuffix: FileSuffix.cpp,
   },
   nodejs: {
@@ -51,18 +23,23 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shell: 'node code.js',
     fileSuffix: FileSuffix.nodejs,
   },
+  go: {
+    env: CodeEnv.go,
+    shell: 'go code.go',
+    fileSuffix: FileSuffix.go,
+  },
 };
 
 export async function run({ type, code }: { type: CodeType; code: string }) {
   let removeContainer = () => {};
 
-  let Error = {
+  const Error = {
     output: '',
     code: 1,
     time: 0,
   };
 
-  let result = Error;
+  const result = Error;
 
   const dockerOptions = imageMap[type];
 
