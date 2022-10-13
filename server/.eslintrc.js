@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', '/sh'],
   extends: ['standard-with-typescript', 'prettier'],
   overrides: [],
   parser: '@typescript-eslint/parser',

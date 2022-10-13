@@ -33,6 +33,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "typescript": "*"
+    "typescript": "*",
+    "zx": "^7.1.1"
   }
 }
