@@ -19,7 +19,7 @@ router.post('/run', async (ctx, next) => {
   }
 
   const output = await docker.run({
-    image: 'cpp:11',
+    image: 'nodejs:16',
     code: '\n' + decodeURI(code) + '\n' + 'EOF' + '\n',
   });
 
@@ -37,4 +37,4 @@ app.on('error', (err) => {
   console.error('server error211', err);
 });
 
-app.listen(3000);
+app.listen(3002);

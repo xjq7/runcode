@@ -1,5 +1,4 @@
 import Docker, { Container } from 'dockerode';
-import fs from 'fs';
 import dockerConfig from '../config/docker';
 import * as cpp from './cpp';
 
@@ -36,24 +35,31 @@ export async function init() {
 
 export async function run({ image, code }: { image: string; code: string }) {
   return await new Promise((resolve, reject) => {
+    let removeContainer = ()=>{}
     docker
       .run(
         image,
+        // [
+        //   'bash',
+        //   '-c',
+        //   `cat > code.cpp << EOF ${code} \
+        //   g++ code.cpp -o code.out \
+        //   && ./code.out`,
+        // ],
         [
           'bash',
           '-c',
-          `cat > code.cpp << EOF ${code} \
-          g++ code.cpp -o code.out \
-          && ./code.out`,
+          `cat > code.js << EOF ${code} \
+          node code.js`,
         ],
         process.stdout
       )
       .then(async function (data) {
         const output = data[0];
         const container: Container = data[1];
-        const readstream = await container.logs({ stdout: true, stderr: true });
-        container.remove();
-        resolve(readstream.toString());
+        removeContainer = () => container.remove();
+        const readstream: any = await container.logs({ stdout: true, stderr: true });
+        resolve(encodeURI(readstream.toString('utf8')));
         return output;
       })
       .then(function (data) {
@@ -64,6 +70,8 @@ export async function run({ image, code }: { image: string; code: string }) {
         console.log(error, 'err');
 
         resolve(error);
+      }).finally(()=>{
+        removeContainer()
       });
   });
 }
