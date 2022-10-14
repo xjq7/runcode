@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "^4.0.0",
     "dockerode": "^3.3.4",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
@@ -22,6 +23,7 @@
     "@types/koa": "^2.13.5",
     "@types/koa-bodyparser": "^4.3.8",
     "@types/koa-router": "^7.4.4",
+    "@types/koa__cors": "^3.3.0",
     "@types/node": "^18.8.4",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
