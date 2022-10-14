@@ -11,4 +11,4 @@ app.on('error', (err) => {
   console.error('server error', err);
 });
 
-app.listen(3002);
+app.listen(3000);
