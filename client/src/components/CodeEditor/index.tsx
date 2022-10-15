@@ -1,39 +1,36 @@
-import { useEffect } from 'react';
-import styles from './index.module.less';
-
-// export const Editor: React.FunctionComponent = () => {
-//   const [editor, setEditor] =
-//     useState<monaco.editor.IStandaloneCodeEditor | null>(null);
-//   const monacoEl = useRef(null);
-
-//   useEffect(() => {
-//     if (monacoEl && !editor) {
-//       setEditor(
-//         monaco.editor.create(monacoEl.current!, {
-//           value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-//             '\n'
-//           ),
-//           language: 'cpp',
-//         })
-//       );
-//     }
-
-//     return () => editor?.dispose();
-//   }, [monacoEl.current]);
-
-//   return <div className={styles.Editor} ref={monacoEl}></div>;
-// };
-
+import {
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState, Compartment } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
 import { CodeType } from './type';
+import styles from './index.module.less';
 
 interface Props {
   type?: CodeType;
 }
 
-const Component = (props: Props) => {
+export interface Expose {
+  getState(): string;
+}
+
+const Component = (props: Props, ref: ForwardedRef<Expose>) => {
+  const { type } = props;
+
+  const viewRef = useRef<EditorView>();
+
+  useImperativeHandle(ref, () => ({
+    getState: () => {
+      if (viewRef.current) return viewRef.current.state.doc.toJSON().join('\n');
+      return '';
+    },
+  }));
+
   useEffect(() => {
     let language = new Compartment(),
       tabSize = new Compartment();
@@ -43,9 +40,12 @@ const Component = (props: Props) => {
           color: 'black',
           backgroundColor: 'white',
         },
+        '.cm-scroller': {
+          border: '1px solid #e5e5e5',
+        },
         '.cm-content': {
-          width: '600px',
-          height: '800px',
+          width: '800px',
+          height: '600px',
         },
       },
       { dark: false }
@@ -68,10 +68,11 @@ const Component = (props: Props) => {
       state,
       parent: content,
     });
+    viewRef.current = view;
 
     return () => view.destroy();
   }, []);
   return <div id="editor" className={styles.editor}></div>;
 };
 
-export default Component;
+export default forwardRef(Component);

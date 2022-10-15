@@ -25,7 +25,7 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
   },
   go: {
     env: CodeEnv.go,
-    shell: 'go code.go',
+    shell: 'go run code.go',
     fileSuffix: FileSuffix.go,
   },
 };

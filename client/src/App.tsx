@@ -1,7 +1,13 @@
 import Editor from './pages/editor';
+import Toast from '~/components/Toast';
 
 function App() {
-  return <Editor />;
+  return (
+    <div>
+      <Toast />
+      <Editor />
+    </div>
+  );
 }
 
 export default App;
