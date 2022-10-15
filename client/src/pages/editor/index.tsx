@@ -6,6 +6,8 @@ import { useRequest } from 'ahooks';
 import Button from '~components/Button';
 import Select, { IOption } from '~components/Select';
 import { CodeType } from '~utils/type';
+import storage from '~utils/storage';
+import { codeKey } from '~constant/storage';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -51,6 +53,7 @@ const Component = () => {
   const handleRunCode = async () => {
     if (editorRef.current) {
       const code = editorRef.current.getEditor()?.getValue() || '';
+      storage.set(codeKey[codeType], code);
       run({ code: encodeURI(code), type: codeType });
     }
   };

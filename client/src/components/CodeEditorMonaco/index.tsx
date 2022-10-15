@@ -9,6 +9,8 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.module.less';
 import { CodeType } from '~utils/type';
 import { template } from './const';
+import storage from '~utils/storage';
+import { codeKey } from '~constant/storage';
 
 interface Props {
   type: CodeType;
@@ -51,8 +53,10 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
 
   useEffect(() => {
     if (monacoRef.current) {
+      const codeCache = storage.get(codeKey[type]);
+
       editorRef.current = monaco.editor.create(monacoRef.current, {
-        value: template[type],
+        value: codeCache || template[type],
         language: languageMap[type],
         theme: themeType,
       });
