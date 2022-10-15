@@ -16,14 +16,14 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./server
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      defaults:
-        run:
-          working-directory: ./server
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -99,7 +99,6 @@ jobs:
           USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
           SERVER_DESTINATION: /root/project/runcodeclient # 部署到目标文件夹
 
-      
       - name: Restart server # 第三步，重启服务
         uses: appleboy/ssh-action@master
         with:
