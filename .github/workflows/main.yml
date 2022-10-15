@@ -30,13 +30,9 @@ jobs:
       - name: Install pnpm
         run: npm i pnpm -g
 
-      - uses: marcopolo/cargo@master
-        with:
-          command: build
-          working-directory: ./client
-
       - name: client
-        run: pwd
+        run:
+          working-directory: /client
 
       - name: Install Packages
         run: pnpm install
@@ -58,7 +54,7 @@ jobs:
       - uses: marcopolo/cargo@master
         with:
           command: build
-          working-directory: ../
+          working-directory: .
 
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
