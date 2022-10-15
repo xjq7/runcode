@@ -19,4 +19,5 @@ func main () {
 }
   `,
   [CodeType.bash]: `echo hello world`,
+  [CodeType.shell]: `echo hello world`,
 };
