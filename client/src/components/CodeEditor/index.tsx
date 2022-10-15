@@ -8,11 +8,12 @@ import {
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState, Compartment } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
-import { CodeType } from './type';
+import { CodeType } from '../../../../common/type';
 import styles from './index.module.less';
+import { template } from './const';
 
 interface Props {
-  type?: CodeType;
+  type: CodeType;
 }
 
 export interface Expose {
@@ -45,13 +46,14 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
         },
         '.cm-content': {
           width: '800px',
-          height: '600px',
+          height: '500px',
         },
       },
       { dark: false }
     );
 
     let state = EditorState.create({
+      doc: template[type],
       extensions: [
         basicSetup,
         language.of(javascript()),

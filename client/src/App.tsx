@@ -1,5 +1,5 @@
 import Editor from './pages/editor';
-import Toast from '~/components/Toast';
+import Toast from '~components/Toast';
 
 function App() {
   return (

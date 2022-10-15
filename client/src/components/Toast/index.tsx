@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import _toast, { IToast } from '~/store/ui/toast';
+import _toast, { IToast } from '~store/ui/toast';
 
 const Component = observer(() => {
   const [toastsStore] = useState(() => _toast);

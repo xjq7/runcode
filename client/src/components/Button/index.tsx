@@ -10,7 +10,7 @@ interface Props
 const Component: React.FC<PropsWithChildren<Props>> = (
   props: PropsWithChildren<Props>
 ) => {
-  const { type, size, children, loading, ...restProps } = props;
+  const { type, size, children, loading, onClick, ...restProps } = props;
 
   let className = 'btn ';
 
@@ -23,11 +23,18 @@ const Component: React.FC<PropsWithChildren<Props>> = (
   }
 
   if (loading) {
-    className += `loading `;
+    className += `loading btn-disabled`;
   }
 
   return (
-    <button className={className} {...restProps}>
+    <button
+      className={className}
+      onClick={(args) => {
+        if (loading) return;
+        onClick && onClick(args);
+      }}
+      {...restProps}
+    >
       {children}
     </button>
   );

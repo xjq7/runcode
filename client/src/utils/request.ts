@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { toast } from '~/components/Toast';
+import { toast } from '~components/Toast';
 
 const { VITE_APP_API } = import.meta.env;
 
