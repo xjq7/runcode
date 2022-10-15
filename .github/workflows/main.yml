@@ -11,11 +11,15 @@ on:
     branches: [main]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
+jobs-client:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    defaults:
+    run:
+      working-directory: ./client
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,10 +33,6 @@ jobs:
 
       - name: Install pnpm
         run: npm i pnpm -g
-
-      - name: client
-        run:
-          working-directory: /client
 
       - name: Install Packages
         run: pnpm install
@@ -51,10 +51,33 @@ jobs:
           USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
           SERVER_DESTINATION: /root/project/runcodeclient # 部署到目标文件夹
 
-      - uses: marcopolo/cargo@master
+      - name: Restart server # 第三步，重启服务
+        uses: appleboy/ssh-action@master
         with:
-          command: build
-          working-directory: .
+          host: ${{ secrets.SSH_HOST }} # 下面三个配置与上一步类似
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }} # SSH端口
+          key: ${{ secrets.DEPLOY_KEY }}
+          # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
+          script: |
+            mv -f client/config/nginx.conf /etc/nginx/conf.d/runcodec.conf
+            systemctl restart nginx
+
+jobs-server:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
@@ -91,6 +114,5 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
-            mv -f client/config/nginx.conf /etc/nginx/conf.d/runcodec.conf
             mv -f server/config/nginx.conf /etc/nginx/conf.d/runcodes.conf
             systemctl restart nginx
