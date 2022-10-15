@@ -8,7 +8,6 @@ import {
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.module.less';
 import { CodeType } from '~utils/type';
-
 import { template } from './const';
 
 interface Props {
