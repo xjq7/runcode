@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon src/app.ts",
+    "build": "tsc",
+    "deploy": "mv -f config/nginx.conf /etc/nginx/conf.d  && pm2 start dist/server/src/app.js --name runcode -i -1",
+    "kill": "pm2 delete runcode"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +37,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "nodemon": "^2.0.20",
+    "pm2": "^5.2.2",
     "prettier": "^2.7.1",
     "typescript": "*",
     "zx": "^7.1.1"
