@@ -7,7 +7,11 @@ import Button from '~components/Button';
 import Select, { IOption } from '~components/Select';
 import { CodeType } from '~utils/type';
 import storage from '~utils/storage';
-import { codeKey } from '~constant/storage';
+import {
+  CodeStorageKey,
+  CodeStorageTypeKey,
+  ThemeStorageKey,
+} from '~constant/storage';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -35,6 +39,10 @@ const themeOptions: IOption<ThemeType>[] = [
   },
 ];
 
+const initThemeType =
+  storage.get(ThemeStorageKey) || ThemeType['Visual Studio'];
+const initCodeType = storage.get(CodeStorageTypeKey) || CodeType.cpp;
+
 const Component = () => {
   const editorRef = useRef<Expose>(null);
 
@@ -45,20 +53,19 @@ const Component = () => {
     return '';
   }, [data]);
 
-  const [codeType, setCodeType] = useState(CodeType.cpp);
-  const [themeType, setThemeType] = useState<ThemeType>(
-    ThemeType['Visual Studio']
-  );
+  const [codeType, setCodeType] = useState<CodeType>(initCodeType);
+  const [themeType, setThemeType] = useState<ThemeType>(initThemeType);
 
   const handleRunCode = async () => {
     if (editorRef.current) {
       const code = editorRef.current.getEditor()?.getValue() || '';
-      storage.set(codeKey[codeType], code);
+      storage.set(CodeStorageKey[codeType], code);
       run({ code: encodeURI(code), type: codeType });
     }
   };
 
   const handleCodeOptionsChange = (data: CodeType) => {
+    storage.set(CodeStorageTypeKey, data);
     setCodeType(data);
   };
 
@@ -75,7 +82,10 @@ const Component = () => {
           className="w-64 ml-4"
           options={themeOptions}
           value={themeType}
-          onChange={(data: ThemeType) => setThemeType(data)}
+          onChange={(data: ThemeType) => {
+            storage.set(ThemeStorageKey, data);
+            setThemeType(data);
+          }}
         />
       </div>
 

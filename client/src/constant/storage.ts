@@ -1,9 +1,17 @@
 import { CodeType } from '~utils/type';
 
-export const codeKey: Record<CodeType, string> = {
-  [CodeType.cpp]: 'code_' + CodeType.cpp,
-  [CodeType.nodejs]: 'code_' + CodeType.nodejs,
-  [CodeType.bash]: 'code_' + CodeType.bash,
-  [CodeType.go]: 'code_' + CodeType.go,
-  [CodeType.shell]: 'code_' + CodeType.shell,
+const config_prefix = 'config_';
+
+const code_prefix = 'code_';
+
+export const CodeStorageKey: Record<CodeType, string> = {
+  [CodeType.cpp]: config_prefix + code_prefix + CodeType.cpp,
+  [CodeType.nodejs]: config_prefix + code_prefix + CodeType.nodejs,
+  [CodeType.bash]: config_prefix + code_prefix + CodeType.bash,
+  [CodeType.go]: config_prefix + code_prefix + CodeType.go,
+  [CodeType.shell]: config_prefix + code_prefix + CodeType.shell,
 };
+
+export const ThemeStorageKey = config_prefix + 'theme_';
+
+export const CodeStorageTypeKey = config_prefix + code_prefix + 'type_';

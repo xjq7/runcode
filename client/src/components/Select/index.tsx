@@ -55,16 +55,17 @@ function Component<T = string>(props: Props<T>) {
         const idx = e.target.selectedIndex;
         onChange(options[idx].value);
       }}
+      defaultValue={
+        defaultValue as string | number | readonly string[] | undefined
+      }
+      value={value as string | number | readonly string[] | undefined}
       style={style}
     >
       {options.map((o) => {
         const { label, value: _value, disabled } = o;
         return (
           <option
-            defaultValue={
-              defaultValue as string | number | readonly string[] | undefined
-            }
-            value={value as string | number | readonly string[] | undefined}
+            value={_value as string | number | readonly string[] | undefined}
             key={label}
             disabled={disabled}
           >
