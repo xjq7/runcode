@@ -1,4 +1,6 @@
+import * as React from 'react';
 import { ISize } from '~components/type';
+import * as cls from 'classnames';
 
 export interface IOption<T = string> {
   label: string;
@@ -20,6 +22,8 @@ interface Props<T> {
     | 'accent';
   size?: ISize;
   defaultValue?: T;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 function Component<T = string>(props: Props<T>) {
@@ -30,6 +34,8 @@ function Component<T = string>(props: Props<T>) {
     defaultValue,
     type = 'primary',
     size = 'md',
+    style,
+    className,
   } = props;
 
   let selectClass = 'select w-full max-w-xs ';
@@ -43,10 +49,17 @@ function Component<T = string>(props: Props<T>) {
   }
 
   return (
-    <select className={selectClass}>
+    <select
+      className={cls(selectClass, className)}
+      onChange={(e) => {
+        if (!onChange) return;
+        const idx = e.target.selectedIndex;
+        onChange(options[idx].value);
+      }}
+      style={style}
+    >
       {options.map((o) => {
         const { label, value: _value, disabled } = o;
-        const isSelected = value === _value;
         return (
           <option
             defaultValue={
@@ -55,10 +68,6 @@ function Component<T = string>(props: Props<T>) {
             value={value as string | number | readonly string[] | undefined}
             key={label}
             disabled={disabled}
-            onClick={() => {
-              if (!onChange) return;
-              onChange(_value);
-            }}
           >
             {label}
           </option>

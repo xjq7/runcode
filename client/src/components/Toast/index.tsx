@@ -6,14 +6,11 @@ const Component = observer(() => {
   const [toastsStore] = useState(() => _toast);
   const toasts = toastsStore.value;
 
-  console.log(toasts);
-
   const Item = (props: IToast) => {
     const {
       message = '',
       type = 'success',
       positions = ['top', 'center'],
-      containerStyle,
       id,
     } = props;
 

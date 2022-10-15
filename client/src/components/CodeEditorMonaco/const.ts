@@ -1,7 +1,6 @@
-import { Text } from '@codemirror/state';
 import { CodeType } from '../../../../common/type';
 
-export const template: Record<CodeType, string | Text> = {
+export const template: Record<CodeType, string> = {
   [CodeType.cpp]: `#include<iostream>
 
 int main(){
@@ -11,11 +10,13 @@ int main(){
 `,
 
   [CodeType.nodejs]: `console.log('hello world')`,
-  [CodeType.go]: `
-  #include<iostream>
+  [CodeType.go]: `package main
 
-  int main(){
-    return 0;
-  }
+import "fmt"
+  
+func main () {
+  fmt.Println("hello world")
+}
   `,
+  [CodeType.bash]: `echo hello world`,
 };

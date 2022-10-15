@@ -1,6 +1,6 @@
 import Docker, { Container } from 'dockerode';
 import dockerConfig from '../config/docker';
-import { CodeEnv, CodeType, FileSuffix } from './type';
+import { CodeEnv, CodeType, FileSuffix } from '../../../common/type';
 
 const docker = new Docker({
   ...dockerConfig,
@@ -27,6 +27,16 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     env: CodeEnv.go,
     shell: 'go run code.go',
     fileSuffix: FileSuffix.go,
+  },
+  bash: {
+    env: CodeEnv.bash,
+    shell: 'bash code.sh',
+    fileSuffix: FileSuffix.bash,
+  },
+  shell: {
+    env: CodeEnv.shell,
+    shell: 'bash code.sh',
+    fileSuffix: FileSuffix.shell,
   },
 };
 
