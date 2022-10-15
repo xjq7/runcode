@@ -24,7 +24,13 @@ export enum ThemeType {
   'High Contrast Dark' = 'hc-black',
 }
 
-type monacoLang = 'typescript' | 'javascript' | 'cpp' | 'go' | 'shell';
+type monacoLang =
+  | 'typescript'
+  | 'javascript'
+  | 'cpp'
+  | 'go'
+  | 'shell'
+  | 'python';
 
 export interface Expose {
   getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
@@ -36,6 +42,7 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.go]: 'go',
   [CodeType.bash]: 'shell',
   [CodeType.shell]: 'shell',
+  [CodeType.python3]: 'python',
 };
 
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {

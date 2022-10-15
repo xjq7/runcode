@@ -10,6 +10,7 @@ export const CodeStorageKey: Record<CodeType, string> = {
   [CodeType.bash]: config_prefix + code_prefix + CodeType.bash,
   [CodeType.go]: config_prefix + code_prefix + CodeType.go,
   [CodeType.shell]: config_prefix + code_prefix + CodeType.shell,
+  [CodeType.python3]: config_prefix + code_prefix + CodeType.python3,
 };
 
 export const ThemeStorageKey = config_prefix + 'theme_';

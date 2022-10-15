@@ -20,4 +20,9 @@ func main () {
   `,
   [CodeType.bash]: `echo hello world`,
   [CodeType.shell]: `echo hello world`,
+  [CodeType.python3]: `# encoding: utf-8
+if __name__ == "__main__":
+  
+    print("hello world")
+  `,
 };

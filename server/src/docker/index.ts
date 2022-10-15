@@ -38,6 +38,11 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shell: 'bash code.sh',
     fileSuffix: FileSuffix.shell,
   },
+  python3: {
+    env: CodeEnv.python3,
+    shell: 'python3 code.py',
+    fileSuffix: FileSuffix.python3,
+  },
 };
 
 export async function run({ type, code }: { type: CodeType; code: string }) {
@@ -47,6 +52,7 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
     output: '',
     code: 1,
     time: 0,
+    message: '',
   };
 
   const result = Error;
@@ -66,7 +72,8 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
         `cat > code.${fileSuffix} << EOF ${code} \
         ${shell}`,
       ],
-      process.stdout
+      process.stdout,
+      { StopTimeout: 1 }
     );
 
     const output = data[0] || {};
@@ -82,6 +89,7 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
     result.output = encodeURI(readstream.toString('utf8'));
     result.code = 0;
   } catch (error) {
+    console.log(error);
   } finally {
     removeContainer();
   }

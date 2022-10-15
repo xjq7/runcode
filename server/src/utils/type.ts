@@ -4,6 +4,7 @@ export enum CodeType {
   go = 'go',
   bash = 'bash',
   shell = 'shell',
+  python3 = 'python3',
 }
 
 export enum CodeEnv {
@@ -12,6 +13,7 @@ export enum CodeEnv {
   go = 'go:latest',
   bash = 'centos:7',
   shell = 'centos:7',
+  python3 = 'python:3',
 }
 
 export enum FileSuffix {
@@ -20,4 +22,5 @@ export enum FileSuffix {
   go = 'go',
   bash = 'sh',
   shell = 'sh',
+  python3 = 'py',
 }
