@@ -1,6 +1,6 @@
 import Docker, { Container } from 'dockerode';
 import dockerConfig from '../config/docker';
-import { CodeEnv, CodeType, FileSuffix } from '../../../common/type';
+import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
 
 const docker = new Docker({
   ...dockerConfig,

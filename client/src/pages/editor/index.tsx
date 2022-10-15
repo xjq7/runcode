@@ -5,7 +5,7 @@ import styles from './index.module.less';
 import { useRequest } from 'ahooks';
 import Button from '~components/Button';
 import Select, { IOption } from '~components/Select';
-import { CodeType } from '../../../../common/type';
+import { CodeType } from '~utils/type';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },

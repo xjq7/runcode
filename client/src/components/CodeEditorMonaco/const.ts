@@ -1,4 +1,4 @@
-import { CodeType } from '../../../../common/type';
+import { CodeType } from '~utils/type';
 
 export const template: Record<CodeType, string> = {
   [CodeType.cpp]: `#include<iostream>

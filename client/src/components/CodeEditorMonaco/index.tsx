@@ -7,7 +7,7 @@ import {
 } from 'react';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.module.less';
-import { CodeType } from '../../../../common/type';
+import { CodeType } from '~utils/type';
 
 import { template } from './const';
 

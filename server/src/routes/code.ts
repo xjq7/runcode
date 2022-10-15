@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import * as docker from '../docker';
-import { CodeType } from '../../../common/type';
+import { CodeType } from '../utils/type';
 
 const router = new Router({ prefix: '/code' });
 
