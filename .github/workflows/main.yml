@@ -21,6 +21,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      defaults:
+        run:
+          working-directory: ./server
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -32,7 +36,7 @@ jobs:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }} # 引用配置，SSH私钥
           ARGS: -avz --delete --exclude='*.pyc' # rsync参数，排除.pyc文件
           SERVER_PORT: ${{ secrets.SSH_PORT }} # SSH端口
-          FOLDER: server # 要推送的文件夹，路径相对于代码仓库的根目录
+          FOLDER: ./ # 要推送的文件夹，路径相对于代码仓库的根目录
           SERVER_IP: ${{ secrets.SSH_HOST }} # 引用配置，服务器的host名（IP或者域名domain.com）
           USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
           SERVER_DESTINATION: /root/project/runcodeserver/ # 部署到目标文件夹
@@ -50,7 +54,7 @@ jobs:
             pnpm install 
             pnpm build
             pnpm deploy
-            mv -f server/config/nginx.conf /etc/nginx/conf.d/runcodes.conf
+            mv -f config/nginx.conf /etc/nginx/conf.d/runcodes.conf
             systemctl restart nginx
 
   # This workflow contains a single job called "build"
@@ -81,6 +85,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: move nginx.conf
+        run: mv config/nginx.conf dist
+
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
         env:
@@ -92,6 +99,7 @@ jobs:
           USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
           SERVER_DESTINATION: /root/project/runcodeclient # 部署到目标文件夹
 
+      
       - name: Restart server # 第三步，重启服务
         uses: appleboy/ssh-action@master
         with:
@@ -101,5 +109,5 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
-            mv -f client/config/nginx.conf /etc/nginx/conf.d/runcodec.conf
+            mv -f project/runcodeclient/dist/nginx.conf /etc/nginx/conf.d/runcodec.conf
             systemctl restart nginx
