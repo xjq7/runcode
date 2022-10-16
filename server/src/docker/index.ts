@@ -80,13 +80,39 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
     result.code = output?.StatusCode;
 
     const container: Container = data[1];
+
     removeContainer = () => container.remove();
     const readstream: any = await container.logs({
       stdout: true,
       stderr: true,
     });
 
-    result.output = encodeURI(readstream.toString('utf8'));
+    let outputString = readstream.toString('utf8') as string;
+
+    if (outputString.length > 4200) {
+      outputString =
+        outputString.slice(0, 2000) +
+        outputString.slice(outputString.length - 2000);
+    }
+
+    outputString = encodeURI(outputString);
+
+    outputString = outputString.replace(
+      /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
+      ''
+    );
+
+    let outputStringArr = outputString.split('%0A');
+    if (outputStringArr.length > 200) {
+      outputStringArr = outputStringArr
+        .slice(0, 100)
+        .concat(
+          ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
+          outputStringArr.slice(outputStringArr.length - 100)
+        );
+    }
+
+    result.output = outputStringArr.join('%0A');
     result.code = 0;
   } catch (error) {
     console.log(error);

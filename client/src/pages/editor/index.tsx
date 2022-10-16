@@ -104,7 +104,9 @@ const Component = () => {
       </div>
       <div className={styles.output}>
         <div>
-          {loading ? 'running...' : output.map((str) => <pre>{str}</pre>)}
+          {loading
+            ? 'running...'
+            : output.map((str, index) => <pre key={index}>{str}</pre>)}
         </div>
       </div>
     </div>
