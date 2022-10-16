@@ -12,6 +12,7 @@ import {
   CodeStorageTypeKey,
   ThemeStorageKey,
 } from '~constant/storage';
+import { parseConsoleOutput } from '~utils/helper';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -50,8 +51,8 @@ const Component = () => {
   const { data, run, loading } = useRequest(runCode, { manual: true });
 
   const output = useMemo(() => {
-    if (data?.output) return decodeURI(data?.output);
-    return '';
+    let output = data?.output || '';
+    return parseConsoleOutput(output);
   }, [data]);
 
   const [codeType, setCodeType] = useState<CodeType>(initCodeType);
@@ -102,7 +103,9 @@ const Component = () => {
         </Button>
       </div>
       <div className={styles.output}>
-        <span>{loading ? 'running...' : output}</span>
+        <div>
+          {loading ? 'running...' : output.map((str) => <pre>{str}</pre>)}
+        </div>
       </div>
     </div>
   );
