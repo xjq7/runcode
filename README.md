@@ -10,6 +10,10 @@
 
 - golang latest
 
+- python3
+
+- bash 
+
 ## 开发
 
 ### server
