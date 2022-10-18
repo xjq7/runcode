@@ -53,9 +53,10 @@ jobs:
             cd project/runcodeserver/server
             pnpm install 
             pnpm build
+            pnpm kill
             pnpm deploy
             mv -f config/nginx.conf /etc/nginx/conf.d/runcodes.conf
-            systemctl restart nginx
+            nginx -s reload
 
   # This workflow contains a single job called "build"
   build-client:
@@ -109,4 +110,4 @@ jobs:
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
             mv -f project/runcodeclient/dist/nginx.conf /etc/nginx/conf.d/runcodec.conf
-            systemctl restart nginx
+            nginx -s reload

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "build": "tsc",
-    "deploy": "pm2 restart dist/app.js -i -1",
+    "deploy": "pm2 start dist/app.js --name runcode -i max",
     "kill": "pm2 delete runcode"
   },
   "keywords": [],
