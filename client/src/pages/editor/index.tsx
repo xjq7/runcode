@@ -197,7 +197,6 @@ const Component = () => {
           type="primary"
           size="sm"
           className="mr-2"
-          loading={loading}
           onClick={() => {
             editorRef.current?.getEditor()?.setValue(template[codeType]);
           }}
