@@ -153,8 +153,6 @@ export async function run2(params: {
           const timeoutSig = setTimeout(handleOutput, DockerRunConfig.timeout);
 
           container?.wait((status) => {
-            console.log(status);
-
             if (!status || status?.Status === DockerRunStatus.exited) {
               clearTimeout(timeoutSig);
               handleOutput();
