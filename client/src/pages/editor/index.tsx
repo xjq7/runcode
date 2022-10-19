@@ -18,6 +18,7 @@ import TextArea from '~components/Textarea';
 import GithubIcon from '../../assets/github.png';
 import classnames from 'classnames';
 import { template } from '~components/CodeEditorMonaco/const';
+import { debounce } from 'lodash';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -79,7 +80,6 @@ const Component = () => {
   const handleRunCode = async () => {
     if (editorRef.current) {
       const code = editorRef.current.getEditor()?.getValue() || '';
-      storage.set(CodeStorageKey[codeType], code);
       run({ code: encodeURI(code), type: codeType, stdin: inputRef.current });
     }
   };
@@ -107,6 +107,21 @@ const Component = () => {
       />
     );
   };
+
+  useEffect(() => {
+    editorRef.current
+      ?.getEditor()
+      ?.getModel()
+      ?.onDidChangeContent(
+        debounce(() => {
+          storage.set(
+            CodeStorageKey[codeType],
+            editorRef.current?.getEditor()?.getValue()
+          );
+        }, 3000)
+      );
+  }, []);
+
   const renderOutput = () => {
     return (
       <div

@@ -15,6 +15,7 @@
     "axios": "^1.1.2",
     "classnames": "^2.3.2",
     "daisyui": "^2.31.0",
+    "lodash": "^4.17.21",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
     "monaco-editor": "^0.34.0",
@@ -23,6 +24,7 @@
     "react-use": "^17.4.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.186",
     "@types/node": "^18.8.5",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
