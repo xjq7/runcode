@@ -54,7 +54,7 @@ jobs:
             pnpm install 
             pnpm build
             pnpm kill
-            pnpm deploy
+            pnpm run deploy
             mv -f config/nginx.conf /etc/nginx/conf.d/runcodes.conf
             nginx -s reload
 
