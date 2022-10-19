@@ -1,6 +1,16 @@
 .container {
   margin: 0 auto;
-  width: 800px;
+
+  @media (min-width: 640px) {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    width: calc(100% - 20px);
+  }
+  @media (min-width: 1280px) {
+    width: 1000px;
+  }
   .header {
     margin: 20px 0 10px 0;
     .github {

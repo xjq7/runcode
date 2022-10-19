@@ -129,13 +129,15 @@ const Component = () => {
       >
         <div className="flex-row">
           <Select<CodeType>
-            className="w-32"
+            className="w-30"
+            size="md"
             options={codeOptions}
             value={codeType}
             onChange={handleCodeOptionsChange}
           />
           <Select<ThemeType>
-            className="w-64 ml-4"
+            className="w-42 ml-4"
+            size="md"
             options={themeOptions}
             value={themeType}
             onChange={(data: ThemeType) => {
@@ -146,7 +148,7 @@ const Component = () => {
         </div>
         <div>
           <img
-            className={cls(styles.github, 'w-7')}
+            className={cls(styles.github, 'w-7 mr-2')}
             src={GithubIcon}
             onClick={() => {
               window.open('https://github.com/xjq7/runcode');
@@ -160,6 +162,7 @@ const Component = () => {
         <Button
           type="primary"
           size="sm"
+          className="mr-2"
           loading={loading}
           onClick={handleRunCode}
         >

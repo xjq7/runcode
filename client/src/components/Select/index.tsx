@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ISize } from '~components/type';
 import classnames from 'classnames';
+import { useMemo } from 'react';
 
 export interface IOption<T = string> {
   label: string;
@@ -38,19 +39,41 @@ function Component<T = string>(props: Props<T>) {
     className,
   } = props;
 
-  let selectClass = 'select w-full max-w-xs ';
-
-  if (type) {
-    selectClass += `select-${type} `;
-  }
-
-  if (size) {
-    selectClass += `select-${size} `;
-  }
+  const typeCls = useMemo(() => {
+    switch (type) {
+      case 'primary':
+        return 'select-primary';
+      case 'secondary':
+        return 'select-secondary';
+      case 'warning':
+        return 'select-warning';
+      case 'error':
+        return 'select-error';
+      case 'info':
+        return 'select-info';
+      case 'success':
+        return 'select-success';
+      case 'accent':
+        return 'select-accent';
+    }
+  }, [type]);
+  const sizeCls = useMemo(() => {
+    switch (size) {
+      case 'lg':
+        return 'select-lg';
+      case 'sm':
+        return 'select-sm';
+      case 'md':
+        return 'select-md';
+      case 'xs':
+        return 'select-xs';
+    }
+    return '';
+  }, [size]);
 
   return (
     <select
-      className={classnames(selectClass, className)}
+      className={classnames('select', sizeCls, typeCls, className)}
       onChange={(e) => {
         if (!onChange) return;
         const idx = e.target.selectedIndex;
