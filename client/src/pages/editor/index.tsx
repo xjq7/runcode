@@ -94,20 +94,6 @@ const Component = () => {
     setCodeType(data);
   };
 
-  const renderInput = () => {
-    return (
-      <TextArea
-        onChange={(e) => {
-          inputRef.current = e.target.value;
-        }}
-        className={styles.input}
-        style={{ display: display === DisplayType.input ? 'block' : 'none' }}
-        placeholder="stdin..."
-        border
-      />
-    );
-  };
-
   useEffect(() => {
     editorRef.current
       ?.getEditor()
@@ -122,16 +108,34 @@ const Component = () => {
       );
   }, []);
 
+  const renderInput = () => {
+    return (
+      <TextArea
+        onChange={(e) => {
+          inputRef.current = e.target.value;
+        }}
+        className={classnames(styles.input, 'mt-1')}
+        style={{ display: display === DisplayType.input ? 'block' : 'none' }}
+        placeholder="stdin..."
+        border
+      />
+    );
+  };
+
   const renderOutput = () => {
     return (
       <div
-        className={styles.output}
+        className={classnames(styles.output, 'mt-1', 'text-gray-600')}
         style={{ display: display === DisplayType.output ? 'block' : 'none' }}
       >
         {loading ? (
           'running...'
         ) : output.length ? (
-          output.map((str, index) => <pre key={index}>{str}</pre>)
+          output.map((str, index) => (
+            <pre className="text-gray-800" key={index}>
+              {str}
+            </pre>
+          ))
         ) : (
           <span className="text-sm text-gray-400">output...</span>
         )}
@@ -200,17 +204,18 @@ const Component = () => {
           run
         </Button>
       </div>
-      <Tab<DisplayType>
-        tabs={[
-          { label: '输入', value: DisplayType.input },
-          { label: '输出', value: DisplayType.output },
-        ]}
-        active={display}
-        lifted
-        onChange={(type) => setDisplay(type)}
-      />
 
-      <div className={classnames(styles.display, 'mt-2')}>
+      <div className={classnames(styles.display)}>
+        <Tab<DisplayType>
+          tabs={[
+            { label: '输入', value: DisplayType.input },
+            { label: '输出', value: DisplayType.output },
+          ]}
+          active={display}
+          lifted
+          onChange={(type) => setDisplay(type)}
+        />
+
         {renderInput()}
         {renderOutput()}
       </div>
