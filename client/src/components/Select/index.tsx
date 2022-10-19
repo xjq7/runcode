@@ -68,7 +68,6 @@ function Component<T = string>(props: Props<T>) {
       case 'xs':
         return 'select-xs';
     }
-    return '';
   }, [size]);
 
   return (

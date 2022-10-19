@@ -1,7 +1,13 @@
 import { makeObservable, observable, action } from 'mobx';
 import * as React from 'react';
 
-export type position = 'start' | 'center' | 'end' | 'top' | 'middle' | 'bottom';
+export type position =
+  | 'toast-start'
+  | 'toast-center'
+  | 'toast-end'
+  | 'toast-top'
+  | 'toast-middle'
+  | 'toast-bottom';
 
 export interface IToast {
   id?: string;

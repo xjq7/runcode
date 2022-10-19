@@ -24,9 +24,22 @@ function Component<T>(props: Props<T>) {
     lifted = false,
     bordered = false,
     active = tabs[0],
+    size = 'md',
     onChange = () => {},
   } = props;
 
+  const sizeCls = useMemo(() => {
+    switch (size) {
+      case 'lg':
+        return 'tab-lg';
+      case 'sm':
+        return 'tab-sm';
+      case 'md':
+        return 'tab-md';
+      case 'xs':
+        return 'tab-xs';
+    }
+  }, [size]);
   return (
     <div
       className={classNames('tabs', {
@@ -40,7 +53,7 @@ function Component<T>(props: Props<T>) {
           <a
             key={label}
             onClick={() => onChange(value)}
-            className={classNames('tab', {
+            className={classNames('tab', sizeCls, {
               'tab-active': active === value,
               'tab-lifted': lifted,
               'tab-bordered': bordered,

@@ -1,35 +1,42 @@
+import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
-import _toast, { IToast } from '~store/ui/toast';
+import { useMemo, useState } from 'react';
+import _toast, { IToast, position } from '~store/ui/toast';
 
-const Component = observer(() => {
+interface Props {
+  positions?: position[];
+}
+
+const Component = observer((props: Props) => {
+  const { positions = ['toast-top', 'toast-center'] } = props;
+
   const [toastsStore] = useState(() => _toast);
   const toasts = toastsStore.value;
 
+  let positionsCls = '';
+
+  if (positions?.length) {
+    positionsCls = positions.reduce((acc, cur) => (acc += cur + ' '), '');
+  }
+
   const Item = (props: IToast) => {
-    const {
-      message = '',
-      type = 'info',
-      positions = ['top', 'center'],
-      id,
-    } = props;
+    const { message = '', type = 'info', id } = props;
 
-    let alertClassName = 'alert ';
-    if (type) {
-      alertClassName += `alert-${type} `;
-    }
-
-    let toastClassName = 'toast ';
-
-    if (positions?.length) {
-      toastClassName = positions.reduce(
-        (acc, cur) => (acc += `toast-${cur} `),
-        ''
-      );
-    }
+    const typeCls = useMemo(() => {
+      switch (type) {
+        case 'error':
+          return 'alert-error';
+        case 'info':
+          return 'alert-info';
+        case 'success':
+          return 'alert-success';
+        case 'warning':
+          return 'alert-warning';
+      }
+    }, [type]);
 
     return (
-      <div className={alertClassName} key={id}>
+      <div className={classNames('alert', typeCls)} key={id}>
         <div>
           <span>{message}</span>
         </div>
@@ -39,7 +46,7 @@ const Component = observer(() => {
 
   return (
     <div
-      className="toast toast-center toast-top"
+      className={classNames('toast', positionsCls)}
       style={{
         width: 300,
         position: 'absolute',

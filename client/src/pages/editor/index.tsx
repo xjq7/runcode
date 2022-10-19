@@ -19,6 +19,7 @@ import GithubIcon from '../../assets/github.png';
 import classnames from 'classnames';
 import { template } from '~components/CodeEditorMonaco/const';
 import { debounce } from 'lodash';
+import { toast } from '~components/Toast';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -76,11 +77,20 @@ const Component = () => {
 
   const [codeType, setCodeType] = useState<CodeType>(initCodeType);
   const [themeType, setThemeType] = useState<ThemeType>(initThemeType);
+  const [timesPrevent, setTimesPrevent] = useState(false);
 
   const handleRunCode = async () => {
+    if (timesPrevent) {
+      toast({ message: '您点击太快啦! 请稍后重试!', type: 'info' });
+      return;
+    }
     if (editorRef.current) {
       const code = editorRef.current.getEditor()?.getValue() || '';
       run({ code: encodeURI(code), type: codeType, stdin: inputRef.current });
+      setTimesPrevent(true);
+      setTimeout(() => {
+        setTimesPrevent(false);
+      }, 2000);
     }
   };
   useEffect(() => {
@@ -213,6 +223,7 @@ const Component = () => {
           ]}
           active={display}
           lifted
+          size="md"
           onChange={(type) => setDisplay(type)}
         />
 

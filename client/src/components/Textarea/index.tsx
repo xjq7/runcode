@@ -11,15 +11,14 @@ interface Props
 function Component(props: Props) {
   const { placeholder, border, className, ...restProps } = props;
 
-  let cls = 'textarea ';
-
-  if (border) {
-    cls += 'textarea-bordered ';
-  }
-
   return (
     <textarea
-      className={classnames(cls, className)}
+      className={classnames(
+        {
+          'textarea-bordered': border,
+        },
+        className
+      )}
       placeholder={placeholder}
       {...restProps}
     ></textarea>
