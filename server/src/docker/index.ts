@@ -65,7 +65,7 @@ export async function run2(params: {
     output: '',
     code: RunCodeStatus.error,
     time: 0,
-    message: '执行时间超时!',
+    message: '',
   };
 
   const result = Error;
@@ -80,9 +80,12 @@ export async function run2(params: {
 
   let removeContainer = () => {};
 
-  let bashCmd = `cat > code.${fileSuffix} << EOF ${code}`;
+  const wrapCode = '\n' + decodeURI(code) + '\n' + 'EOF' + '\n';
+  const wrapStdin = '\n' + decodeURI(stdin || '') + '\n' + 'EOF' + '\n';
+
+  let bashCmd = `cat > code.${fileSuffix} << EOF ${wrapCode}`;
   if (stdin) {
-    bashCmd += `cat > input.txt << EOF ${stdin}
+    bashCmd += `cat > input.txt << EOF ${wrapStdin}
     ${shell} < input.txt`;
   } else {
     bashCmd += `${shell}`;
@@ -126,6 +129,7 @@ export async function run2(params: {
 
               if (isTimeout) {
                 result.code = RunCodeStatus.timeout;
+                result.message = '执行时间超时!';
               } else {
                 result.code = RunCodeStatus.success;
                 result.output = outputString;
@@ -149,6 +153,8 @@ export async function run2(params: {
           const timeoutSig = setTimeout(handleOutput, DockerRunConfig.timeout);
 
           container?.wait((status) => {
+            console.log(status);
+
             if (!status || status?.Status === DockerRunStatus.exited) {
               clearTimeout(timeoutSig);
               handleOutput();

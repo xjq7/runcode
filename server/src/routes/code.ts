@@ -13,7 +13,7 @@ export enum RunCodeStatus {
 router.post('/run', async (ctx) => {
   const body = ctx.request.body ?? {};
 
-  const { code, type, stdin } = body;
+  const { code, type, stdin = '' } = body;
 
   if (
     typeof code !== 'string' ||
@@ -24,15 +24,11 @@ router.post('/run', async (ctx) => {
     return;
   }
 
-  const wrapCode = '\n' + decodeURI(code) + '\n' + 'EOF' + '\n';
-  const wrapStdin =
-    '\n' + decodeURI((stdin as string) || '') + '\n' + 'EOF' + '\n';
-
   try {
     const output = await docker.run2({
       type: type as CodeType,
-      code: wrapCode,
-      stdin: wrapStdin,
+      code,
+      stdin: stdin as string,
     });
     ctx.body = {
       code: 0,

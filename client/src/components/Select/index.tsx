@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ISize } from '~components/type';
+import classnames from 'classnames';
 
 export interface IOption<T = string> {
   label: string;
@@ -37,7 +38,7 @@ function Component<T = string>(props: Props<T>) {
     className,
   } = props;
 
-  let selectClass = 'select w-full max-w-xs ' + className + ' ';
+  let selectClass = 'select w-full max-w-xs ';
 
   if (type) {
     selectClass += `select-${type} `;
@@ -49,7 +50,7 @@ function Component<T = string>(props: Props<T>) {
 
   return (
     <select
-      className={selectClass}
+      className={classnames(selectClass, className)}
       onChange={(e) => {
         if (!onChange) return;
         const idx = e.target.selectedIndex;

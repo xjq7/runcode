@@ -9,7 +9,7 @@ const Component = observer(() => {
   const Item = (props: IToast) => {
     const {
       message = '',
-      type = 'success',
+      type = 'info',
       positions = ['top', 'center'],
       id,
     } = props;

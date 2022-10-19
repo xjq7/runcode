@@ -21,7 +21,8 @@
       "~store*": ["./src/store/*"],
       "~utils*": ["./src/utils/*"],
       "~constant*": ["./src/constant/*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
