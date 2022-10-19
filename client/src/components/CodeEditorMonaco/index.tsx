@@ -63,7 +63,6 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
   useEffect(() => {
     if (monacoRef.current) {
       const codeCache = storage.get(CodeStorageKey[type]);
-
       editorRef.current = monaco.editor.create(monacoRef.current, {
         value: codeCache || template[type],
         language: languageMap[type],

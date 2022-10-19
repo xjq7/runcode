@@ -16,7 +16,8 @@ import { parseConsoleOutput } from '~utils/helper';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
 import GithubIcon from '../../assets/github.png';
-import cls from 'classnames';
+import classnames from 'classnames';
+import { template } from '~components/CodeEditorMonaco/const';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -101,7 +102,7 @@ const Component = () => {
         }}
         className={styles.input}
         style={{ display: display === DisplayType.input ? 'block' : 'none' }}
-        placeholder=""
+        placeholder="stdin..."
         border
       />
     );
@@ -112,9 +113,13 @@ const Component = () => {
         className={styles.output}
         style={{ display: display === DisplayType.output ? 'block' : 'none' }}
       >
-        {loading
-          ? 'running...'
-          : output.map((str, index) => <pre key={index}>{str}</pre>)}
+        {loading ? (
+          'running...'
+        ) : output.length ? (
+          output.map((str, index) => <pre key={index}>{str}</pre>)
+        ) : (
+          <span className="text-sm text-gray-400">output...</span>
+        )}
       </div>
     );
   };
@@ -122,7 +127,7 @@ const Component = () => {
   return (
     <div className={styles.container}>
       <div
-        className={cls(
+        className={classnames(
           styles.header,
           'flex flex-row items-center justify-between'
         )}
@@ -148,7 +153,7 @@ const Component = () => {
         </div>
         <div>
           <img
-            className={cls(styles.github, 'w-7 mr-2')}
+            className={classnames(styles.github, 'w-7 mr-2')}
             src={GithubIcon}
             onClick={() => {
               window.open('https://github.com/xjq7/runcode');
@@ -159,6 +164,17 @@ const Component = () => {
 
       <Editor ref={editorRef} type={codeType} themeType={themeType} />
       <div className={styles.operator}>
+        <Button
+          type="primary"
+          size="sm"
+          className="mr-2"
+          loading={loading}
+          onClick={() => {
+            editorRef.current?.getEditor()?.setValue(template[codeType]);
+          }}
+        >
+          reset
+        </Button>
         <Button
           type="primary"
           size="sm"
@@ -175,10 +191,11 @@ const Component = () => {
           { label: '输出', value: DisplayType.output },
         ]}
         active={display}
+        lifted
         onChange={(type) => setDisplay(type)}
       />
 
-      <div className={styles.display}>
+      <div className={classnames(styles.display, 'mt-2')}>
         {renderInput()}
         {renderOutput()}
       </div>
