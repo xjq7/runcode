@@ -11,6 +11,7 @@ import { CodeType } from '~utils/type';
 import { template } from './const';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
+import { useWindowSize } from 'react-use';
 
 interface Props {
   type: CodeType;
@@ -50,6 +51,7 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
   const monacoRef = useRef(null);
+  const { width } = useWindowSize();
 
   useImperativeHandle(ref, () => ({
     getEditor: () => {
@@ -71,6 +73,10 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
       return () => editorRef.current?.dispose();
     }
   }, [type, themeType]);
+
+  useEffect(() => {
+    editorRef.current?.layout();
+  }, [width]);
 
   return <div className={styles.editor} ref={monacoRef}></div>;
 };
