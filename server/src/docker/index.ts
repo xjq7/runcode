@@ -61,17 +61,6 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shell: 'python3 code.py',
     shellWithStdin: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
-    prefix: `def expand_arg_files():
-    import sys
-    args = []
-    with open(file=sys.argv[1], mode="r", encoding="utf-8") as f:
-        line = f.readline()
-        while line:
-            args.append(line.strip())
-            line = f.readline()
-    sys.argv[0:] = args
-expand_arg_files()
-`,
   },
   java: {
     env: CodeEnv.java,
