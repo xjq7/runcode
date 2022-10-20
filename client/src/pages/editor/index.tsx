@@ -105,18 +105,20 @@ const Component = () => {
   };
 
   useEffect(() => {
-    editorRef.current
-      ?.getEditor()
-      ?.getModel()
-      ?.onDidChangeContent(
-        debounce(() => {
-          storage.set(
-            CodeStorageKey[codeType],
-            editorRef.current?.getEditor()?.getValue()
-          );
-        }, 3000)
-      );
-  }, []);
+    if (editorRef.current) {
+      editorRef.current
+        ?.getEditor()
+        ?.getModel()
+        ?.onDidChangeContent(
+          debounce(() => {
+            storage.set(
+              CodeStorageKey[codeType],
+              editorRef.current?.getEditor()?.getValue()
+            );
+          }, 1500)
+        );
+    }
+  }, [editorRef.current]);
 
   const renderInput = () => {
     return (
