@@ -27,7 +27,7 @@ const codeOptions: IOption<CodeType>[] = [
   { label: 'Nodejs', value: CodeType.nodejs },
   { label: 'Go', value: CodeType.go },
   { label: 'Python3', value: CodeType.python3 },
-  { label: 'Php', value: CodeType.php },
+  { label: 'php', value: CodeType.php },
   { label: 'Bash', value: CodeType.bash },
 ];
 
