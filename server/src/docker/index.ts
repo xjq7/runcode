@@ -26,32 +26,32 @@ interface CodeDockerOption {
 const imageMap: Record<CodeType, CodeDockerOption> = {
   cpp: {
     env: CodeEnv.cpp,
-    shell: 'g++ code.cpp -o code.out && ./code.out',
+    shell: 'g++ code.cpp -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.cpp,
   },
   nodejs: {
     env: CodeEnv.nodejs,
-    shell: 'node code.js',
+    shell: 'node code.js < input.txt',
     fileSuffix: FileSuffix.nodejs,
   },
   go: {
     env: CodeEnv.go,
-    shell: 'go run code.go',
+    shell: 'go run code.go < input.txt',
     fileSuffix: FileSuffix.go,
   },
   bash: {
     env: CodeEnv.bash,
-    shell: 'bash code.sh',
+    shell: 'bash code.sh < input.txt',
     fileSuffix: FileSuffix.bash,
   },
   shell: {
     env: CodeEnv.shell,
-    shell: 'bash code.sh',
+    shell: 'bash code.sh < input.txt',
     fileSuffix: FileSuffix.shell,
   },
   python3: {
     env: CodeEnv.python3,
-    shell: 'python3 code.py',
+    shell: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
   },
 };
@@ -86,7 +86,7 @@ export async function run2(params: {
   let bashCmd = `cat > code.${fileSuffix} << EOF ${wrapCode}`;
   if (stdin) {
     bashCmd += `cat > input.txt << EOF ${wrapStdin}
-    ${shell} < input.txt`;
+    ${shell}`;
   } else {
     bashCmd += `${shell}`;
   }
