@@ -21,37 +21,44 @@ interface CodeDockerOption {
   env: CodeEnv;
   shell: string;
   fileSuffix: FileSuffix;
+  shellWithStdin: string;
 }
 
 const imageMap: Record<CodeType, CodeDockerOption> = {
   cpp: {
     env: CodeEnv.cpp,
-    shell: 'g++ code.cpp -o code.out && ./code.out < input.txt',
+    shell: 'g++ code.cpp -o code.out && ./code.out',
+    shellWithStdin: 'g++ code.cpp -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.cpp,
   },
   nodejs: {
     env: CodeEnv.nodejs,
-    shell: 'node code.js < input.txt',
+    shell: 'node code.js',
+    shellWithStdin: 'node code.js < input.txt',
     fileSuffix: FileSuffix.nodejs,
   },
   go: {
     env: CodeEnv.go,
-    shell: 'go run code.go < input.txt',
+    shell: 'go run code.go',
+    shellWithStdin: 'go run code.go < input.txt',
     fileSuffix: FileSuffix.go,
   },
   bash: {
     env: CodeEnv.bash,
-    shell: 'bash code.sh < input.txt',
+    shell: 'bash code.sh',
+    shellWithStdin: 'bash code.sh < input.txt',
     fileSuffix: FileSuffix.bash,
   },
   shell: {
     env: CodeEnv.shell,
-    shell: 'bash code.sh < input.txt',
+    shell: 'bash code.sh',
+    shellWithStdin: 'bash code.sh < input.txt',
     fileSuffix: FileSuffix.shell,
   },
   python3: {
     env: CodeEnv.python3,
-    shell: 'python3 code.py input.txt',
+    shell: 'python3 code.py',
+    shellWithStdin: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
   },
 };
@@ -76,7 +83,7 @@ export async function run2(params: {
 
   if (!dockerOptions) return Error;
 
-  const { env, shell, fileSuffix } = dockerOptions;
+  const { env, shell, shellWithStdin, fileSuffix } = dockerOptions;
 
   let removeContainer = () => {};
 
@@ -86,7 +93,7 @@ export async function run2(params: {
   let bashCmd = `cat > code.${fileSuffix} << EOF ${wrapCode}`;
   if (stdin) {
     bashCmd += `cat > input.txt << EOF ${wrapStdin}
-    ${shell}`;
+    ${shellWithStdin}`;
   } else {
     bashCmd += `${shell}`;
   }
@@ -215,8 +222,6 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
         '-c',
         `cat > code.${fileSuffix} << EOF ${code} \
         ${shell}`,
-        // cat > input.txt << EOF ${stdin} \
-        // ${shell} < input.txt`,
       ],
       process.stdout,
       { StopTimeout: 5 }
