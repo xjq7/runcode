@@ -22,6 +22,7 @@ interface CodeDockerOption {
   shell: string;
   fileSuffix: FileSuffix;
   shellWithStdin: string;
+  prefix?: string;
 }
 
 const imageMap: Record<CodeType, CodeDockerOption> = {
@@ -60,12 +61,29 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shell: 'python3 code.py',
     shellWithStdin: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
+    prefix: `def expand_arg_files():
+    import sys
+    args = []
+    with open(file=sys.argv[1], mode="r", encoding="utf-8") as f:
+        line = f.readline()
+        while line:
+            args.append(line.strip())
+            line = f.readline()
+    sys.argv[0:] = args
+expand_arg_files()
+`,
   },
   java: {
     env: CodeEnv.java,
     shell: 'javac Code.java && java Code',
     shellWithStdin: 'javac Code.java && java Code < input.txt',
     fileSuffix: FileSuffix.java,
+  },
+  php: {
+    env: CodeEnv.php,
+    shell: 'php code.php',
+    shellWithStdin: 'php code.php < input.txt',
+    fileSuffix: FileSuffix.php,
   },
 };
 
@@ -89,25 +107,9 @@ export async function run2(params: {
 
   if (!dockerOptions) return Error;
 
-  const { env, shell, shellWithStdin, fileSuffix } = dockerOptions;
+  const { env, prefix = '', shell, shellWithStdin, fileSuffix } = dockerOptions;
 
   let removeContainer = () => {};
-
-  let prefix = '';
-
-  if (type === CodeType.python3 && stdin) {
-    prefix = `def expand_arg_files():
-    import sys
-    args = []
-    with open(file=sys.argv[1], mode="r", encoding="utf-8") as f:
-        line = f.readline()
-        while line:
-            args.append(line.strip())
-            line = f.readline()
-    sys.argv[0:] = args
-expand_arg_files()
-`;
-  }
 
   const wrapCode = '\n' + prefix + decodeURI(code) + '\n' + 'EOF' + '\n';
   const wrapStdin = '\n' + decodeURI(stdin || '') + '\n' + 'EOF' + '\n';

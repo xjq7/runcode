@@ -32,7 +32,8 @@ type monacoLang =
   | 'go'
   | 'shell'
   | 'python'
-  | 'java';
+  | 'java'
+  | 'php';
 
 export interface Expose {
   getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
@@ -46,6 +47,7 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.shell]: 'shell',
   [CodeType.python3]: 'python',
   [CodeType.java]: 'java',
+  [CodeType.php]: 'php',
 };
 
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {
