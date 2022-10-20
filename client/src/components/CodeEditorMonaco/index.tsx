@@ -11,7 +11,7 @@ import { CodeType } from '~utils/type';
 import { template } from './const';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
-import { useWindowSize } from 'react-use';
+import useWindowSize from 'react-use/lib/useWindowSize';
 
 interface Props {
   type: CodeType;

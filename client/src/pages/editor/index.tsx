@@ -18,7 +18,7 @@ import TextArea from '~components/Textarea';
 import GithubIcon from '../../assets/github.png';
 import classnames from 'classnames';
 import { template } from '~components/CodeEditorMonaco/const';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { toast } from '~components/Toast';
 
 const codeOptions: IOption<CodeType>[] = [
