@@ -18,6 +18,8 @@
 
 ### server
 
+koa + typescript + dockerode
+
 1. 构建镜像
 
 未构建的镜像在运行代码时会报错
@@ -72,6 +74,8 @@
 
 ### client
 
+vite + react + typescript + tailwindcss + daisyui + mobx + monaco-editor
+
 1. 安装依赖
 
    ```sh
@@ -82,5 +86,8 @@
 2. 启动
 
    ```sh
+   # 起开发环境,需要起 server
    pnpm dev
+   # 起生产环境
+   pnpm prod
    ```
