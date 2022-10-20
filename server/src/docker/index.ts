@@ -61,6 +61,12 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shellWithStdin: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
   },
+  java: {
+    env: CodeEnv.java,
+    shell: 'javac Code.java && java Code',
+    shellWithStdin: 'javac Code.java && java Code < input.txt',
+    fileSuffix: FileSuffix.java,
+  },
 };
 
 export async function run2(params: {
@@ -87,10 +93,31 @@ export async function run2(params: {
 
   let removeContainer = () => {};
 
-  const wrapCode = '\n' + decodeURI(code) + '\n' + 'EOF' + '\n';
+  let prefix = '';
+
+  if (type === CodeType.python3 && stdin) {
+    prefix = `def expand_arg_files():
+    import sys
+    args = []
+    with open(file=sys.argv[1], mode="r", encoding="utf-8") as f:
+        line = f.readline()
+        while line:
+            args.append(line.strip())
+            line = f.readline()
+    sys.argv[0:] = args
+expand_arg_files()
+`;
+  }
+
+  const wrapCode = '\n' + prefix + decodeURI(code) + '\n' + 'EOF' + '\n';
   const wrapStdin = '\n' + decodeURI(stdin || '') + '\n' + 'EOF' + '\n';
 
   let bashCmd = `cat > code.${fileSuffix} << EOF ${wrapCode}`;
+
+  if (type === CodeType.java) {
+    bashCmd = `cat > Code.${fileSuffix} << EOF ${wrapCode}`;
+  }
+
   if (stdin) {
     bashCmd += `cat > input.txt << EOF ${wrapStdin}
     ${shellWithStdin}`;

@@ -23,10 +23,11 @@ import { toast } from '~components/Toast';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
+  { label: 'Java', value: CodeType.java },
   { label: 'Nodejs', value: CodeType.nodejs },
   { label: 'Go', value: CodeType.go },
-  { label: 'Bash', value: CodeType.bash },
   { label: 'Python3', value: CodeType.python3 },
+  { label: 'Bash', value: CodeType.bash },
 ];
 
 const themeOptions: IOption<ThemeType>[] = [
