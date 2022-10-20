@@ -83,7 +83,14 @@ vite + react + typescript + tailwindcss + daisyui + mobx + monaco-editor
    pnpm i
    ```
 
-2. 启动
+2. 编译 tailwindcss
+
+   ```sh
+   # 启动后另开终端启动服务
+   pnpm build:tailwind:watch
+   ```
+
+3. 启动服务
 
    ```sh
    # 起开发环境,需要起 server
