@@ -2,10 +2,12 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import analyze from 'rollup-plugin-analyzer';
+import dayjs from 'dayjs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), analyze()],
+  base: 'https://image.xjq.icu/runcode/' + dayjs().format('YYYY-MM-DD') + '/',
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src/'),

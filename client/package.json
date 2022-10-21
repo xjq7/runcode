@@ -6,16 +6,19 @@
   "scripts": {
     "dev": "vite --mode dev",
     "prod": "vite --mode production",
-    "build": "tsc && pnpm build:tailwind && vite build",
+    "build": "tsc && pnpm build:tailwind && vite build && pnpm cdn",
+    "cdn": "node cdn.cjs",
     "preview": "vite preview",
     "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.output.css",
     "build:tailwind:watch": "tailwindcss -i src/tailwind.css -o src/tailwind.output.css --watch"
   },
   "dependencies": {
     "ahooks": "^3.7.1",
+    "aliyun-oss-static-deploy": "^1.0.4",
     "axios": "^1.1.2",
     "classnames": "^2.3.2",
     "daisyui": "^2.31.0",
+    "dayjs": "^1.11.6",
     "lodash": "^4.17.21",
     "mobx": "^6.6.2",
     "mobx-react-lite": "^3.4.0",
