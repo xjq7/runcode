@@ -37,4 +37,10 @@ echo 'hello world!';`,
     println!("Hello, world!");
 }
   `,
+  [CodeType.scala]: `object Code {
+    def main(args: Array[String]): Unit = {
+        println("Hello, world!")
+    }
+}
+  `,
 };

@@ -96,6 +96,12 @@ expand_arg_files()
     shellWithStdin: 'rustc code.rs && ./code < input.txt',
     fileSuffix: FileSuffix.rust,
   },
+  scala: {
+    env: CodeEnv.scala,
+    shell: 'scalac Code.scala && scala Code',
+    shellWithStdin: 'scalac Code.scala && scala Code < input.txt',
+    fileSuffix: FileSuffix.scala,
+  },
 };
 
 export async function run2(params: {

@@ -1,0 +1,1 @@
+FROM openwhisk/scala:nightly
