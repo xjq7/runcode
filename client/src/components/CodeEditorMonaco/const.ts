@@ -25,4 +25,12 @@ if __name__ == "__main__":
   
     print("hello world")
   `,
+  [CodeType.java]: `class Code {
+    public static void main(String[] args) {
+      System.out.println("hello world!");
+    }
+  }`,
+  [CodeType.php]: `<?php
+
+  echo 'hello world!';`,
 };
