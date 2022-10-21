@@ -8,11 +8,11 @@
 
 - Java
 
-- rust latest
+- rust lts
 
 - nodejs lts
 
-- golang latest
+- golang lts
 
 - python3
 
@@ -53,7 +53,7 @@ koa + typescript + dockerode
 
   ```bash
   cd server/src/docker/rust
-  docker build -t rust:latest .
+  docker build -t rust:lts .
   ```
 
 - 构建 python3 镜像
@@ -67,7 +67,7 @@ koa + typescript + dockerode
 
   ```bash
     cd server/src/docker/go
-    docker build -t go:latest .
+    docker build -t go:lts .
   ```
 
 - 构建 nodejs 镜像
@@ -88,7 +88,7 @@ koa + typescript + dockerode
 
   ```bash
     cd server/src/docker/java
-    docker build -t java:latest .
+    docker build -t java:lts .
   ```
 
 - 构建 php 镜像

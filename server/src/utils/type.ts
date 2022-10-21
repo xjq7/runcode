@@ -14,13 +14,13 @@ export enum CodeType {
 export enum CodeEnv {
   cpp = 'cpp:11',
   nodejs = 'nodejs:lts',
-  go = 'go:latest',
+  go = 'go:lts',
   bash = 'centos:7',
   shell = 'centos:7',
   python3 = 'python:3',
-  java = 'java:latest',
+  java = 'java:lts',
   php = 'php:8',
-  rust = 'rust:latest',
+  rust = 'rust:lts',
   scala = 'scala:lts',
 }
 
