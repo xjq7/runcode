@@ -22,7 +22,9 @@
 
 前置条件
 
-nodejs pnpm
+nodejs > 14.17.0
+
+pnpm
 
 ### server
 
