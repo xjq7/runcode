@@ -14,12 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^4.0.0",
+    "dayjs": "^1.11.6",
     "dockerode": "^3.3.4",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^12.0.0",
-    "ts-node": "^10.9.1",
-    "winston": "^3.8.2"
+    "log4js": "^6.7.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.10",

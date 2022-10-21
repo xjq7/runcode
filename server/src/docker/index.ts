@@ -4,6 +4,7 @@ import dockerConfig from '../config/docker';
 import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
 import { RunCodeStatus } from '../routes/code';
 import { isType } from '../utils/helper';
+import logger from '../logger';
 
 const DockerRunConfig = {
   timeout: 6000,
@@ -191,6 +192,9 @@ export async function run2(params: {
                 result.output = outputString;
               }
             } catch (error) {
+              logger.error(
+                'docker runner output handle error' + JSON.stringify(error)
+              );
               removeContainer();
               reject(error);
             } finally {

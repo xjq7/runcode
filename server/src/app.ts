@@ -2,6 +2,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import codeRouter from './routes/code';
+import logger from './logger';
 
 const app = new Koa();
 app.use(bodyParser());
@@ -21,4 +22,6 @@ app.on('error', (err) => {
   console.error('server error', err);
 });
 
-app.listen(39005);
+app.listen(39005, () => {
+  logger.info('应用启动成功!');
+});
