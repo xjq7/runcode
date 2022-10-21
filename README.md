@@ -18,8 +18,6 @@
 
 - php
 
-- bash
-
 ## 开发
 
 前置条件
@@ -75,13 +73,6 @@ koa + typescript + dockerode
   ```bash
     cd server/src/docker/nodejs
     docker build -t nodejs:lts .
-  ```
-
-- 构建 centos 镜像
-
-  ```bash
-    cd server/src/docker/centos
-    docker build -t centos:7 .
   ```
 
 - 构建 java 镜像
