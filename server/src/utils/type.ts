@@ -5,6 +5,8 @@ export enum CodeType {
   bash = 'bash',
   shell = 'shell',
   python3 = 'python3',
+  java = 'java',
+  php = 'php',
 }
 
 export enum CodeEnv {
@@ -14,6 +16,8 @@ export enum CodeEnv {
   bash = 'centos:7',
   shell = 'centos:7',
   python3 = 'python:3',
+  java = 'java:latest',
+  php = 'php:8',
 }
 
 export enum FileSuffix {
@@ -23,4 +27,6 @@ export enum FileSuffix {
   bash = 'sh',
   shell = 'sh',
   python3 = 'py',
+  java = 'java',
+  php = 'php',
 }

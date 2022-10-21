@@ -18,15 +18,17 @@ import TextArea from '~components/Textarea';
 import GithubIcon from '../../assets/github.png';
 import classnames from 'classnames';
 import { template } from '~components/CodeEditorMonaco/const';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { toast } from '~components/Toast';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
+  { label: 'Java', value: CodeType.java },
   { label: 'Nodejs', value: CodeType.nodejs },
   { label: 'Go', value: CodeType.go },
-  { label: 'Bash', value: CodeType.bash },
   { label: 'Python3', value: CodeType.python3 },
+  { label: 'php', value: CodeType.php },
+  { label: 'Bash', value: CodeType.bash },
 ];
 
 const themeOptions: IOption<ThemeType>[] = [
@@ -105,18 +107,20 @@ const Component = () => {
   };
 
   useEffect(() => {
-    editorRef.current
-      ?.getEditor()
-      ?.getModel()
-      ?.onDidChangeContent(
-        debounce(() => {
-          storage.set(
-            CodeStorageKey[codeType],
-            editorRef.current?.getEditor()?.getValue()
-          );
-        }, 3000)
-      );
-  }, []);
+    if (editorRef.current) {
+      editorRef.current
+        ?.getEditor()
+        ?.getModel()
+        ?.onDidChangeContent(
+          debounce(() => {
+            storage.set(
+              CodeStorageKey[codeType],
+              editorRef.current?.getEditor()?.getValue()
+            );
+          }, 1500)
+        );
+    }
+  }, [editorRef.current]);
 
   const renderInput = () => {
     return (

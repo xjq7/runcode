@@ -14,6 +14,7 @@ function Component(props: Props) {
   return (
     <textarea
       className={classnames(
+        'textarea',
         {
           'textarea-bordered': border,
         },

@@ -1,10 +1,12 @@
 ## runcode
 
-在线代码运行
+代码在线编辑器
 
 语言支持度
 
 - C++ 11
+
+- Java
 
 - nodejs lts
 
@@ -12,9 +14,15 @@
 
 - python3
 
+- php
+
 - bash
 
 ## 开发
+
+前置条件
+
+nodejs pnpm
 
 ### server
 
@@ -22,7 +30,9 @@ koa + typescript + dockerode
 
 1. 构建镜像
 
-未构建的镜像在运行代码时会报错
+前置条件, 安装了 docker
+
+未构建的镜像, 在编辑器里 run 代码时会报镜像 404, 所以开发过程中无需全部构建, 构建需要的语言环境即可
 
 - 构建 C++镜像
 
@@ -59,6 +69,20 @@ koa + typescript + dockerode
     docker build -t centos:7 .
   ```
 
+- 构建 java 镜像
+
+  ```bash
+    cd server/src/docker/java
+    docker build -t java:latest .
+  ```
+
+- 构建 php 镜像
+
+  ```bash
+    cd server/src/docker/php
+    docker build -t php:8 .
+  ```
+
 2. 安装依赖
 
    ```sh
@@ -83,7 +107,14 @@ vite + react + typescript + tailwindcss + daisyui + mobx + monaco-editor
    pnpm i
    ```
 
-2. 启动
+2. 编译 tailwindcss
+
+   ```sh
+   # 启动后另开终端启动服务
+   pnpm build:tailwind:watch
+   ```
+
+3. 启动服务
 
    ```sh
    # 起开发环境,需要起 server

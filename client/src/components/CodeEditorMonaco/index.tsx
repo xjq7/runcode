@@ -11,7 +11,7 @@ import { CodeType } from '~utils/type';
 import { template } from './const';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
-import { useWindowSize } from 'react-use';
+import useWindowSize from 'react-use/lib/useWindowSize';
 
 interface Props {
   type: CodeType;
@@ -31,7 +31,9 @@ type monacoLang =
   | 'cpp'
   | 'go'
   | 'shell'
-  | 'python';
+  | 'python'
+  | 'java'
+  | 'php';
 
 export interface Expose {
   getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
@@ -44,6 +46,8 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.bash]: 'shell',
   [CodeType.shell]: 'shell',
   [CodeType.python3]: 'python',
+  [CodeType.java]: 'java',
+  [CodeType.php]: 'php',
 };
 
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {
