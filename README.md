@@ -8,6 +8,8 @@
 
 - Java
 
+- rust latest
+
 - nodejs lts
 
 - golang latest
