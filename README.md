@@ -45,15 +45,15 @@ koa + typescript + dockerode
 - 构建 C++ 镜像
 
   ```bash
-  cd server/src/docker/cpp
-  docker build -t cpp:11 .
+    cd server/src/docker/cpp
+    docker build -t cpp:11 .
   ```
 
 - 构建 rust 镜像
 
   ```bash
-  cd server/src/docker/rust
-  docker build -t rust:lts .
+    cd server/src/docker/rust
+    docker build -t rust:lts .
   ```
 
 - 构建 python3 镜像

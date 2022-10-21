@@ -46,18 +46,6 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shellWithStdin: 'go run code.go < input.txt',
     fileSuffix: FileSuffix.go,
   },
-  bash: {
-    env: CodeEnv.bash,
-    shell: 'bash code.sh',
-    shellWithStdin: 'bash code.sh < input.txt',
-    fileSuffix: FileSuffix.bash,
-  },
-  shell: {
-    env: CodeEnv.shell,
-    shell: 'bash code.sh',
-    shellWithStdin: 'bash code.sh < input.txt',
-    fileSuffix: FileSuffix.shell,
-  },
   python3: {
     env: CodeEnv.python3,
     shell: 'python3 code.py',

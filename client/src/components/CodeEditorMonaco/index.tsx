@@ -30,7 +30,6 @@ type monacoLang =
   | 'javascript'
   | 'cpp'
   | 'go'
-  | 'shell'
   | 'python'
   | 'java'
   | 'php'
@@ -44,8 +43,6 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.nodejs]: 'javascript',
   [CodeType.cpp]: 'cpp',
   [CodeType.go]: 'go',
-  [CodeType.bash]: 'shell',
-  [CodeType.shell]: 'shell',
   [CodeType.python3]: 'python',
   [CodeType.java]: 'java',
   [CodeType.php]: 'php',

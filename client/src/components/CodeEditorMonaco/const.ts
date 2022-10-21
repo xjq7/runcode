@@ -18,8 +18,6 @@ func main () {
   fmt.Println("hello world")
 }
   `,
-  [CodeType.bash]: `echo hello world`,
-  [CodeType.shell]: `echo hello world`,
   [CodeType.python3]: `# encoding: utf-8
 if __name__ == "__main__":
   
@@ -35,12 +33,6 @@ if __name__ == "__main__":
 echo 'hello world!';`,
   [CodeType.rust]: `fn main(){
     println!("Hello, world!");
-}
-  `,
-  [CodeType.scala]: `object Code {
-    def main(args: Array[String]): Unit = {
-        println("Hello, world!")
-    }
 }
   `,
 };
