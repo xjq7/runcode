@@ -9,10 +9,14 @@ on:
     branches: [main]
     paths:
       - 'server/**'
+    paths-ignore:
+      - 'server/config/nginx.conf'
   pull_request:
     branches: [main]
-    paths-ignore:
+    paths:
       - 'server/**'
+    paths-ignore:
+      - 'server/config/nginx.conf'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
