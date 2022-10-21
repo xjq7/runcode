@@ -5,7 +5,7 @@ import styles from './index.module.less';
 import { useRequest } from 'ahooks';
 import Button from '~components/Button';
 import Select, { IOption } from '~components/Select';
-import { CodeType } from '~utils/type';
+import { CodeType } from '~utils/code~type';
 import storage from '~utils/storage';
 import {
   CodeStorageKey,
@@ -24,6 +24,7 @@ import { toast } from '~components/Toast';
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
   { label: 'Java', value: CodeType.java },
+  { label: 'Rust', value: CodeType.rust },
   { label: 'Nodejs', value: CodeType.nodejs },
   { label: 'Go', value: CodeType.go },
   { label: 'Python3', value: CodeType.python3 },

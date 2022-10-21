@@ -74,6 +74,12 @@ const imageMap: Record<CodeType, CodeDockerOption> = {
     shellWithStdin: 'php code.php < input.txt',
     fileSuffix: FileSuffix.php,
   },
+  rust: {
+    env: CodeEnv.rust,
+    shell: 'rustc code.rs && ./code',
+    shellWithStdin: 'rustc code.rs && ./code < input.txt',
+    fileSuffix: FileSuffix.rust,
+  },
 };
 
 export async function run2(params: {

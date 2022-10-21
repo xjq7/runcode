@@ -1,19 +1,13 @@
-import { CodeType } from '~utils/type';
+import { CodeType } from '~utils/code~type';
 
 const config_prefix = 'config_';
 
 const code_prefix = 'code_';
 
-export const CodeStorageKey: Record<CodeType, string> = {
-  [CodeType.cpp]: config_prefix + code_prefix + CodeType.cpp,
-  [CodeType.nodejs]: config_prefix + code_prefix + CodeType.nodejs,
-  [CodeType.bash]: config_prefix + code_prefix + CodeType.bash,
-  [CodeType.go]: config_prefix + code_prefix + CodeType.go,
-  [CodeType.shell]: config_prefix + code_prefix + CodeType.shell,
-  [CodeType.python3]: config_prefix + code_prefix + CodeType.python3,
-  [CodeType.java]: config_prefix + code_prefix + CodeType.java,
-  [CodeType.php]: config_prefix + code_prefix + CodeType.php,
-};
+export const CodeStorageKey = Object.entries(CodeType).reduce((acc, cur) => {
+  acc[cur[1]] = config_prefix + code_prefix + cur[1];
+  return acc;
+}, {} as Record<CodeType, string>);
 
 export const ThemeStorageKey = config_prefix + 'theme_';
 

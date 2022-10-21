@@ -1,4 +1,4 @@
-import { CodeType } from '~utils/type';
+import { CodeType } from '~utils/code~type';
 
 export const template: Record<CodeType, string> = {
   [CodeType.cpp]: `#include<iostream>
@@ -33,4 +33,8 @@ if __name__ == "__main__":
   [CodeType.php]: `<?php
 
   echo 'hello world!';`,
+  [CodeType.rust]: `fn main(){
+    println!("Hello, world!");
+}
+  `,
 };

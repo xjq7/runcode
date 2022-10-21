@@ -24,7 +24,11 @@
 
 nodejs > 14.17.0
 
-pnpm
+包管理工具 pnpm 安装
+
+```sh
+npm install pnpm -g
+```
 
 ### server
 
@@ -36,11 +40,18 @@ koa + typescript + dockerode
 
 未构建的镜像, 在编辑器里 run 代码时会报镜像 404, 所以开发过程中无需全部构建, 构建需要的语言环境即可
 
-- 构建 C++镜像
+- 构建 C++ 镜像
 
   ```bash
   cd server/src/docker/cpp
   docker build -t cpp:11 .
+  ```
+
+- 构建 rust 镜像
+
+  ```bash
+  cd server/src/docker/rust
+  docker build -t rust:latest .
   ```
 
 - 构建 python3 镜像

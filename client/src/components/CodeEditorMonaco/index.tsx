@@ -7,7 +7,7 @@ import {
 } from 'react';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.module.less';
-import { CodeType } from '~utils/type';
+import { CodeType } from '~utils/code~type';
 import { template } from './const';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
@@ -33,7 +33,8 @@ type monacoLang =
   | 'shell'
   | 'python'
   | 'java'
-  | 'php';
+  | 'php'
+  | 'rust';
 
 export interface Expose {
   getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
@@ -48,6 +49,7 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.python3]: 'python',
   [CodeType.java]: 'java',
   [CodeType.php]: 'php',
+  [CodeType.rust]: 'rust',
 };
 
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {

@@ -7,6 +7,7 @@ export enum CodeType {
   python3 = 'python3',
   java = 'java',
   php = 'php',
+  rust = 'rust',
 }
 
 export enum CodeEnv {
@@ -18,6 +19,7 @@ export enum CodeEnv {
   python3 = 'python:3',
   java = 'java:latest',
   php = 'php:8',
+  rust = 'rust:latest',
 }
 
 export enum FileSuffix {
@@ -29,4 +31,5 @@ export enum FileSuffix {
   python3 = 'py',
   java = 'java',
   php = 'php',
+  rust = 'rs',
 }
