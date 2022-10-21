@@ -3,6 +3,7 @@ import { Stream } from 'stream';
 import dockerConfig from '../config/docker';
 import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
 import { RunCodeStatus } from '../routes/code';
+import { isType } from '../utils/helper';
 
 const DockerRunConfig = {
   timeout: 6000,
@@ -151,7 +152,10 @@ export async function run2(params: {
                 stderr: true,
               });
 
-              outputString = formatOutput(outputString.toString('utf8'));
+              if (Buffer.isBuffer(outputString)) {
+                outputString = outputString.toString('utf-8');
+              }
+              outputString = formatOutput(outputString);
 
               const containerInfo = await container?.inspect();
               const isRunning = containerInfo.State.Running;
@@ -202,6 +206,11 @@ function formatOutput(outputString: string): string {
       outputString.slice(outputString.length - 2000);
   }
 
+  // hack 当遇到数组跟对象时, toString 方法的输出会是 {} => [object Object] [1,2] => 1,2
+  // https://github.com/xjq7/runcode/issues/4
+  if (isType('Object', 'Array')(outputString)) {
+    outputString = JSON.stringify(outputString);
+  }
   outputString = encodeURI(outputString);
 
   outputString = outputString.replace(
