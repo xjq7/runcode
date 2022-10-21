@@ -1,5 +1,5 @@
 import request from '~utils/request';
-import { CodeType } from '~utils/code~type';
+import { CodeType } from '~utils/codeType';
 
 export interface IRunCodeRequest {
   type: CodeType;

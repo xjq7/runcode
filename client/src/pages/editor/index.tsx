@@ -5,7 +5,7 @@ import styles from './index.module.less';
 import { useRequest } from 'ahooks';
 import Button from '~components/Button';
 import Select, { IOption } from '~components/Select';
-import { CodeType } from '~utils/code~type';
+import { CodeType } from '~utils/codeType';
 import storage from '~utils/storage';
 import {
   CodeStorageKey,

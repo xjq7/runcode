@@ -1,4 +1,4 @@
-import { CodeType } from '~utils/code~type';
+import { CodeType } from '~utils/codeType';
 
 const config_prefix = 'config_';
 
