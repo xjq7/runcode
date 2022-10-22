@@ -20,6 +20,7 @@ import classnames from 'classnames';
 import { template } from '~components/CodeEditorMonaco/const';
 import debounce from 'lodash/debounce';
 import { toast } from '~components/Toast';
+import Tooltip from '~components/Tooltip';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -67,6 +68,8 @@ const Component = () => {
 
   const { data, run, loading } = useRequest(runCode, { manual: true });
 
+  const [saveDisabled, setSaveDisabled] = useState(true);
+
   const output = useMemo(() => {
     let output = '';
     if (data?.code) {
@@ -111,11 +114,13 @@ const Component = () => {
       editorRef.current
         ?.getEditor()
         ?.getModel()
-        ?.onDidChangeContent(
-          debounce(() => {
-            saveCode();
-          }, 1500)
-        );
+        ?.onDidChangeContent(debounce(saveCode, 1000));
+      editorRef.current
+        ?.getEditor()
+        ?.getModel()
+        ?.onDidChangeContent(() => {
+          setSaveDisabled(false);
+        });
     }
   }, [editorRef.current]);
 
@@ -171,7 +176,7 @@ const Component = () => {
       >
         <div className="flex-row">
           <Select<CodeType>
-            className="w-30"
+            className="w-30 ml-2"
             size="md"
             options={codeOptions}
             value={codeType}
@@ -200,7 +205,7 @@ const Component = () => {
       </div>
 
       <Editor ref={editorRef} type={codeType} themeType={themeType} />
-      <div className={styles.operator}>
+      <div className={classnames(styles.operator, 'pt-2')}>
         {codeType === CodeType.nodejs && (
           <Button
             type="primary"
@@ -216,9 +221,21 @@ const Component = () => {
             format
           </Button>
         )}
-        <Button type="primary" size="sm" className="mr-2" onClick={saveCode}>
-          save
-        </Button>
+        <Tooltip className="mr-2" tips="无需频繁保存, 代码变更 1s 后会自动保存">
+          <Button
+            type="primary"
+            size="sm"
+            disabled={saveDisabled}
+            onClick={() => {
+              saveCode();
+              toast({ type: 'info', message: '保存成功!' });
+              setSaveDisabled(true);
+            }}
+          >
+            save
+          </Button>
+        </Tooltip>
+
         <Button
           type="primary"
           size="sm"
