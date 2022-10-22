@@ -10,8 +10,14 @@ export enum RunCodeStatus {
   error = 2,
 }
 
+interface IRunRequest {
+  stdin?: string;
+  code?: string;
+  type?: CodeType;
+}
+
 router.post('/run', async (ctx) => {
-  const body = ctx.request.body ?? {};
+  const body = (ctx.request.body as IRunRequest) ?? {};
 
   const { code, type, stdin = '' } = body;
 
@@ -24,11 +30,16 @@ router.post('/run', async (ctx) => {
     return;
   }
 
+  if (code.length > 500000 || stdin.length > 500000) {
+    ctx.throw(400, '参数太长了!');
+    return;
+  }
+
   try {
     const output = await docker.run2({
-      type: type as CodeType,
+      type,
       code,
-      stdin: stdin as string,
+      stdin,
     });
     ctx.body = {
       code: 0,

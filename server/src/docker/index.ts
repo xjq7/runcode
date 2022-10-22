@@ -120,10 +120,10 @@ export async function run2(params: {
   const wrapCode = '\n' + prefix + decodeURI(code) + '\n' + 'EOF' + '\n';
   const wrapStdin = '\n' + decodeURI(stdin || '') + '\n' + 'EOF' + '\n';
 
-  let bashCmd = `cat > code.${fileSuffix} << EOF ${wrapCode}`;
+  let bashCmd = `cat > code.${fileSuffix} << 'EOF' ${wrapCode}`;
 
   if (type === CodeType.java) {
-    bashCmd = `cat > Code.${fileSuffix} << EOF ${wrapCode}`;
+    bashCmd = `cat > Code.${fileSuffix} << 'EOF' ${wrapCode}`;
   }
 
   if (stdin) {
@@ -141,6 +141,7 @@ export async function run2(params: {
         StopTimeout: 6,
         Tty: true,
         AttachStdout: true,
+        NetworkDisabled: true,
       },
       function (_err, container?: Container) {
         if (_err) reject(_err);
