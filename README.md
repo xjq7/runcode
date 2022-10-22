@@ -128,3 +128,16 @@ vite + react + typescript + tailwindcss + daisyui + mobx + monaco-editor
    # 起生产环境
    pnpm prod
    ```
+
+## commit 规范
+
+- feat：新功能（feature）
+- fix：修补 bug
+- docs：文档（documentation），只改动了文档部分
+- style： 格式（不影响代码运行的变动），例如去掉空格、改变缩进
+- refactor：重构（即不是新增功能，也不是修改 bug 的代码变动）
+- test：添加测试或者修改现有测试
+- chore：构建过程或辅助工具的变动
+- perf：提高性能的改动
+- ci：自动化流程配置修改、与 CI（持续集成服务）有关的改动
+- revert：回滚到上一个版本，执行 git revert 打印的 message
