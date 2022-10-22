@@ -113,14 +113,18 @@ const Component = () => {
         ?.getModel()
         ?.onDidChangeContent(
           debounce(() => {
-            storage.set(
-              CodeStorageKey[codeType],
-              editorRef.current?.getEditor()?.getValue()
-            );
+            saveCode();
           }, 1500)
         );
     }
   }, [editorRef.current]);
+
+  const saveCode = () => {
+    storage.set(
+      CodeStorageKey[codeType],
+      editorRef.current?.getEditor()?.getValue()
+    );
+  };
 
   const renderInput = () => {
     return (
@@ -197,6 +201,24 @@ const Component = () => {
 
       <Editor ref={editorRef} type={codeType} themeType={themeType} />
       <div className={styles.operator}>
+        {codeType === CodeType.nodejs && (
+          <Button
+            type="primary"
+            size="sm"
+            className="mr-2"
+            onClick={() => {
+              editorRef.current
+                ?.getEditor()
+                ?.getAction('editor.action.formatDocument')
+                ?.run();
+            }}
+          >
+            format
+          </Button>
+        )}
+        <Button type="primary" size="sm" className="mr-2" onClick={saveCode}>
+          save
+        </Button>
         <Button
           type="primary"
           size="sm"

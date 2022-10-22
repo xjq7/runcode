@@ -70,6 +70,10 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
         value: codeCache || template[type],
         language: languageMap[type],
         theme: themeType,
+        formatOnType: true,
+        smoothScrolling: true,
+        formatOnPaste: true,
+        readOnly: false,
       });
 
       return () => editorRef.current?.dispose();
