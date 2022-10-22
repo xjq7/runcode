@@ -1,0 +1,19 @@
+{
+  "name": "runcode",
+  "version": "1.1.0",
+  "description": "在线运行代码编辑器",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjq7/runcode.git"
+  },
+  "author": "xjq7",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xjq7/runcode/issues"
+  },
+  "homepage": "https://github.com/xjq7/runcode#readme"
+}
