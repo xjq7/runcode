@@ -1,6 +1,6 @@
 ## runcode
 
-代码在线编辑器
+在线运行代码编辑器
 
 语言支持度
 
@@ -8,15 +8,25 @@
 
 - Java
 
-- rust lts
+- Rust lts
 
-- nodejs lts
+- Nodejs lts
 
-- golang lts
+- Go lts
 
-- python3
+- Python3
 
 - php
+
+代码格式化支持
+
+- C++
+
+- C
+
+- Java
+
+- Nodejs
 
 ## 开发
 
