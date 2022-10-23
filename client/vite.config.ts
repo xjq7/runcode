@@ -4,14 +4,15 @@ import path from 'path';
 import analyze from 'rollup-plugin-analyzer';
 import dayjs from 'dayjs';
 
+const cdnPrefix =
+  'https://image.xjq.icu/runcode/' + dayjs().format('YYYY-MM-DD') + '/';
+
 // https://vitejs.dev/config/
-export default ({ mode }) => {
+export default ({ command }) => {
+  const isBuild = command === 'build';
   return defineConfig({
     plugins: [react(), analyze()],
-    base:
-      mode === 'dev'
-        ? '/'
-        : 'https://image.xjq.icu/runcode/' + dayjs().format('YYYY-MM-DD') + '/',
+    base: isBuild ? cdnPrefix : '/',
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src/'),
@@ -19,6 +20,7 @@ export default ({ mode }) => {
         '~store': path.resolve(__dirname, './src/store'),
         '~utils': path.resolve(__dirname, './src/utils'),
         '~constant': path.resolve(__dirname, './src/constant'),
+        '~hooks': path.resolve(__dirname, './src/hooks'),
       },
     },
   });
