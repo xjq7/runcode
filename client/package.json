@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --mode dev --host",
     "prod": "vite --mode production",
-    "build": "tsc && pnpm build:tailwind && vite build && pnpm cdn",
+    "build": "tsc && pnpm build:tailwind && vite build",
     "cdn": "node cdn.cjs",
     "preview": "vite preview",
     "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.output.css",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "ahooks": "^3.7.1",
-    "aliyun-oss-static-deploy": "^1.0.4",
+    "aliyun-oss-static-deploy": "^1.1.0",
     "axios": "^1.1.2",
     "classnames": "^2.3.2",
     "daisyui": "^2.31.0",
