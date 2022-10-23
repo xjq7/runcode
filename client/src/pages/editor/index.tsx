@@ -12,7 +12,7 @@ import {
   CodeStorageTypeKey,
   ThemeStorageKey,
 } from '~constant/storage';
-import { parseConsoleOutput } from '~utils/helper';
+import { parseConsoleOutput, saveAsFile } from '~utils/helper';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
 import GithubIcon from '../../assets/github.png';
@@ -223,6 +223,21 @@ const Component = () => {
 
       <Editor ref={editorRef} type={codeType} themeType={themeType} />
       <div className={classnames(styles.operator, 'pt-2')}>
+        {output.length !== 0 && (
+          <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
+            <Button
+              type="primary"
+              size="sm"
+              onClick={() => {
+                if (!output) return;
+                saveAsFile(output.join('\n'));
+              }}
+            >
+              save output
+            </Button>
+          </Tooltip>
+        )}
+
         {(codeType === CodeType.nodejs || showClangFormat) && (
           <Button
             type="primary"
