@@ -21,6 +21,7 @@
     "dayjs": "^1.11.6",
     "lodash": "^4.17.21",
     "mobx": "^6.6.2",
+    "mobx-persist-store": "^1.1.2",
     "mobx-react-lite": "^3.4.0",
     "monaco-editor": "^0.34.0",
     "react": "^18.2.0",
