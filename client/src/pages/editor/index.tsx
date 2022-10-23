@@ -21,9 +21,11 @@ import { template } from '~components/CodeEditorMonaco/const';
 import debounce from 'lodash/debounce';
 import { toast } from '~components/Toast';
 import Tooltip from '~components/Tooltip';
+import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
+  { label: 'C', value: CodeType.c },
   { label: 'Java', value: CodeType.java },
   { label: 'Rust', value: CodeType.rust },
   { label: 'Nodejs', value: CodeType.nodejs },
@@ -70,6 +72,12 @@ const Component = () => {
 
   const [saveDisabled, setSaveDisabled] = useState(true);
 
+  const onCodeFormatDone = (result: string) => {
+    editorRef.current?.getEditor()?.setValue(result);
+  };
+
+  const [clangFormat] = useClangFormat({ onCodeFormatDone });
+
   const output = useMemo(() => {
     let output = '';
     if (data?.code) {
@@ -83,6 +91,15 @@ const Component = () => {
   const [codeType, setCodeType] = useState<CodeType>(initCodeType);
   const [themeType, setThemeType] = useState<ThemeType>(initThemeType);
   const [timesPrevent, setTimesPrevent] = useState(false);
+
+  const showClangFormat = useMemo(
+    () =>
+      clangFormat &&
+      (CodeType.cpp === codeType ||
+        CodeType.java === codeType ||
+        CodeType.c === codeType),
+    [codeType, clangFormat]
+  );
 
   const handleRunCode = async () => {
     if (timesPrevent) {
@@ -206,16 +223,25 @@ const Component = () => {
 
       <Editor ref={editorRef} type={codeType} themeType={themeType} />
       <div className={classnames(styles.operator, 'pt-2')}>
-        {codeType === CodeType.nodejs && (
+        {(codeType === CodeType.nodejs || showClangFormat) && (
           <Button
             type="primary"
             size="sm"
             className="mr-2"
             onClick={() => {
-              editorRef.current
-                ?.getEditor()
-                ?.getAction('editor.action.formatDocument')
-                ?.run();
+              if (codeType === CodeType.nodejs) {
+                editorRef.current
+                  ?.getEditor()
+                  ?.getAction('editor.action.formatDocument')
+                  ?.run();
+              } else if (showClangFormat) {
+                const code = editorRef.current?.getEditor()?.getValue();
+                if (!code) return;
+                clangFormat?.worker?.postMessage({
+                  function: 'format',
+                  code,
+                });
+              }
             }}
           >
             format

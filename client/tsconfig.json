@@ -20,7 +20,8 @@
       "~components*": ["./src/components/*"],
       "~store*": ["./src/store/*"],
       "~utils*": ["./src/utils/*"],
-      "~constant*": ["./src/constant/*"]
+      "~constant*": ["./src/constant/*"],
+      "~hooks*": ["./src/hooks/*"]
     },
     "allowSyntheticDefaultImports": true
   },
