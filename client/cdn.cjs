@@ -1,7 +1,6 @@
 const dayjs = require('dayjs');
 const deploy = require('aliyun-oss-static-deploy');
 const path = require('path');
-const rimraf = require('rimraf');
 
 const [AccessKeyId, AccessKeySecret, bucket, region] = process.argv.slice(2);
 
@@ -21,7 +20,6 @@ const [AccessKeyId, AccessKeySecret, bucket, region] = process.argv.slice(2);
       ossPath: 'runcode/' + dayjs().format('YYYY-MM-DD') + '/assets', // oss存储路径,默认是根路径,
       recursion: true, // 递归上传,默认为true,文件夹下所有文件递归上传
     });
-    await rimraf.sync('./dist/assets');
   } catch (error) {
     console.log(error);
     process.exit(1);
