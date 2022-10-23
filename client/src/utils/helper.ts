@@ -7,7 +7,7 @@ export function parseConsoleOutput(output: string) {
 
 export function saveAsFile(msg: string) {
   const blob = new Blob([msg], {
-    type: 'application/json',
+    type: 'text/plain',
   });
   const url = URL.createObjectURL(blob);
 
