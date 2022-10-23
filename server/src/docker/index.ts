@@ -85,11 +85,11 @@ expand_arg_files()
     shellWithStdin: 'rustc code.rs && ./code < input.txt',
     fileSuffix: FileSuffix.rust,
   },
-  scala: {
-    env: CodeEnv.scala,
-    shell: 'scalac Code.scala && scala Code',
-    shellWithStdin: 'scalac Code.scala && scala Code < input.txt',
-    fileSuffix: FileSuffix.scala,
+  c: {
+    env: CodeEnv.c,
+    shell: 'g++ code.c -o code.out && ./code.out',
+    shellWithStdin: 'g++ code.c -o code.out && ./code.out < input.txt',
+    fileSuffix: FileSuffix.c,
   },
 };
 

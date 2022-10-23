@@ -6,18 +6,18 @@ export enum CodeType {
   java = 'java',
   php = 'php',
   rust = 'rust',
-  scala = 'scala',
+  c = 'c',
 }
 
 export enum CodeEnv {
   cpp = 'cpp:11',
   nodejs = 'nodejs:lts',
-  go = 'go:lts',
+  go = 'go:latest',
   python3 = 'python:3',
-  java = 'java:lts',
+  java = 'java:latest',
   php = 'php:8',
-  rust = 'rust:lts',
-  scala = 'scala:lts',
+  rust = 'rust:latest',
+  c = 'cpp:11',
 }
 
 export enum FileSuffix {
@@ -28,5 +28,5 @@ export enum FileSuffix {
   java = 'java',
   php = 'php',
   rust = 'rs',
-  scala = 'scala',
+  c = 'c',
 }

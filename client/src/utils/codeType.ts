@@ -6,6 +6,7 @@ export enum CodeType {
   java = 'java',
   php = 'php',
   rust = 'rust',
+  c = 'c',
 }
 
 export enum CodeEnv {
@@ -16,6 +17,7 @@ export enum CodeEnv {
   java = 'java:latest',
   php = 'php:8',
   rust = 'rust:latest',
+  c = 'cpp:11',
 }
 
 export enum FileSuffix {
@@ -26,4 +28,5 @@ export enum FileSuffix {
   java = 'java',
   php = 'php',
   rust = 'rs',
+  c = 'c',
 }

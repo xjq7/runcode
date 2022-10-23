@@ -1,9 +1,9 @@
 import { CodeType } from '~utils/codeType';
 
 export const template: Record<CodeType, string> = {
-  [CodeType.cpp]: `#include<iostream>
+  [CodeType.cpp]: `#include <iostream>
 
-int main(){
+int main() {
   std::cout << "hello world" << std::endl;
   return 0;
 }
@@ -20,14 +20,14 @@ func main () {
   `,
   [CodeType.python3]: `# encoding: utf-8
 if __name__ == "__main__":
-  
     print("hello world")
   `,
   [CodeType.java]: `class Code {
-    public static void main(String[] args) {
-      System.out.println("hello world!");
-    }
-  }`,
+public
+  static void main(String[] args) { 
+    System.out.println("hello world!");
+  }
+}`,
   [CodeType.php]: `<?php
 
 echo 'hello world!';`,
@@ -35,4 +35,10 @@ echo 'hello world!';`,
     println!("Hello, world!");
 }
   `,
+  [CodeType.c]: `#include <stdio.h>
+
+int main() {
+  printf("Hello, World");
+  return (0);
+}`,
 };
