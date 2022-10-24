@@ -114,7 +114,25 @@ koa + typescript + dockerode
 
 ### client
 
-vite + react + typescript + tailwindcss + daisyui + mobx + monaco-editor
+- vite + react + typescript
+
+- UI
+
+  daisyui 风格简约, 项目侵入性小, 样式复写方便
+
+  tailwindcss, 原子化 css, 在个人项目里使用优势很大, 节省时间、代码
+
+  且都支持按需引入, 体积更小
+
+- 状态管理
+
+  mobx、mobx-react-lite、mobx-persist-store
+
+- 编辑器使用 monaco-editor
+
+  高亮、输入提示、部分语言代码格式化、多主题
+
+  引入 clang-format wasm 模块实现 C/C++/Java 语言的代码格式化
 
 1. 安装依赖
 
