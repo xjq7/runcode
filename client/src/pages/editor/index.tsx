@@ -7,6 +7,8 @@ import { observer } from 'mobx-react-lite';
 import EditorConfig from '~store/config/editor';
 import Header, { settingDrawerId } from './components/Header';
 import Operator from './components/Operator';
+import storage from '~utils/storage';
+import { CodeStorageKey } from '~constant/storage';
 
 const Component = observer(() => {
   const editorRef = useRef<Expose>(null);
@@ -31,6 +33,8 @@ const Component = observer(() => {
           codeType={codeType}
           themeType={editorThemeType}
           onCodeTypeChange={(type) => {
+            // 切换语言前保存代码
+            storage.set(CodeStorageKey[codeType], getEditor()?.getValue());
             setCodeType(type);
           }}
           onThemeTypeChange={(type) => {

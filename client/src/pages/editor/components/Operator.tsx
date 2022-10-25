@@ -95,18 +95,21 @@ function Operator(props: Props) {
     const editor = getEditor();
 
     if (editor) {
+      const debounceSaveCode = debounce(saveCode, autoSaveDelay * 1000);
       const saveCodeListen = editor
         ?.getModel()
-        ?.onDidChangeContent(debounce(saveCode, autoSaveDelay * 1000));
+        ?.onDidChangeContent(debounceSaveCode);
       const saveDisabledListen = editor?.getModel()?.onDidChangeContent(() => {
         setSaveDisabled(false);
       });
       return () => {
         saveCodeListen?.dispose();
         saveDisabledListen?.dispose();
+        // 取消前一个 debounce
+        debounceSaveCode.cancel();
       };
     }
-  }, [autoSaveDelay]);
+  }, [codeType, getEditor, autoSaveDelay]);
 
   const renderInput = () => {
     return (
