@@ -55,6 +55,18 @@ function Operator(props: Props) {
     return parseConsoleOutput(output);
   }, [data]);
 
+  useEffect(() => {
+    if (!output.length) return;
+    const tt = document.querySelector('#terminal');
+    if (tt) tt.innerHTML = '';
+    const t = window.terminal({ rows: 10 });
+    t.appendTo('#terminal');
+
+    output.forEach(function (line) {
+      t.writeln(line);
+    });
+  }, [output]);
+
   const [timesPrevent, setTimesPrevent] = useState(false);
 
   const showClangFormat = useMemo(
@@ -125,10 +137,11 @@ function Operator(props: Props) {
   const renderOutput = () => {
     return (
       <div
+        id="terminal"
         className={classnames(styles.output, 'mt-1', 'text-gray-600')}
         style={{ display: display === DisplayType.output ? 'block' : 'none' }}
       >
-        {loading ? (
+        {/* {loading ? (
           'running...'
         ) : output.length ? (
           output.map((str, index) => (
@@ -138,7 +151,7 @@ function Operator(props: Props) {
           ))
         ) : (
           <span className="text-sm text-gray-400">output...</span>
-        )}
+        )} */}
       </div>
     );
   };

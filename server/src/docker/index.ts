@@ -225,22 +225,22 @@ function formatOutput(outputString: string): string {
   if (isType('Object', 'Array')(outputString)) {
     outputString = JSON.stringify(outputString);
   }
-  outputString = encodeURI(outputString);
+  // outputString = encodeURI(outputString);
 
-  outputString = outputString.replace(
-    /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
-    ''
-  );
+  // outputString = outputString.replace(
+  //   /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
+  //   ''
+  // );
 
-  let outputStringArr = outputString.split('%0A');
-  if (outputStringArr.length > 200) {
-    outputStringArr = outputStringArr
-      .slice(0, 100)
-      .concat(
-        ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-        outputStringArr.slice(outputStringArr.length - 100)
-      );
-  }
+  const outputStringArr = outputString.split('%0A');
+  // if (outputStringArr.length > 200) {
+  //   outputStringArr = outputStringArr
+  //     .slice(0, 100)
+  //     .concat(
+  //       ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
+  //       outputStringArr.slice(outputStringArr.length - 100)
+  //     );
+  // }
 
   return outputStringArr.join('%0A');
 }
