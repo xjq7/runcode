@@ -16,10 +16,17 @@ import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import styles from './operator.module.less';
 import { editor } from 'monaco-editor';
+import { Terminal } from 'xterm';
+import { WebLinksAddon } from 'xterm-addon-web-links';
 
 enum DisplayType {
   input,
   output,
+}
+
+enum TerminalType {
+  plain,
+  origin,
 }
 
 const runCodeInterval = 2000;
@@ -39,6 +46,10 @@ function Operator(props: Props) {
 
   const [saveDisabled, setSaveDisabled] = useState(true);
 
+  const [terminalType, setTerminalType] = useState(TerminalType.origin);
+
+  const termRef = useRef<Terminal>();
+
   const onCodeFormatDone = (result: string) => {
     getEditor()?.setValue(result);
   };
@@ -56,15 +67,23 @@ function Operator(props: Props) {
   }, [data]);
 
   useEffect(() => {
-    if (!output.length) return;
-    const tt = document.querySelector('#terminal');
-    if (tt) tt.innerHTML = '';
-    const t = window.terminal({ rows: 10 });
-    t.appendTo('#terminal');
-
-    output.forEach(function (line) {
-      t.writeln(line);
+    if (terminalType !== TerminalType.origin) return;
+    var term = new Terminal({
+      rows: 13,
+      allowProposedApi: true,
+      disableStdin: true,
     });
+    term.loadAddon(new WebLinksAddon());
+    term.open(document.querySelector('#terminal') as HTMLElement);
+    termRef.current = term;
+    return () => {
+      term.dispose();
+    };
+  }, [terminalType]);
+
+  useEffect(() => {
+    termRef.current?.reset();
+    termRef.current?.write(output.join('\n'));
   }, [output]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
@@ -127,7 +146,10 @@ function Operator(props: Props) {
           inputRef.current = e.target.value;
         }}
         className={'w-full h-full mt-1'}
-        style={{ display: display === DisplayType.input ? 'block' : 'none' }}
+        style={{
+          display: display === DisplayType.input ? 'block' : 'none',
+          height: 231,
+        }}
         placeholder="stdin..."
         border
       />
@@ -135,13 +157,24 @@ function Operator(props: Props) {
   };
 
   const renderOutput = () => {
+    if (terminalType === TerminalType.origin) {
+      return (
+        <div
+          className={styles.terminal_container}
+          style={{
+            display: display === DisplayType.input ? 'none' : 'block',
+          }}
+        >
+          <div id="terminal" className="py-10"></div>
+        </div>
+      );
+    }
     return (
       <div
-        id="terminal"
         className={classnames(styles.output, 'mt-1', 'text-gray-600')}
         style={{ display: display === DisplayType.output ? 'block' : 'none' }}
       >
-        {/* {loading ? (
+        {loading ? (
           'running...'
         ) : output.length ? (
           output.map((str, index) => (
@@ -151,7 +184,7 @@ function Operator(props: Props) {
           ))
         ) : (
           <span className="text-sm text-gray-400">output...</span>
-        )} */}
+        )}
       </div>
     );
   };
@@ -159,6 +192,25 @@ function Operator(props: Props) {
   return (
     <div className={styles.container}>
       <div className={classnames(styles.operator, 'pt-2')}>
+        <Button
+          type="primary"
+          size="sm"
+          className="mr-2"
+          onClick={() => {
+            if (codeType === CodeType.nodejs) {
+              getEditor()?.getAction('editor.action.formatDocument')?.run();
+            } else if (showClangFormat) {
+              const code = getEditor()?.getValue();
+              if (!code) return;
+              clangFormat?.worker?.postMessage({
+                function: 'format',
+                code,
+              });
+            }
+          }}
+        >
+          终端样式
+        </Button>
         {output.length !== 0 && (
           <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
             <Button
