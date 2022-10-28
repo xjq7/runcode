@@ -6,7 +6,7 @@ import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
-import { parseConsoleOutput, saveAsFile } from '~utils/helper';
+import { parseConsoleOutput, saveAsFile, TerminalType } from '~utils/helper';
 import { runCode } from '../service';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
@@ -18,15 +18,11 @@ import styles from './operator.module.less';
 import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { WebLinksAddon } from 'xterm-addon-web-links';
+import Dropdown, { Option } from '~components/Dropdown';
 
 enum DisplayType {
   input,
   output,
-}
-
-enum TerminalType {
-  plain,
-  origin,
 }
 
 const runCodeInterval = 2000;
@@ -46,7 +42,7 @@ function Operator(props: Props) {
 
   const [saveDisabled, setSaveDisabled] = useState(true);
 
-  const [terminalType, setTerminalType] = useState(TerminalType.origin);
+  const [terminalType, setTerminalType] = useState(TerminalType.terminal);
 
   const termRef = useRef<Terminal>();
 
@@ -63,11 +59,15 @@ function Operator(props: Props) {
     } else {
       output = data?.output || '';
     }
-    return parseConsoleOutput(output);
-  }, [data]);
+    return parseConsoleOutput(output, terminalType);
+  }, [data, terminalType]);
+
+  const handleTerminalChange = (option: Option) => {
+    setTerminalType(option.value);
+  };
 
   useEffect(() => {
-    if (terminalType !== TerminalType.origin) return;
+    if (terminalType !== TerminalType.terminal) return;
     var term = new Terminal({
       rows: 13,
       allowProposedApi: true,
@@ -82,9 +82,10 @@ function Operator(props: Props) {
   }, [terminalType]);
 
   useEffect(() => {
+    if (terminalType !== TerminalType.terminal) return;
     termRef.current?.reset();
     termRef.current?.write(output.join('\n'));
-  }, [output]);
+  }, [output, terminalType]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
 
@@ -157,7 +158,7 @@ function Operator(props: Props) {
   };
 
   const renderOutput = () => {
-    if (terminalType === TerminalType.origin) {
+    if (terminalType === TerminalType.terminal) {
       return (
         <div
           className={styles.terminal_container}
@@ -165,7 +166,7 @@ function Operator(props: Props) {
             display: display === DisplayType.input ? 'none' : 'block',
           }}
         >
-          <div id="terminal" className="py-10"></div>
+          <div id="terminal"></div>
         </div>
       );
     }
@@ -192,25 +193,16 @@ function Operator(props: Props) {
   return (
     <div className={styles.container}>
       <div className={classnames(styles.operator, 'pt-2')}>
-        <Button
-          type="primary"
-          size="sm"
-          className="mr-2"
-          onClick={() => {
-            if (codeType === CodeType.nodejs) {
-              getEditor()?.getAction('editor.action.formatDocument')?.run();
-            } else if (showClangFormat) {
-              const code = getEditor()?.getValue();
-              if (!code) return;
-              clangFormat?.worker?.postMessage({
-                function: 'format',
-                code,
-              });
-            }
-          }}
+        <Dropdown
+          optionStyle="w-36"
+          options={[
+            { label: 'plain', value: TerminalType.plain },
+            { label: 'terminal', value: TerminalType.terminal },
+          ]}
+          onChange={handleTerminalChange}
         >
-          终端样式
-        </Button>
+          <Button className="mr-2">终端样式</Button>
+        </Dropdown>
         {output.length !== 0 && (
           <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
             <Button

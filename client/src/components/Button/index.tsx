@@ -11,8 +11,15 @@ interface Props
 const Component: React.FC<PropsWithChildren<Props>> = (
   props: PropsWithChildren<Props>
 ) => {
-  const { type, size, children, loading, className, onClick, ...restProps } =
-    props;
+  const {
+    type = 'primary',
+    size,
+    children,
+    loading,
+    className,
+    onClick,
+    ...restProps
+  } = props;
 
   const typeCls = useMemo(() => {
     switch (type) {
