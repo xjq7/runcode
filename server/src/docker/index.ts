@@ -214,10 +214,10 @@ export async function run2(params: {
 }
 
 function formatOutput(outputString: string): string {
-  if (outputString.length > 4200) {
+  if (outputString.length > 8200) {
     outputString =
-      outputString.slice(0, 2000) +
-      outputString.slice(outputString.length - 2000);
+      outputString.slice(0, 4000) +
+      outputString.slice(outputString.length - 4000);
   }
 
   // hack 当遇到数组跟对象时, toString 方法的输出会是 {} => [object Object] [1,2] => 1,2
@@ -225,12 +225,6 @@ function formatOutput(outputString: string): string {
   if (isType('Object', 'Array')(outputString)) {
     outputString = JSON.stringify(outputString);
   }
-  outputString = encodeURI(outputString);
-
-  outputString = outputString.replace(
-    /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
-    ''
-  );
 
   let outputStringArr = outputString.split('%0A');
   if (outputStringArr.length > 200) {

@@ -6,7 +6,7 @@ import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
-import { parseConsoleOutput, saveAsFile } from '~utils/helper';
+import { parseConsoleOutput, saveAsFile, TerminalType } from '~utils/helper';
 import { runCode } from '../service';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
@@ -16,6 +16,10 @@ import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import styles from './operator.module.less';
 import { editor } from 'monaco-editor';
+import { Terminal } from 'xterm';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import Dropdown, { Option } from '~components/Dropdown';
+import useWindowSize from 'react-use/lib/useWindowSize';
 
 enum DisplayType {
   input,
@@ -39,11 +43,19 @@ function Operator(props: Props) {
 
   const [saveDisabled, setSaveDisabled] = useState(true);
 
+  const [terminalType, setTerminalType] = useState(TerminalType.terminal);
+
+  const termRef = useRef<Terminal>();
+
   const onCodeFormatDone = (result: string) => {
     getEditor()?.setValue(result);
   };
 
   const [clangFormat] = useClangFormat({ onCodeFormatDone });
+
+  const { width } = useWindowSize();
+
+  const hiddenTerminalOutput = useMemo(() => width < 600, [width]);
 
   const output = useMemo(() => {
     let output = '';
@@ -52,8 +64,39 @@ function Operator(props: Props) {
     } else {
       output = data?.output || '';
     }
-    return parseConsoleOutput(output);
-  }, [data]);
+    return parseConsoleOutput(output, terminalType);
+  }, [data, terminalType]);
+
+  const handleTerminalChange = (option: Option) => {
+    setTerminalType(option.value);
+  };
+
+  useEffect(() => {
+    if (hiddenTerminalOutput) {
+      setTerminalType(TerminalType.plain);
+    }
+  }, [hiddenTerminalOutput]);
+
+  useEffect(() => {
+    if (terminalType !== TerminalType.terminal) return;
+    var term = new Terminal({
+      rows: 13,
+      allowProposedApi: true,
+      disableStdin: true,
+    });
+    term.loadAddon(new WebLinksAddon());
+    term.open(document.querySelector('#terminal') as HTMLElement);
+    termRef.current = term;
+    return () => {
+      term.dispose();
+    };
+  }, [terminalType]);
+
+  useEffect(() => {
+    if (terminalType !== TerminalType.terminal) return;
+    termRef.current?.reset();
+    termRef.current?.write(output.join('\n'));
+  }, [output, terminalType]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
 
@@ -118,7 +161,10 @@ function Operator(props: Props) {
           inputRef.current = e.target.value;
         }}
         className={'w-full h-full mt-1'}
-        style={{ display: display === DisplayType.input ? 'block' : 'none' }}
+        style={{
+          display: display === DisplayType.input ? 'block' : 'none',
+          height: 231,
+        }}
         placeholder="stdin..."
         border
       />
@@ -126,6 +172,18 @@ function Operator(props: Props) {
   };
 
   const renderOutput = () => {
+    if (terminalType === TerminalType.terminal) {
+      return (
+        <div
+          className={styles.terminal_container}
+          style={{
+            display: display === DisplayType.input ? 'none' : 'block',
+          }}
+        >
+          <div id="terminal"></div>
+        </div>
+      );
+    }
     return (
       <div
         className={classnames(styles.output, 'mt-1', 'text-gray-600')}
@@ -149,6 +207,19 @@ function Operator(props: Props) {
   return (
     <div className={styles.container}>
       <div className={classnames(styles.operator, 'pt-2')}>
+        {!hiddenTerminalOutput && (
+          <Dropdown
+            optionStyle="w-36"
+            options={[
+              { label: 'plain', value: TerminalType.plain },
+              { label: 'terminal', value: TerminalType.terminal },
+            ]}
+            onChange={handleTerminalChange}
+          >
+            <Button className="mr-2">终端样式</Button>
+          </Dropdown>
+        )}
+
         {output.length !== 0 && (
           <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
             <Button
