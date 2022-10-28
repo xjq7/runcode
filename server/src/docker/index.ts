@@ -2,9 +2,14 @@ import Docker, { Container } from 'dockerode';
 import { Stream } from 'stream';
 import dockerConfig from '../config/docker';
 import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
-import { RunCodeStatus } from '../routes/code';
 import { isType } from '../utils/helper';
 import logger from '../logger';
+
+export enum RunCodeStatus {
+  success = 0,
+  timeout = 1,
+  error = 2,
+}
 
 const DockerRunConfig = {
   timeout: 6000,

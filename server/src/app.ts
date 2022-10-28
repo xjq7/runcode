@@ -1,11 +1,12 @@
-import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
-import codeRouter from './routes/code';
 import logger from './logger';
+import { createKoaServer } from 'routing-controllers';
+import { CodeController } from './controller/code';
+import 'reflect-metadata';
 
-const app = new Koa();
-app.use(bodyParser());
+const app = createKoaServer({
+  controllers: [CodeController],
+});
 
 app.use(
   cors({
@@ -16,9 +17,7 @@ app.use(
   })
 );
 
-app.use(codeRouter.routes()).use(codeRouter.allowedMethods());
-
-app.on('error', (err) => {
+app.on('error', (err: any) => {
   console.error('server error', err);
 });
 
