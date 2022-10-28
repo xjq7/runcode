@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/xjq7/runcode/compare/v1.2.0...v1.3.0) (2022-10-28)
+
+
+### Features
+
+* 增加 terminal 输出 ([b02c09b](https://github.com/xjq7/runcode/commit/b02c09be18a7b7e6469c8f320d185c10a9537f72))
+
+
+### Bug Fixes
+
+* 切换语言时的代码本地保存错乱修复 ([7b95d9c](https://github.com/xjq7/runcode/commit/7b95d9cf81b890ea067e6ee400a34a2aba1aaaa8))
+
 ## [1.2.0](https://github.com/xjq7/runcode/compare/v1.1.0...v1.2.0) (2022-10-24)
 
 
