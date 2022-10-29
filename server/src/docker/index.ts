@@ -96,6 +96,12 @@ expand_arg_files()
     shellWithStdin: 'g++ code.c -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.c,
   },
+  dotnet: {
+    env: CodeEnv.dotnet,
+    shell: 'mcs -out:code.exe code.cs && mono code.exe',
+    shellWithStdin: 'mcs -out:code.exe code.cs && mono code.exe < input.txt',
+    fileSuffix: FileSuffix.dotnet,
+  },
 };
 
 export async function run2(params: {
