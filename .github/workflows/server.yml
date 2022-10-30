@@ -37,7 +37,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: inject env
-        run: pnpm inject:env ${{ DATABASE_URL }} ${{ REDIS_HOST }}  ${{ REDIS_PASSWORD }}
+        run: pnpm inject:env ${{ secrets.DATABASE_URL }} ${{ secrets.REDIS_HOST }}  ${{ secrets.REDIS_PASSWORD }}
 
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
