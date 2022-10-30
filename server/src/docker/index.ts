@@ -2,9 +2,14 @@ import Docker, { Container } from 'dockerode';
 import { Stream } from 'stream';
 import dockerConfig from '../config/docker';
 import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
-import { RunCodeStatus } from '../routes/code';
 import { isType } from '../utils/helper';
 import logger from '../logger';
+
+export enum RunCodeStatus {
+  success = 0,
+  timeout = 1,
+  error = 2,
+}
 
 const DockerRunConfig = {
   timeout: 6000,
@@ -90,6 +95,12 @@ expand_arg_files()
     shell: 'g++ code.c -o code.out && ./code.out',
     shellWithStdin: 'g++ code.c -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.c,
+  },
+  dotnet: {
+    env: CodeEnv.dotnet,
+    shell: 'mcs -out:code.exe code.cs && mono code.exe',
+    shellWithStdin: 'mcs -out:code.exe code.cs && mono code.exe < input.txt',
+    fileSuffix: FileSuffix.dotnet,
   },
 };
 

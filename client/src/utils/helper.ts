@@ -1,13 +1,13 @@
-export enum TerminalType {
+export enum OutputType {
   plain,
   terminal,
 }
 
-export function parseConsoleOutput(output: string, type: TerminalType) {
+export function parseConsoleOutput(output: string, type: OutputType) {
   if (!output) return [];
   // 换行解析
   let splitAsEnter = output.split(/%0A/).map((str) => {
-    if (type === TerminalType.plain) {
+    if (type === OutputType.plain) {
       str = encodeURI(str);
       str = str.replace(/%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g, '');
     }

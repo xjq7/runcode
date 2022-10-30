@@ -6,21 +6,23 @@ interface Props {
   onCodeFormatDone(result: string): void;
 }
 
+let clangFormatInstance = new ProcessManager('clang-format', 'clang-format');
+
+clangFormatInstance.start();
+
 function useClangFormat({ onCodeFormatDone }: Props) {
-  const [clangFormat, setClangFormat] = useState<ProcessManager>();
+  const [clangFormat, setClangFormat] =
+    useState<ProcessManager>(clangFormatInstance);
 
   const clangFormatRef = useRef<ProcessManager>();
 
   useEffect(() => {
-    let clangFormat = new ProcessManager('clang-format', 'clang-format');
-
-    clangFormat.start();
-    clangFormat.workerReady = () => {
-      setClangFormat(clangFormat);
+    clangFormatInstance.workerReady = () => {
+      setClangFormat(clangFormatInstance);
     };
 
     // @ts-ignore
-    clangFormat.workerFormatDone = (args) => {
+    clangFormatInstance.workerFormatDone = (args) => {
       onCodeFormatDone(args?.result);
     };
 
