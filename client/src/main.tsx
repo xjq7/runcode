@@ -7,6 +7,7 @@ import 'xterm/css/xterm.css';
 import './tailwind.output.css';
 
 rem();
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />

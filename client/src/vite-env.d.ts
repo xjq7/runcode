@@ -12,3 +12,8 @@ interface ImportMeta {
 interface Window {
   readonly terminal: any;
 }
+
+interface Response<T> {
+  code: number;
+  data: T;
+}

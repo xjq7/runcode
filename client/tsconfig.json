@@ -23,7 +23,8 @@
       "~utils*": ["./src/utils/*"],
       "~constant*": ["./src/constant/*"],
       "~hooks*": ["./src/hooks/*"],
-      "~pages*": ["./src/pages/*"]
+      "~pages*": ["./src/pages/*"],
+      "~services*": ["./src/services/*"]
     },
     "allowSyntheticDefaultImports": true
   },

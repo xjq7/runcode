@@ -1,23 +1,41 @@
+import { uniqBy } from 'lodash';
+import { useEffect, useState } from 'react';
 import styles from './index.module.less';
+import { getStat } from './service';
 
 function Component() {
+  const [stats, setStats] = useState({
+    pv: 0,
+    uv: 0,
+  });
+
+  const fetchStat = async () => {
+    const { list } = await getStat();
+
+    const uv = uniqBy(list, (x) => x.ip).length;
+
+    const pv = list.length;
+    setStats({ uv, pv });
+  };
+  useEffect(() => {
+    fetchStat();
+  }, []);
   return (
     <div className={styles.container}>
-      <div className="stats shadow">
-        <div className="stat">
-          <div className="stat-title">Downloads</div>
-          <div className="stat-value">31K</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
+      <div>
+        <div className="stats shadow">
+          <div className="stat w-36">
+            <div className="stat-title">PV</div>
+            <div className="stat-value">{stats.pv}</div>
+            <div className="stat-desc">今日访问量</div>
+          </div>
         </div>
-        <div className="stat">
-          <div className="stat-title">New Users</div>
-          <div className="stat-value">4,200</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
-        </div>
-        <div className="stat">
-          <div className="stat-title">New Registers</div>
-          <div className="stat-value">1,200</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
+        <div className="stats shadow">
+          <div className="stat w-36">
+            <div className="stat-title">UV</div>
+            <div className="stat-value">{stats.uv}</div>
+            <div className="stat-desc">今天用户</div>
+          </div>
         </div>
       </div>
     </div>

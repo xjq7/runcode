@@ -1,11 +1,19 @@
+/* eslint-disable no-extend-native */
 import cors from '@koa/cors';
 import logger from './logger';
 import { createKoaServer } from 'routing-controllers';
 import { CodeController } from './controller/code';
+import { StatController } from './controller/stat';
 import 'reflect-metadata';
+import { CatchError } from './middleware/CatchError';
+
+// @ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
 
 const app = createKoaServer({
-  controllers: [CodeController],
+  controllers: [CodeController, StatController],
 });
 
 app.use(
@@ -17,8 +25,18 @@ app.use(
   })
 );
 
+app.use(CatchError);
+
 app.on('error', (err: any) => {
   console.error('server error', err);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log('unhandledRejection', err);
+});
+
+process.on('uncaughtException', (err) => {
+  console.log('uncaughtException', err);
 });
 
 app.listen(39005, () => {
