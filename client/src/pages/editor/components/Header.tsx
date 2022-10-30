@@ -1,8 +1,9 @@
 import classnames from 'classnames';
-import { ThemeType } from '~components/CodeEditorMonaco';
-import Iconfont from '~components/Iconfont';
 import { CodeType } from '~utils/codeType';
 import Select, { IOption } from '~components/Select';
+import EditorConfig, { ThemeType } from '~store/config/editor';
+import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 
 const codeOptions: IOption<CodeType>[] = [
   { label: 'C++', value: CodeType.cpp },
@@ -11,6 +12,7 @@ const codeOptions: IOption<CodeType>[] = [
   { label: 'Rust', value: CodeType.rust },
   { label: 'Nodejs', value: CodeType.nodejs },
   { label: 'Go', value: CodeType.go },
+  { label: 'C#', value: CodeType.dotnet },
   { label: 'Python3', value: CodeType.python3 },
   { label: 'php', value: CodeType.php },
 ];
@@ -34,21 +36,15 @@ const themeOptions: IOption<ThemeType>[] = [
   },
 ];
 
-interface Props {
-  codeType: CodeType;
-  themeType: ThemeType;
-  onCodeTypeChange(t: CodeType): void;
-  onThemeTypeChange(t: ThemeType): void;
-}
+function Component() {
+  const [editorConfig] = useState(() => EditorConfig);
+  const { codeType, editorThemeType, setCodeType, setEditorThemeType } =
+    editorConfig;
 
-export const settingDrawerId = 'editor-setting';
-
-function Component(props: Props) {
-  const { codeType, themeType, onCodeTypeChange, onThemeTypeChange } = props;
   return (
     <div
       className={classnames(
-        'mt-4 mb-3',
+        'pt-3 pb-2 mt-2',
         'flex flex-row items-center justify-between'
       )}
     >
@@ -58,31 +54,18 @@ function Component(props: Props) {
           size="md"
           options={codeOptions}
           value={codeType}
-          onChange={onCodeTypeChange}
+          onChange={(type) => setCodeType(type)}
         />
         <Select<ThemeType>
           className="w-42 ml-4"
           size="md"
           options={themeOptions}
-          value={themeType}
-          onChange={onThemeTypeChange}
-        />
-      </div>
-      <div>
-        <label htmlFor={settingDrawerId}>
-          <Iconfont name="setting" size={24} className={classnames('w-7 ')} />
-        </label>
-        <Iconfont
-          name="github"
-          size={24}
-          className={classnames('w-7 mr-2 ml-4')}
-          onClick={() => {
-            window.open('https://github.com/xjq7/runcode');
-          }}
+          value={editorThemeType}
+          onChange={(type) => setEditorThemeType(type)}
         />
       </div>
     </div>
   );
 }
 
-export default Component;
+export default observer(Component);

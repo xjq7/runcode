@@ -22,7 +22,8 @@
       "~store*": ["./src/store/*"],
       "~utils*": ["./src/utils/*"],
       "~constant*": ["./src/constant/*"],
-      "~hooks*": ["./src/hooks/*"]
+      "~hooks*": ["./src/hooks/*"],
+      "~pages*": ["./src/pages/*"]
     },
     "allowSyntheticDefaultImports": true
   },

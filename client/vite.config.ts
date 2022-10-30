@@ -21,6 +21,7 @@ export default ({ command }) => {
         '~utils': path.resolve(__dirname, './src/utils'),
         '~constant': path.resolve(__dirname, './src/constant'),
         '~hooks': path.resolve(__dirname, './src/hooks'),
+        '~pages': path.resolve(__dirname, './src/pages'),
       },
     },
   });

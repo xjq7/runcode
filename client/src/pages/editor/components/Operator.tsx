@@ -6,7 +6,7 @@ import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
-import { parseConsoleOutput, saveAsFile, TerminalType } from '~utils/helper';
+import { parseConsoleOutput, saveAsFile, OutputType } from '~utils/helper';
 import { runCode } from '../service';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
@@ -20,6 +20,8 @@ import { Terminal } from 'xterm';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import Dropdown, { Option } from '~components/Dropdown';
 import useWindowSize from 'react-use/lib/useWindowSize';
+import EditorConfig from '~store/config/editor';
+import { observer } from 'mobx-react-lite';
 
 enum DisplayType {
   input,
@@ -29,21 +31,20 @@ enum DisplayType {
 const runCodeInterval = 2000;
 
 interface Props {
-  codeType: CodeType;
   getEditor: () => editor.IStandaloneCodeEditor | null | undefined;
-  autoSaveDelay: number;
 }
 
 function Operator(props: Props) {
-  const { codeType, getEditor, autoSaveDelay } = props;
+  const { getEditor } = props;
+
+  const [editorConfig] = useState(() => EditorConfig);
+  const { autoSaveDelay, codeType, outputType, setOutputType } = editorConfig;
 
   const inputRef = useRef('');
   const [display, setDisplay] = useState(DisplayType.output);
   const { data, run, loading } = useRequest(runCode, { manual: true });
 
   const [saveDisabled, setSaveDisabled] = useState(true);
-
-  const [terminalType, setTerminalType] = useState(TerminalType.terminal);
 
   const termRef = useRef<Terminal>();
 
@@ -64,21 +65,21 @@ function Operator(props: Props) {
     } else {
       output = data?.output || '';
     }
-    return parseConsoleOutput(output, terminalType);
-  }, [data, terminalType]);
+    return parseConsoleOutput(output, outputType);
+  }, [data, outputType]);
 
   const handleTerminalChange = (option: Option) => {
-    setTerminalType(option.value);
+    setOutputType(option.value);
   };
 
   useEffect(() => {
     if (hiddenTerminalOutput) {
-      setTerminalType(TerminalType.plain);
+      setOutputType(OutputType.plain);
     }
   }, [hiddenTerminalOutput]);
 
   useEffect(() => {
-    if (terminalType !== TerminalType.terminal) return;
+    if (outputType !== OutputType.terminal) return;
     var term = new Terminal({
       rows: 13,
       allowProposedApi: true,
@@ -90,13 +91,18 @@ function Operator(props: Props) {
     return () => {
       term.dispose();
     };
-  }, [terminalType]);
+  }, [outputType]);
 
   useEffect(() => {
-    if (terminalType !== TerminalType.terminal) return;
+    if (loading) {
+      termRef.current?.reset();
+      termRef.current?.write('running...');
+      return;
+    }
+    if (outputType !== OutputType.terminal) return;
     termRef.current?.reset();
     termRef.current?.write(output.join('\n'));
-  }, [output, terminalType]);
+  }, [output, outputType, loading]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
 
@@ -169,7 +175,7 @@ function Operator(props: Props) {
   };
 
   const renderOutput = () => {
-    if (terminalType === TerminalType.terminal) {
+    if (outputType === OutputType.terminal) {
       return (
         <div
           className={styles.terminal_container}
@@ -208,8 +214,8 @@ function Operator(props: Props) {
           <Dropdown
             optionStyle="w-36"
             options={[
-              { label: 'plain', value: TerminalType.plain },
-              { label: 'terminal', value: TerminalType.terminal },
+              { label: 'plain', value: OutputType.plain },
+              { label: 'terminal', value: OutputType.terminal },
             ]}
             onChange={handleTerminalChange}
           >
@@ -309,4 +315,4 @@ function Operator(props: Props) {
   );
 }
 
-export default Operator;
+export default observer(Operator);
