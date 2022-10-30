@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - 'server/**'
+      - '.github/workflows/server.yml'
       - '!server/config/nginx.conf'
   pull_request:
     branches: [main]
