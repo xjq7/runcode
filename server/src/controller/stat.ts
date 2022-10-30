@@ -73,7 +73,7 @@ export class StatController {
     } catch (error) {
       return {
         code: 0,
-        messgae: JSON.stringify(error),
+        message: JSON.stringify(error),
       };
     }
 
