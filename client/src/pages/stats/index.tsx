@@ -30,11 +30,11 @@ function Component() {
             <div className="stat-desc">今日访问量</div>
           </div>
         </div>
-        <div className="stats shadow">
+        <div className="stats shadow ml-2">
           <div className="stat w-36">
             <div className="stat-title">UV</div>
             <div className="stat-value">{stats.uv}</div>
-            <div className="stat-desc">今天用户</div>
+            <div className="stat-desc">今日用户量</div>
           </div>
         </div>
       </div>

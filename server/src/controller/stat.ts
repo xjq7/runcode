@@ -14,17 +14,19 @@ export class StatController {
     try {
       const startTime = dayjs(
         dayjs().format('YYYY-MM-DD') + ' 00:00:00'
-      ).format('YYYY-MM-DD HH:mm:ss');
-      const endTime = dayjs(dayjs().format('YYYY-MM-DD') + ' 23:59:59').format(
-        'YYYY-MM-DD HH:mm:ss'
-      );
+      ).toISOString();
+      const endTime = dayjs(
+        dayjs().format('YYYY-MM-DD') + ' 23:59:59'
+      ).toISOString();
 
-      const result =
-        await prisma.$queryRaw<any>`SELECT * FROM stat WHERE createdAt between ${startTime} and ${endTime}`;
+      const result = await prisma.stat.findMany({
+        where: { createdAt: { lte: endTime, gte: startTime } },
+      });
+
       return {
         code: 0,
         data: {
-          list: result.map((o: any) => o),
+          list: result,
         },
       };
     } catch (error) {
