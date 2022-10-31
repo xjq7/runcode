@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 type rawType = 'Object' | 'Array' | 'Number' | 'String';
 
@@ -16,6 +16,6 @@ export function isType(...args: rawType[]) {
  * @param {Parameters<typeof dayjs>[0]} date
  * @return {*}
  */
-export function getISOString(date: Parameters<typeof dayjs>[0]) {
-  return dayjs(date).add(8, 'h').toISOString();
+export function wrapDayjs(date: Parameters<typeof dayjs>[0]): Dayjs {
+  return dayjs(date).add(8, 'h');
 }

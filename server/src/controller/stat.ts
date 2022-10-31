@@ -14,8 +14,7 @@ import logger from '../logger';
 import uaparser from 'ua-parser-js';
 import { stat } from '@prisma/client';
 import { uniqBy } from 'lodash';
-import dayjs from 'dayjs';
-import { getISOString } from '../utils/helper';
+import { wrapDayjs } from '../utils/helper';
 
 const IP_PREFIX = 'ip_';
 
@@ -35,8 +34,8 @@ export class StatController {
       const list = await prisma.stat.findMany({
         where: {
           createdAt: {
-            lte: getISOString(endAt),
-            gte: getISOString(startAt),
+            lte: wrapDayjs(endAt).toISOString(),
+            gte: wrapDayjs(startAt).toISOString(),
           },
         },
         orderBy: [
@@ -69,12 +68,11 @@ export class StatController {
         }
         return acc;
       }, {});
-
       const list7 = await prisma.stat.findMany({
         where: {
           createdAt: {
-            lte: getISOString(endAt),
-            gte: getISOString(dayjs(endAt).subtract(3, 'd')),
+            lte: wrapDayjs(endAt).toISOString(),
+            gte: wrapDayjs(endAt).subtract(3, 'd').add(1, 's').toISOString(),
           },
         },
         distinct: ['ip'],
@@ -89,22 +87,25 @@ export class StatController {
         date: string;
         value: number;
       }
+
       const uvStats: UvStat[] = [
-        { date: dayjs(endAt).format('YYYY-MM-DD'), value: 0 },
+        { date: wrapDayjs(endAt).format('YYYY-MM-DD'), value: 0 },
 
         {
-          date: dayjs(endAt).subtract(1, 'd').format('YYYY-MM-DD'),
+          date: wrapDayjs(endAt).subtract(1, 'd').format('YYYY-MM-DD'),
           value: 0,
         },
         {
-          date: dayjs(endAt).subtract(2, 'd').format('YYYY-MM-DD'),
+          date: wrapDayjs(endAt).subtract(2, 'd').format('YYYY-MM-DD'),
           value: 0,
         },
       ];
 
       list7.forEach((stat) => {
         const { createdAt } = stat;
-        const diff = dayjs(endAt).diff(createdAt, 'd');
+        const diff = wrapDayjs(endAt).diff(createdAt, 'd');
+        console.log(diff, createdAt);
+
         uvStats[diff].value++;
       });
 
@@ -169,7 +170,7 @@ export class StatController {
           province,
           isp,
           userAgent,
-          createdAt: getISOString(createdAt),
+          createdAt: wrapDayjs(createdAt).toISOString(),
         },
       });
     } catch (error) {
