@@ -15,5 +15,5 @@ model stat {
   city      String?  @default("")
   isp       String?  @default("")
   userAgent String?  @default("")
-  createdAt DateTime @default(now())
+  createdAt DateTime @db.DateTime()
 }

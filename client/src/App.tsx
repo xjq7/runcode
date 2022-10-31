@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 function App() {
   useEffect(() => {
-    const now = dayjs().format('YYYY-MM-DD HH:ss:mm');
+    const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
     visit({ createdAt: now });
   }, []);
 

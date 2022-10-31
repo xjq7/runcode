@@ -15,6 +15,7 @@ import uaparser from 'ua-parser-js';
 import { stat } from '@prisma/client';
 import { uniqBy } from 'lodash';
 import dayjs from 'dayjs';
+import { getISOString } from '../utils/helper';
 
 const IP_PREFIX = 'ip_';
 
@@ -29,12 +30,13 @@ export class StatController {
     @QueryParam('startAt', { required: true }) startAt: string,
     @QueryParam('endAt', { required: true }) endAt: string
   ) {
+    logger.info('/stat GET query startAt: %s ,endAt: %s', startAt, endAt);
     try {
       const list = await prisma.stat.findMany({
         where: {
           createdAt: {
-            lte: dayjs(endAt).toISOString(),
-            gte: dayjs(startAt).toISOString(),
+            lte: getISOString(endAt),
+            gte: getISOString(startAt),
           },
         },
         orderBy: [
@@ -48,7 +50,7 @@ export class StatController {
       const uv = uniqList.length;
       const pv = list.length;
 
-      const parseList = list.map((o) => {
+      const parseList = uniqList.map((o) => {
         const ua = uaparser(o.userAgent ?? '');
         const browser = ua?.browser?.name ?? '未知';
         const os = ua?.os?.name ?? '未知';
@@ -68,6 +70,44 @@ export class StatController {
         return acc;
       }, {});
 
+      const list7 = await prisma.stat.findMany({
+        where: {
+          createdAt: {
+            lte: getISOString(endAt),
+            gte: getISOString(dayjs(endAt).subtract(3, 'd')),
+          },
+        },
+        distinct: ['ip'],
+        orderBy: [
+          {
+            createdAt: 'desc',
+          },
+        ],
+      });
+
+      interface UvStat {
+        date: string;
+        value: number;
+      }
+      const uvStats: UvStat[] = [
+        { date: dayjs(endAt).format('YYYY-MM-DD'), value: 0 },
+
+        {
+          date: dayjs(endAt).subtract(1, 'd').format('YYYY-MM-DD'),
+          value: 0,
+        },
+        {
+          date: dayjs(endAt).subtract(2, 'd').format('YYYY-MM-DD'),
+          value: 0,
+        },
+      ];
+
+      list7.forEach((stat) => {
+        const { createdAt } = stat;
+        const diff = dayjs(endAt).diff(createdAt, 'd');
+        uvStats[diff].value++;
+      });
+
       return {
         code: 0,
         data: {
@@ -75,14 +115,15 @@ export class StatController {
             uv,
             pv,
           },
-          osStats: Object.entries(osStats).map(([os, value]) => ({
+          os: Object.entries(osStats).map(([os, value]) => ({
             type: os,
             value,
           })),
+          uv: uvStats,
         },
       };
     } catch (error) {
-      console.log(error);
+      logger.error('stats 查询出错', JSON.stringify(error));
       return {
         code: 1,
         message: JSON.stringify(error),
@@ -96,6 +137,7 @@ export class StatController {
     @HeaderParam('User-Agent') userAgent: string,
     @BodyParam('createdAt', { required: true }) createdAt: string
   ) {
+    logger.info('/visit POST body createdAt: %s', createdAt);
     if (!ip) {
       return {
         code: 0,
@@ -127,11 +169,11 @@ export class StatController {
           province,
           isp,
           userAgent,
-          createdAt: dayjs(createdAt).toISOString(),
+          createdAt: getISOString(createdAt),
         },
       });
     } catch (error) {
-      logger.info(`visit error, ${JSON.stringify(error)}`);
+      logger.error(`visit error, ${JSON.stringify(error)}`);
       return {
         code: 0,
         message: JSON.stringify(error),

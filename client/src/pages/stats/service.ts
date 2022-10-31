@@ -8,10 +8,14 @@ export interface OsStat {
   type: string;
   value: number;
 }
-
+export interface UvStat {
+  date: string;
+  value: number;
+}
 export interface Stat {
   stats: { pv: number; uv: number };
   os: OsStat[];
+  uv: UvStat[];
 }
 
 export interface IStatRequest {
