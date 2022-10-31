@@ -28,6 +28,7 @@
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^12.0.0",
+    "lodash": "^4.17.21",
     "log4js": "^6.7.0",
     "multer": "^1.4.5-lts.1",
     "prisma": "^4.5.0",
@@ -42,7 +43,9 @@
     "@types/koa-bodyparser": "^4.3.8",
     "@types/koa-router": "^7.4.4",
     "@types/koa__cors": "^3.3.0",
+    "@types/lodash": "^4.14.186",
     "@types/node": "^18.8.4",
+    "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
@@ -55,7 +58,6 @@
     "pm2": "^5.2.2",
     "prettier": "^2.7.1",
     "typescript": "*",
-    "zx": "^7.1.1",
-    "@types/ua-parser-js": "^0.7.36"
+    "zx": "^7.1.1"
   }
 }

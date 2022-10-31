@@ -9,6 +9,7 @@ specifiers:
   '@types/koa-bodyparser': ^4.3.8
   '@types/koa-router': ^7.4.4
   '@types/koa__cors': ^3.3.0
+  '@types/lodash': ^4.14.186
   '@types/node': ^18.8.4
   '@types/ua-parser-js': ^0.7.36
   '@typescript-eslint/eslint-plugin': ^5.0.0
@@ -29,6 +30,7 @@ specifiers:
   koa: ^2.13.4
   koa-bodyparser: ^4.3.0
   koa-router: ^12.0.0
+  lodash: ^4.17.21
   log4js: ^6.7.0
   multer: ^1.4.5-lts.1
   nodemon: ^2.0.20
@@ -56,6 +58,7 @@ dependencies:
   koa: 2.13.4
   koa-bodyparser: 4.3.0
   koa-router: 12.0.0
+  lodash: 4.17.21
   log4js: registry.npmmirror.com/log4js/6.7.0
   multer: 1.4.5-lts.1
   prisma: 4.5.0
@@ -70,6 +73,7 @@ devDependencies:
   '@types/koa-bodyparser': 4.3.8
   '@types/koa-router': 7.4.4
   '@types/koa__cors': 3.3.0
+  '@types/lodash': 4.14.186
   '@types/node': 18.8.4
   '@types/ua-parser-js': 0.7.36
   '@typescript-eslint/eslint-plugin': 5.40.0_d765299b94a6a4ae3d9fb8b19a3abfbc
@@ -454,6 +458,10 @@ packages:
     resolution: {integrity: sha512-FUN8YxcBakIs+walVe3+HcNP+Bxd0SB8BJHBWkglZ5C1XQWljlKcEFDG/dPiCIqwVCUbc5X0nYDlH62uEhdHMA==}
     dependencies:
       '@types/koa': 2.13.5
+    dev: true
+
+  /@types/lodash/4.14.186:
+    resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
     dev: true
 
   /@types/mime/3.0.1:
@@ -2486,7 +2494,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-driver/1.2.7:
     resolution: {integrity: sha512-U7KCmLdqsGHBLeWqYlFA0V0Sl6P08EE1ZrmA9cxjUE0WVqT9qnyVDPz1kzpFEP0jdJuFnasWIfSd7fsaNXkpbg==}

@@ -1,64 +1,101 @@
-import { Get, HeaderParam, JsonController, Post } from 'routing-controllers';
+import {
+  BodyParam,
+  Get,
+  HeaderParam,
+  JsonController,
+  Post,
+  QueryParam,
+} from 'routing-controllers';
 import { redisStore } from '../config/redis';
 import { Ip } from '../middleware/decorator/Ip';
 import prisma from '../config/prisma';
 import IP2Region from 'ip2region';
-import dayjs from 'dayjs';
 import logger from '../logger';
 import uaparser from 'ua-parser-js';
+import { stat } from '@prisma/client';
+import { uniqBy } from 'lodash';
+import dayjs from 'dayjs';
 
 const IP_PREFIX = 'ip_';
+
+interface StatRes extends stat {
+  os: string;
+}
 
 @JsonController('/stat')
 export class StatController {
   @Get('/')
-  async getStat() {
+  async getStat(
+    @QueryParam('startAt', { required: true }) startAt: string,
+    @QueryParam('endAt', { required: true }) endAt: string
+  ) {
     try {
-      const startTime = dayjs(
-        dayjs().format('YYYY-MM-DD') + ' 00:00:00'
-      ).toISOString();
-      const endTime = dayjs(
-        dayjs().format('YYYY-MM-DD') + ' 23:59:59'
-      ).toISOString();
-
-      let list = await prisma.stat.findMany({
-        where: { createdAt: { lte: endTime, gte: startTime } },
+      const list = await prisma.stat.findMany({
+        where: {
+          createdAt: {
+            lte: dayjs(endAt).toISOString(),
+            gte: dayjs(startAt).toISOString(),
+          },
+        },
         orderBy: [
           {
             createdAt: 'desc',
           },
         ],
       });
-      console.time();
-      list = list.map((o) => {
-        if (!o.userAgent) return o;
-        const ua = uaparser(o.userAgent);
+
+      const uniqList = uniqBy(list, (x) => x.ip);
+      const uv = uniqList.length;
+      const pv = list.length;
+
+      const parseList = list.map((o) => {
+        const ua = uaparser(o.userAgent ?? '');
         const browser = ua?.browser?.name ?? '未知';
         const os = ua?.os?.name ?? '未知';
         const device = ua?.device?.model ?? '未知';
         const engine = ua?.engine?.name ?? '未知';
         return { ...o, browser, os, device, engine };
-      });
-      console.timeEnd();
+      }) as StatRes[];
+
+      const osStats = parseList.reduce<Record<string, number>>((acc, cur) => {
+        const { os } = cur;
+        if (!os) return acc;
+        if (!acc[os]) {
+          acc[os] = 1;
+        } else {
+          acc[os]++;
+        }
+        return acc;
+      }, {});
 
       return {
         code: 0,
         data: {
-          list,
+          stats: {
+            uv,
+            pv,
+          },
+          osStats: Object.entries(osStats).map(([os, value]) => ({
+            type: os,
+            value,
+          })),
         },
       };
     } catch (error) {
+      console.log(error);
       return {
-        code: 0,
-        data: {
-          list: [],
-        },
+        code: 1,
+        message: JSON.stringify(error),
       };
     }
   }
 
   @Post('/visit')
-  async visit(@Ip() ip: string, @HeaderParam('User-Agent') userAgent: string) {
+  async visit(
+    @Ip() ip: string,
+    @HeaderParam('User-Agent') userAgent: string,
+    @BodyParam('createdAt', { required: true }) createdAt: string
+  ) {
     if (!ip) {
       return {
         code: 0,
@@ -90,6 +127,7 @@ export class StatController {
           province,
           isp,
           userAgent,
+          createdAt: dayjs(createdAt).toISOString(),
         },
       });
     } catch (error) {

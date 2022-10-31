@@ -4,10 +4,12 @@ import router from './pages/router';
 import Layout from '~components/Layout';
 import { useEffect } from 'react';
 import { visit } from '~services/stat';
+import dayjs from 'dayjs';
 
 function App() {
   useEffect(() => {
-    visit();
+    const now = dayjs().format('YYYY-MM-DD HH:ss:mm');
+    visit({ createdAt: now });
   }, []);
 
   return (

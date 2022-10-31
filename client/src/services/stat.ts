@@ -1,5 +1,9 @@
 import request from '~utils/request';
 
-export function visit(): Promise<{}> {
-  return request.post('/stat/visit');
+interface IVisit {
+  createdAt: string;
+}
+
+export function visit(data: IVisit): Promise<{}> {
+  return request.post('/stat/visit', data);
 }
