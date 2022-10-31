@@ -10,10 +10,10 @@ datasource db {
 model stat {
   id        Int      @id @default(autoincrement())
   ip        String
-  device    String?  @default("")
   country   String?  @default("")
   province  String?  @default("")
   city      String?  @default("")
   isp       String?  @default("")
+  userAgent String?  @default("")
   createdAt DateTime @default(now())
 }

@@ -12,7 +12,8 @@ function Component() {
   const fetchStat = async () => {
     const { list } = await getStat();
 
-    const uv = uniqBy(list, (x) => x.ip).length;
+    const uniqList = uniqBy(list, (x) => x.ip);
+    const uv = uniqList.length;
 
     const pv = list.length;
     setStats({ uv, pv });

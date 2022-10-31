@@ -10,6 +10,7 @@ specifiers:
   '@types/koa-router': ^7.4.4
   '@types/koa__cors': ^3.3.0
   '@types/node': ^18.8.4
+  '@types/ua-parser-js': ^0.7.36
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
   class-transformer: ^0.5.1
@@ -38,6 +39,7 @@ specifiers:
   routing-controllers: ^0.9.0
   ts-node: ^10.9.1
   typescript: '*'
+  ua-parser-js: ^1.0.32
   zx: ^7.1.1
 
 dependencies:
@@ -60,6 +62,7 @@ dependencies:
   reflect-metadata: 0.1.13
   routing-controllers: 0.9.0_279461c9b8c03a205cdbc4878bc60cf8
   ts-node: 10.9.1_ba95c5ae7655382c4a8bc860e411d66d
+  ua-parser-js: 1.0.32
 
 devDependencies:
   '@types/dockerode': 3.3.10
@@ -68,6 +71,7 @@ devDependencies:
   '@types/koa-router': 7.4.4
   '@types/koa__cors': 3.3.0
   '@types/node': 18.8.4
+  '@types/ua-parser-js': 0.7.36
   '@typescript-eslint/eslint-plugin': 5.40.0_d765299b94a6a4ae3d9fb8b19a3abfbc
   '@typescript-eslint/parser': 5.40.0_eslint@8.25.0+typescript@4.8.4
   eslint: 8.25.0
@@ -487,6 +491,10 @@ packages:
     resolution: {integrity: sha512-8Mf6bhzYYBLEB/G6COux7DS/F5bCWwojv/qFo2yH/e4cLzAavJnxvFXrYW59iKfXdhG6OmzJcXDasgOb/s0rxw==}
     dependencies:
       '@types/node': 18.8.4
+    dev: true
+
+  /@types/ua-parser-js/0.7.36:
+    resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
 
   /@types/which/2.0.1:
@@ -3751,6 +3759,10 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
+
+  /ua-parser-js/1.0.32:
+    resolution: {integrity: sha512-dXVsz3M4j+5tTiovFVyVqssXBu5HM47//YSOeZ9fQkdDKkfzv2v3PP1jmH6FUyPW+yCSn7aBVK1fGGKNhowdDA==}
+    dev: false
 
   /uid-safe/2.1.5:
     resolution: {integrity: sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==}
