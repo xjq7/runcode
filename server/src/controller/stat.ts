@@ -12,12 +12,12 @@ export class StatController {
   @Get('/')
   async getStat() {
     try {
-      const startTime = dayjs(dayjs().format('YYYY-MM-DD') + ' 00:00:00')
-        .add(8, 'h')
-        .toISOString();
-      const endTime = dayjs(dayjs().format('YYYY-MM-DD') + ' 23:59:59')
-        .add(8, 'h')
-        .toISOString();
+      const startTime = dayjs(
+        dayjs().format('YYYY-MM-DD') + ' 00:00:00'
+      ).toISOString();
+      const endTime = dayjs(
+        dayjs().format('YYYY-MM-DD') + ' 23:59:59'
+      ).toISOString();
 
       const result = await prisma.stat.findMany({
         where: { createdAt: { lte: endTime, gte: startTime } },
@@ -46,7 +46,6 @@ export class StatController {
         code: 0,
       };
     }
-    const now = dayjs().add(8, 'h').toISOString();
     try {
       const ipCache = await redisStore.get(IP_PREFIX + ip);
 
@@ -70,7 +69,6 @@ export class StatController {
           city,
           province,
           isp,
-          createdAt: now,
         },
       });
     } catch (error) {

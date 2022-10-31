@@ -31,7 +31,9 @@
     "prisma": "^4.5.0",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.9.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.10",
@@ -53,9 +55,5 @@
     "prettier": "^2.7.1",
     "typescript": "*",
     "zx": "^7.1.1"
-  },
-  "peerDependencies": {
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2"
   }
 }
