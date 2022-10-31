@@ -6,7 +6,7 @@ import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
-import { parseConsoleOutput, saveAsFile, TerminalType } from '~utils/helper';
+import { parseConsoleOutput, saveAsFile, OutputType } from '~utils/helper';
 import { runCode } from '../service';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
@@ -19,6 +19,9 @@ import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import Dropdown, { Option } from '~components/Dropdown';
+import useWindowSize from 'react-use/lib/useWindowSize';
+import EditorConfig from '~store/config/editor';
+import { observer } from 'mobx-react-lite';
 
 enum DisplayType {
   input,
@@ -28,21 +31,20 @@ enum DisplayType {
 const runCodeInterval = 2000;
 
 interface Props {
-  codeType: CodeType;
   getEditor: () => editor.IStandaloneCodeEditor | null | undefined;
-  autoSaveDelay: number;
 }
 
 function Operator(props: Props) {
-  const { codeType, getEditor, autoSaveDelay } = props;
+  const { getEditor } = props;
+
+  const [editorConfig] = useState(() => EditorConfig);
+  const { autoSaveDelay, codeType, outputType, setOutputType } = editorConfig;
 
   const inputRef = useRef('');
   const [display, setDisplay] = useState(DisplayType.output);
   const { data, run, loading } = useRequest(runCode, { manual: true });
 
   const [saveDisabled, setSaveDisabled] = useState(true);
-
-  const [terminalType, setTerminalType] = useState(TerminalType.terminal);
 
   const termRef = useRef<Terminal>();
 
@@ -52,6 +54,10 @@ function Operator(props: Props) {
 
   const [clangFormat] = useClangFormat({ onCodeFormatDone });
 
+  const { width } = useWindowSize();
+
+  const hiddenTerminalOutput = useMemo(() => width < 600, [width]);
+
   const output = useMemo(() => {
     let output = '';
     if (data?.code) {
@@ -59,15 +65,21 @@ function Operator(props: Props) {
     } else {
       output = data?.output || '';
     }
-    return parseConsoleOutput(output, terminalType);
-  }, [data, terminalType]);
+    return parseConsoleOutput(output, outputType);
+  }, [data, outputType]);
 
   const handleTerminalChange = (option: Option) => {
-    setTerminalType(option.value);
+    setOutputType(option.value);
   };
 
   useEffect(() => {
-    if (terminalType !== TerminalType.terminal) return;
+    if (hiddenTerminalOutput) {
+      setOutputType(OutputType.plain);
+    }
+  }, [hiddenTerminalOutput]);
+
+  useEffect(() => {
+    if (outputType !== OutputType.terminal) return;
     var term = new Terminal({
       rows: 13,
       allowProposedApi: true,
@@ -79,13 +91,18 @@ function Operator(props: Props) {
     return () => {
       term.dispose();
     };
-  }, [terminalType]);
+  }, [outputType]);
 
   useEffect(() => {
-    if (terminalType !== TerminalType.terminal) return;
+    if (loading) {
+      termRef.current?.reset();
+      termRef.current?.write('running...');
+      return;
+    }
+    if (outputType !== OutputType.terminal) return;
     termRef.current?.reset();
     termRef.current?.write(output.join('\n'));
-  }, [output, terminalType]);
+  }, [output, outputType, loading]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
 
@@ -127,18 +144,21 @@ function Operator(props: Props) {
     const editor = getEditor();
 
     if (editor) {
+      const debounceSaveCode = debounce(saveCode, autoSaveDelay * 1000);
       const saveCodeListen = editor
         ?.getModel()
-        ?.onDidChangeContent(debounce(saveCode, autoSaveDelay * 1000));
+        ?.onDidChangeContent(debounceSaveCode);
       const saveDisabledListen = editor?.getModel()?.onDidChangeContent(() => {
         setSaveDisabled(false);
       });
       return () => {
         saveCodeListen?.dispose();
         saveDisabledListen?.dispose();
+        // 取消前一个 debounce
+        debounceSaveCode.cancel();
       };
     }
-  }, [autoSaveDelay]);
+  }, [codeType, getEditor, autoSaveDelay]);
 
   const renderInput = () => {
     return (
@@ -158,7 +178,7 @@ function Operator(props: Props) {
   };
 
   const renderOutput = () => {
-    if (terminalType === TerminalType.terminal) {
+    if (outputType === OutputType.terminal) {
       return (
         <div
           className={styles.terminal_container}
@@ -193,16 +213,19 @@ function Operator(props: Props) {
   return (
     <div className={styles.container}>
       <div className={classnames(styles.operator, 'pt-2')}>
-        <Dropdown
-          optionStyle="w-36"
-          options={[
-            { label: 'plain', value: TerminalType.plain },
-            { label: 'terminal', value: TerminalType.terminal },
-          ]}
-          onChange={handleTerminalChange}
-        >
-          <Button className="mr-2">终端样式</Button>
-        </Dropdown>
+        {!hiddenTerminalOutput && (
+          <Dropdown
+            optionStyle="w-36"
+            options={[
+              { label: 'plain', value: OutputType.plain },
+              { label: 'terminal', value: OutputType.terminal },
+            ]}
+            onChange={handleTerminalChange}
+          >
+            <Button className="mr-2">终端样式</Button>
+          </Dropdown>
+        )}
+
         {output.length !== 0 && (
           <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
             <Button
@@ -295,4 +318,4 @@ function Operator(props: Props) {
   );
 }
 
-export default Operator;
+export default observer(Operator);

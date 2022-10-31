@@ -1,11 +1,20 @@
-import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
+/* eslint-disable no-extend-native */
 import cors from '@koa/cors';
-import codeRouter from './routes/code';
 import logger from './logger';
+import { createKoaServer } from 'routing-controllers';
+import { CodeController } from './controller/code';
+import { StatController } from './controller/stat';
+import 'reflect-metadata';
+import { CatchError } from './middleware/CatchError';
 
-const app = new Koa();
-app.use(bodyParser());
+// @ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
+const app = createKoaServer({
+  controllers: [CodeController, StatController],
+});
 
 app.use(
   cors({
@@ -16,10 +25,18 @@ app.use(
   })
 );
 
-app.use(codeRouter.routes()).use(codeRouter.allowedMethods());
+app.use(CatchError);
 
-app.on('error', (err) => {
+app.on('error', (err: any) => {
   console.error('server error', err);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log('unhandledRejection', err);
+});
+
+process.on('uncaughtException', (err) => {
+  console.log('uncaughtException', err);
 });
 
 app.listen(39005, () => {

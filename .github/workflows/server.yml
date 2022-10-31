@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - 'server/**'
+      - '.github/workflows/server.yml'
       - '!server/config/nginx.conf'
   pull_request:
     branches: [main]
@@ -36,6 +37,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: inject env
+        run: npm run inject:env ${{ secrets.DATABASE_URL }} ${{ secrets.REDIS_HOST }}  ${{ secrets.REDIS_PASSWORD }}
+
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
         env:
@@ -58,6 +62,7 @@ jobs:
           script: |
             cd project/runcodeserver/server
             pnpm install 
+            pnpm generate
             pnpm build
             pnpm kill
             pnpm run deploy

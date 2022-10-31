@@ -14,6 +14,8 @@
 
 - Go lts
 
+- C# lts
+
 - Python3
 
 - php
@@ -90,6 +92,13 @@ koa + typescript + dockerode
   ```bash
     cd server/src/docker/java
     docker build -t java:lts .
+  ```
+
+- 构建 C# 镜像
+
+  ```bash
+    cd server/src/docker/dotnet
+    docker build -t mono:lts .
   ```
 
 - 构建 php 镜像

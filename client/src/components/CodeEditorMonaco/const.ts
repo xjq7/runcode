@@ -41,4 +41,15 @@ int main() {
   printf("Hello, World");
   return (0);
 }`,
+  [CodeType.dotnet]: `using System;
+namespace CodeApplication
+{
+    class Code
+    {
+      static void Main(string[] args)
+      {
+          Console.WriteLine("Hello World!");
+      }
+    }
+}`,
 };

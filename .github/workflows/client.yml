@@ -47,12 +47,15 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # cdn 部署
       - name: Deploy static source
         run: pnpm cdn ${{ secrets.ACCESS_KEY_ID }} ${{ secrets.ACCESS_KEY_SECRET }} ${{ secrets.OSS_BUCKET }} ${{ secrets.OSS_REGION }}
 
+      # 移除 部署 cdn 的文件
       - name: remove static file which is deploy cdn
         run: rm -rf dist/assets
 
+      # 推到服务器
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
         env:
@@ -64,6 +67,7 @@ jobs:
           USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
           SERVER_DESTINATION: /root/project/runcodeclient # 部署到目标文件夹
 
+      # nginx 重启
       - name: Restart server # 第三步，重启服务
         uses: appleboy/ssh-action@master
         with:

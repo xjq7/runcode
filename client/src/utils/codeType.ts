@@ -7,6 +7,7 @@ export enum CodeType {
   php = 'php',
   rust = 'rust',
   c = 'c',
+  dotnet = 'dotnet',
 }
 
 export enum CodeEnv {
@@ -18,6 +19,7 @@ export enum CodeEnv {
   php = 'php:8',
   rust = 'rust:latest',
   c = 'cpp:11',
+  dotnet = 'dotnet:lts',
 }
 
 export enum FileSuffix {
@@ -29,4 +31,5 @@ export enum FileSuffix {
   php = 'php',
   rust = 'rs',
   c = 'c',
+  dotnet = 'cs',
 }

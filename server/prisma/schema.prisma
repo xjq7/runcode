@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model stat {
+  id        Int      @id @default(autoincrement())
+  ip        String
+  device    String?  @default("")
+  country   String?  @default("")
+  province  String?  @default("")
+  city      String?  @default("")
+  isp       String?  @default("")
+  createdAt DateTime @default(now())
+}
