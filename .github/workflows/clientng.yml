@@ -51,4 +51,4 @@ jobs:
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
             mv -f project/runcodeclient/config/nginx.conf /etc/nginx/conf.d/runcodec.conf
-            systemctl restart nginx
+            systemctl restart nginx --force
