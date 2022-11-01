@@ -44,7 +44,18 @@ npm install pnpm -g
 
 ### server
 
-koa + typescript + dockerode
+- mysql
+
+版本: 8.0
+sql 结构文件在 /server/sql 下
+
+在 .env 中配置 DATABASE_URL
+
+- redis
+
+在 .env 中配置 REDIS_HOST、REDIS_PASSWORD
+
+- koa + typescript + dockerode
 
 1. 构建镜像
 
