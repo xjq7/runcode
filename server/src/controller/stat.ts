@@ -58,16 +58,39 @@ export class StatController {
         return { ...o, browser, os, device, engine };
       }) as StatRes[];
 
-      const osStats = parseList.reduce<Record<string, number>>((acc, cur) => {
-        const { os } = cur;
-        if (!os) return acc;
-        if (!acc[os]) {
-          acc[os] = 1;
-        } else {
-          acc[os]++;
-        }
-        return acc;
-      }, {});
+      const [osStats, countryStats, provinceStats, cityStats] =
+        parseList.reduce<
+          [
+            Record<string, number>,
+            Record<string, number>,
+            Record<string, number>,
+            Record<string, number>
+          ]
+        >(
+          (acc, cur) => {
+            const { os, country, province, city } = cur;
+            if (os) {
+              if (!acc[0][os]) {
+                acc[0][os] = 1;
+              } else {
+                acc[0][os]++;
+              }
+            }
+
+            [country, province, city].forEach((value, index) => {
+              const idx = index + 1;
+              if (!value) value = '未知';
+              if (!acc[idx][value]) {
+                acc[idx][value] = idx;
+              } else {
+                acc[idx][value]++;
+              }
+            });
+
+            return acc;
+          },
+          [{}, {}, {}, {}]
+        );
       const list7 = await prisma.stat.findMany({
         where: {
           createdAt: {
@@ -119,6 +142,18 @@ export class StatController {
             value,
           })),
           uv: uvStats,
+          province: Object.entries(provinceStats).map(([province, value]) => ({
+            type: province,
+            value,
+          })),
+          country: Object.entries(countryStats).map(([country, value]) => ({
+            type: country,
+            value,
+          })),
+          city: Object.entries(cityStats).map(([city, value]) => ({
+            type: city,
+            value,
+          })),
         },
       };
     } catch (error) {

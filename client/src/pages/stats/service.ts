@@ -12,10 +12,18 @@ export interface UvStat {
   date: string;
   value: number;
 }
+
+export interface RegionStat {
+  type: string;
+  value: number;
+}
 export interface Stat {
   stats: { pv: number; uv: number };
   os: OsStat[];
   uv: UvStat[];
+  province: RegionStat[];
+  city: RegionStat[];
+  country: RegionStat[];
 }
 
 export interface IStatRequest {

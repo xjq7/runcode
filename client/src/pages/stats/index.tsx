@@ -4,13 +4,25 @@ import { getStat, Stat } from './service';
 import dayjs from 'dayjs';
 import { Chart, Util } from '@antv/g2';
 import DataSet from '@antv/data-set';
+import Select from '~components/Select';
+
+enum RegionType {
+  country,
+  province,
+  city,
+}
 
 function Component() {
   const [stats, setStats] = useState<Stat>({
     stats: { pv: 0, uv: 0 },
     os: [],
     uv: [],
+    province: [],
+    city: [],
+    country: [],
   });
+
+  const [regionType, setRegionType] = useState(RegionType.country);
 
   const fetchStat = async () => {
     const startAt = dayjs(dayjs().format('YYYY-MM-DD') + ' 00:00:00').format(
@@ -34,7 +46,7 @@ function Component() {
     const chart = new Chart({
       container: 'os-stats',
       autoFit: true,
-      height: 300,
+      height: 360,
     });
     chart.data(data);
 
@@ -66,7 +78,7 @@ function Component() {
           offset: -30,
           style: {
             fill: 'white',
-            fontSize: 12,
+            fontSize: 10,
             shadowBlur: 2,
             shadowColor: 'rgba(0, 0, 0, .45)',
           },
@@ -95,7 +107,7 @@ function Component() {
     const chart = new Chart({
       container: 'uv-stats',
       autoFit: true,
-      height: 300,
+      height: 360,
       syncViewPadding: true,
     });
 
@@ -131,6 +143,59 @@ function Component() {
     };
   }, [stats]);
 
+  useEffect(() => {
+    let data: any = [];
+
+    if (regionType === RegionType.country) {
+      data = stats.country || [];
+    } else if (regionType === RegionType.province) {
+      data = stats.province || [];
+    } else {
+      data = stats.city || [];
+    }
+
+    const chart = new Chart({
+      container: 'region-stats',
+      autoFit: true,
+      height: 360,
+    });
+
+    chart.coordinate('theta', {
+      radius: 0.75,
+    });
+
+    chart.data(data);
+
+    chart.tooltip({
+      showTitle: false,
+      showMarkers: false,
+    });
+
+    chart
+      .interval()
+      .position('value')
+      .color('type')
+      .label('value', {
+        layout: [
+          {
+            type: 'limit-in-plot',
+            cfg: { action: 'ellipsis' /** 或 translate */ },
+          },
+        ],
+        content: (data) => {
+          return `${data.type}: ${data.value}`;
+        },
+      })
+      .adjust('stack');
+
+    chart.interaction('element-active');
+
+    chart.render();
+    return () => {
+      chart.destroy();
+    };
+  }, [stats, regionType]);
+
   return (
     <div className={styles.container}>
       <div className={styles.stats}>
@@ -158,6 +223,24 @@ function Component() {
         <div className="w-1/2">
           <div className="mb-6">近三天用户访问统计</div>
           <div id="uv-stats"></div>
+        </div>
+      </div>
+      <div className={styles.chart}>
+        <div className="w-1/2">
+          <div className="mb-3">区域访问统计</div>
+          <Select<RegionType>
+            size="sm"
+            options={[
+              { label: '国家', value: RegionType.country },
+              { label: '省份', value: RegionType.province },
+              { label: '城市', value: RegionType.city },
+            ]}
+            value={regionType}
+            onChange={(e) => {
+              setRegionType(e);
+            }}
+          />
+          <div id="region-stats"></div>
         </div>
       </div>
     </div>
