@@ -7,15 +7,18 @@ export function Ip() {
       const req = action.request;
       const headers = action.request.header;
       let ip =
+        headers['X-Forwarded-For'] ||
         headers['X-Real-IP'] ||
-        headers['x-forwarded-for'] ||
         req.ip ||
         req.connection?.remoteAddress || // 判断 connection 的远程 IP
         req.socket?.remoteAddress || // 判断后端的 socket 的 IP
         req.connection?.socket?.remoteAddress ||
         '';
+
       if (ip) {
-        ip = ip.replace('::ffff:', '');
+        const ips = ip.match(/(\d+\.\d+\.\d+\.\d+).*/) || [];
+        const realIp = ips[1] || '127.0.0.1';
+        ip = realIp.replace('::ffff:', '');
       }
 
       return ip;
