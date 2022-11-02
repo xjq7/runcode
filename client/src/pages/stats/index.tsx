@@ -28,7 +28,6 @@ function Component() {
 
   useEffect(() => {
     const data = stats.os || [];
-    console.log(stats);
 
     if (!data.length) return;
 

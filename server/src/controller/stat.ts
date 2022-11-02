@@ -104,8 +104,6 @@ export class StatController {
       list7.forEach((stat) => {
         const { createdAt } = stat;
         const diff = wrapDayjs(endAt).diff(createdAt, 'd');
-        console.log(diff, createdAt);
-
         uvStats[diff].value++;
       });
 
