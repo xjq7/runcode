@@ -19,8 +19,7 @@ const app = createKoaServer({
 app.use(
   cors({
     origin: '*',
-    allowHeaders:
-      'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization',
+    allowHeaders: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   })
 );
