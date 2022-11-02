@@ -81,7 +81,7 @@ export class StatController {
               const idx = index + 1;
               if (!value) value = '未知';
               if (!acc[idx][value]) {
-                acc[idx][value] = idx;
+                acc[idx][value] = 1;
               } else {
                 acc[idx][value]++;
               }
