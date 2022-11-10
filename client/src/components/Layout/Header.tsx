@@ -27,6 +27,7 @@ function Component() {
         <Menu
           value={pathname}
           options={[
+            { label: '题库', value: RouterPath.questions },
             { label: '编辑器', value: RouterPath.editor },
             { label: '访问数据', value: RouterPath.stat },
           ]}

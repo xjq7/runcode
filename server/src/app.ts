@@ -1,19 +1,20 @@
-/* eslint-disable no-extend-native */
+import 'reflect-metadata';
 import cors from '@koa/cors';
 import logger from './logger';
 import { createKoaServer } from 'routing-controllers';
 import { CodeController } from './controller/code';
 import { StatController } from './controller/stat';
-import 'reflect-metadata';
+import { QuestionController } from './controller/question';
 import { CatchError } from './middleware/CatchError';
 
 // @ts-ignore
+// eslint-disable-next-line no-extend-native
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
 const app = createKoaServer({
-  controllers: [CodeController, StatController],
+  controllers: [CodeController, StatController, QuestionController],
 });
 
 app.use(

@@ -4,19 +4,21 @@ import {
   forwardRef,
   ForwardedRef,
   useImperativeHandle,
-  useState,
 } from 'react';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styles from './index.module.less';
 import { CodeType } from '~utils/codeType';
-import { template } from './const';
-import storage from '~utils/storage';
-import { CodeStorageKey } from '~constant/storage';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { observer } from 'mobx-react-lite';
-import EditorConfig from '~store/config/editor';
+import { ThemeType } from '~store/config/editor';
+import classNames from 'classnames';
 
-interface Props {}
+interface Props {
+  className?: string;
+  theme?: ThemeType;
+  language?: monacoLang;
+  code?: string;
+}
 
 type monacoLang =
   | 'typescript'
@@ -30,11 +32,7 @@ type monacoLang =
   | 'c'
   | 'csharp';
 
-export interface Expose {
-  getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
-}
-
-const languageMap: Record<CodeType, monacoLang> = {
+export const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.nodejs]: 'javascript',
   [CodeType.cpp]: 'cpp',
   [CodeType.go]: 'go',
@@ -45,12 +43,18 @@ const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.c]: 'c',
   [CodeType.dotnet]: 'csharp',
 };
+export interface Expose {
+  getEditor: () => monaco.editor.IStandaloneCodeEditor | null;
+}
 
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {
+  const {
+    className,
+    language = CodeType.cpp,
+    theme = ThemeType['Visual Studio'],
+    code = '',
+  } = props;
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-
-  const [editorConfig] = useState(() => EditorConfig);
-  const { editorThemeType, codeType } = editorConfig;
 
   const monacoRef = useRef(null);
   const { width } = useWindowSize();
@@ -63,12 +67,15 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
   }));
 
   useEffect(() => {
+    editorRef.current?.setValue(code);
+  }, [code]);
+
+  useEffect(() => {
     if (monacoRef.current) {
-      const codeCache = storage.get(CodeStorageKey[codeType]);
       editorRef.current = monaco.editor.create(monacoRef.current, {
-        value: codeCache || template[codeType],
-        language: languageMap[codeType],
-        theme: editorThemeType,
+        value: code,
+        language: language,
+        theme,
         formatOnType: true,
         smoothScrolling: true,
         formatOnPaste: true,
@@ -77,13 +84,15 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
 
       return () => editorRef.current?.dispose();
     }
-  }, [codeType, editorThemeType]);
+  }, [language, theme]);
 
   useEffect(() => {
     editorRef.current?.layout();
   }, [width]);
 
-  return <div className={styles.editor} ref={monacoRef}></div>;
+  return (
+    <div className={classNames(styles.editor, className)} ref={monacoRef}></div>
+  );
 };
 
 export default observer(forwardRef(Component));

@@ -1,23 +1,19 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Demo from './demo';
 import React, { lazy } from 'react';
-import GridLoader from 'react-spinners/GridLoader';
+import PageSpinner from '~components/PageSpinner';
 
 const Stat = lazy(() => import('./stats'));
+const Questions = lazy(() => import('./questions'));
 const Editor = lazy(() => import('./editor'));
+const Question = lazy(() => import('./question'));
 
 export const enum RouterPath {
   stat = '/stat',
+  question = '/question',
+  questions = '/questions',
   editor = '/',
 }
-
-const PageSpinner = () => {
-  return (
-    <div className="screen-full h-96 flex items-center justify-center">
-      <GridLoader color="#570df8" size={25} />
-    </div>
-  );
-};
 
 const router = createBrowserRouter([
   {
@@ -25,6 +21,22 @@ const router = createBrowserRouter([
     element: (
       <React.Suspense fallback={<PageSpinner />}>
         <Editor />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: RouterPath.question,
+    element: (
+      <React.Suspense fallback={<PageSpinner />}>
+        <Question />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: RouterPath.questions,
+    element: (
+      <React.Suspense fallback={<PageSpinner />}>
+        <Questions />
       </React.Suspense>
     ),
   },

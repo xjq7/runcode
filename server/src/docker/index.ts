@@ -15,7 +15,7 @@ const DockerRunConfig = {
   timeout: 6000,
 };
 
-enum DockerRunStatus {
+export enum DockerRunStatus {
   running = 'running',
   exited = 'exited',
 }

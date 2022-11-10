@@ -6,7 +6,7 @@ import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
-import { parseConsoleOutput, saveAsFile, OutputType } from '~utils/helper';
+import { parseConsoleOutput, OutputType } from '~utils/helper';
 import { runCode } from '../service';
 import Tab from '~components/Tab';
 import TextArea from '~components/Textarea';
@@ -226,24 +226,9 @@ function Operator(props: Props) {
           </Dropdown>
         )}
 
-        {output.length !== 0 && (
-          <Tooltip className="mr-2" tips="将运行输出保存到本地文件">
-            <Button
-              type="primary"
-              size="sm"
-              onClick={() => {
-                if (!output) return;
-                saveAsFile(output.join('\n'));
-              }}
-            >
-              输出文件
-            </Button>
-          </Tooltip>
-        )}
         {(codeType === CodeType.nodejs || showClangFormat) && (
           <Button
             type="primary"
-            size="sm"
             className="mr-2"
             onClick={() => {
               if (codeType === CodeType.nodejs) {
@@ -267,7 +252,6 @@ function Operator(props: Props) {
         >
           <Button
             type="primary"
-            size="sm"
             disabled={saveDisabled}
             onClick={() => {
               saveCode();
@@ -281,7 +265,6 @@ function Operator(props: Props) {
 
         <Button
           type="primary"
-          size="sm"
           className="mr-2"
           onClick={() => {
             getEditor()?.setValue(template[codeType]);
@@ -291,7 +274,6 @@ function Operator(props: Props) {
         </Button>
         <Button
           type="primary"
-          size="sm"
           className="mr-2"
           loading={loading}
           onClick={handleRunCode}

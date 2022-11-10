@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  .introduce {
+    width: 40%;
+    padding: 20px 20px 50px 20px;
+    height: calc(100vh - 64px);
+    background: white;
+    overflow-y: scroll;
+  }
+  .content {
+    flex: 1;
+    height: calc(100vh - 64px);
+    position: relative;
+
+    .editor {
+      width: 100%;
+      height: calc(100vh - 64px - 60px);
+    }
+    .output {
+      position: absolute;
+      width: 100%;
+      height: 240px;
+      background-color: white;
+      bottom: 60px;
+      padding: 10px;
+      overflow-y: scroll;
+      overflow-x: scroll;
+    }
+    .operator {
+      width: 100%;
+      height: 60px;
+      border-top: 1px solid #e2e8f0;
+      padding: 0 10px;
+      background: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

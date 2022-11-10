@@ -4,7 +4,7 @@ import { PropsWithChildren, useMemo } from 'react';
 interface Props
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   type?: 'primary' | 'secondary' | 'ghost' | 'link';
-  size?: 'lg' | 'sm' | 'xs';
+  size?: 'lg' | 'sm' | 'xs' | 'md';
   loading?: boolean;
 }
 
@@ -13,7 +13,7 @@ const Component: React.FC<PropsWithChildren<Props>> = (
 ) => {
   const {
     type = 'primary',
-    size,
+    size = 'md',
     children,
     loading,
     className,
@@ -32,17 +32,18 @@ const Component: React.FC<PropsWithChildren<Props>> = (
       case 'link':
         return 'btn-link';
     }
-    return '';
   }, [type]);
 
   const sizeCls = useMemo(() => {
     switch (size) {
       case 'lg':
-        return 'lg';
+        return 'btn-lg';
+      case 'md':
+        return 'btn-md';
       case 'sm':
-        return 'sm';
+        return 'btn-sm';
       case 'xs':
-        return 'xs';
+        return 'btn-xs';
     }
     return '';
   }, [size]);

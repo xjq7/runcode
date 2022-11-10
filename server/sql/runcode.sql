@@ -33,4 +33,23 @@ CREATE TABLE `stat`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 230 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '访问数据' ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for question
+-- ----------------------------
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE `question` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '大分类',
+  `name` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '题目名',
+  'introduce' varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '简述',
+  `desc` varchar(1280) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '详细解释',
+  `level` int UNSIGNED NOT NULL COMMENT '难度',
+  `template` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '模板',
+  `test` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '测试文件',
+  `answer` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '答案',
+  `tag` int UNSIGNED COMMENT '标签',
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 0 CHARACTER SET utf8mb3 CHARACTER = utf8mb3_general_ci COMMENT = '题库' ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;

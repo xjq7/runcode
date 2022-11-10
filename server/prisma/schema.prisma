@@ -17,3 +17,15 @@ model stat {
   userAgent String?  @default("")
   createdAt DateTime @db.DateTime()
 }
+
+model question {
+  id        Int      @id @default(autoincrement())
+  type      String
+  name      String
+  desc      String?  @default("")
+  level     Int
+  template  String   @default("")
+  test      String   @default("")
+  tag       Int?
+  createdAt DateTime @db.DateTime()
+}

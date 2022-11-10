@@ -5,6 +5,7 @@ import Layout from '~components/Layout';
 import { useEffect } from 'react';
 import { visit } from '~services/stat';
 import dayjs from 'dayjs';
+import 'highlight.js/styles/rainbow.css';
 
 function App() {
   useEffect(() => {
