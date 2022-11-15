@@ -6,6 +6,7 @@ import { PageInfo } from '~utils/type';
 import styles from './index.module.less';
 import { getQuestions, IQuestion } from '~services/question';
 import { useDebounceEffect } from 'ahooks';
+import PageSpinner from '~components/PageSpinner';
 
 function Questions() {
   const [keyword, setKeyword] = useState('');
@@ -14,7 +15,7 @@ function Questions() {
     return getQuestions({ page: o.page, pageSize: o.pageSize, keyword });
   };
 
-  const { dataSource, reload } = useList(fetchQuestions, {
+  const { dataSource, reload, loading } = useList(fetchQuestions, {
     pageSize: 100,
   });
 
@@ -35,6 +36,8 @@ function Questions() {
       </div>
     );
   };
+
+  if (loading) return <PageSpinner />;
 
   return (
     <div className={styles.container}>

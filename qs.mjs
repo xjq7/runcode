@@ -14,7 +14,7 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
       json[dir] = {};
       for (const file of files) {
         let content = await fs.readFile(path.resolve(root, dir, file), 'utf8');
-        content = content.replace(/\r\n/, '\n');
+        content = content.replace(/\r/g, '');
 
         if (/answer/.test(file)) {
           json[dir]['answer'] = content;

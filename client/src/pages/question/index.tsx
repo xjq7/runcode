@@ -69,7 +69,7 @@ function Question() {
         debounceSaveCode.cancel();
       };
     }
-  }, [autoSaveDelay]);
+  }, [autoSaveDelay, editorRef]);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -144,8 +144,8 @@ function Question() {
         </div>
         {showOutput && (
           <div className={styles.output}>
-            {output.map((str) => (
-              <p>{str}</p>
+            {output.map((str, index) => (
+              <p key={index}>{str}</p>
             ))}
           </div>
         )}

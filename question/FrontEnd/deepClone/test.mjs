@@ -1,6 +1,6 @@
 import assert from 'assert';
 import _deepClone from './answer.mjs';
-import deepClone from './index.mjs';
+import f from './index.mjs';
 
 const circle1 = { foo: 1 };
 const circle2 = { bar: 2, c1: circle1 };
@@ -24,7 +24,7 @@ const cases = [
     callback: function (i) {
       const originInput = _deepClone(this.Input);
       try {
-        const output = deepClone(this.Input);
+        const output = f(this.Input);
         output['1'] = Math.random();
         assert.deepEqual(this.Input, originInput);
         return true;
@@ -50,7 +50,7 @@ const cases = [
     Message: '存在循环引用',
     callback: function (i) {
       try {
-        const output = deepClone(this.Input);
+        const output = f(this.Input);
         assert.deepEqual(output, this.Expected);
         return true;
       } catch (error) {
@@ -72,7 +72,7 @@ const cases = [
       }
     } else {
       try {
-        const output = deepClone(Input);
+        const output = f(Input);
         assert.deepEqual(output, Expected);
       } catch (error) {
         console.log('用例 ' + String(i + 1) + ': ' + Message + ' 未通过 ×');

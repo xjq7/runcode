@@ -5,17 +5,17 @@ const cases = [
   {
     Input: [1, 2, 3],
     Expected: [1, 2, 3],
-    Message: '无重复数字',
+    Message: '一层数组',
   },
   {
-    Input: [1, 2, 3, 3],
+    Input: [1, [2, 3]],
     Expected: [1, 2, 3],
-    Message: '单个重复数字',
+    Message: '两层数组',
   },
   {
-    Input: [1, 1, 2, 2, 2, 3, 3],
-    Expected: [1, 2, 3],
-    Message: '多个重复数字',
+    Input: [1, [[2, 2], [3, [4]], 5]],
+    Expected: [1, 2, 2, 3, 4, 5],
+    Message: '四层数组',
   },
 ];
 
@@ -27,7 +27,7 @@ const cases = [
       output = f(Input);
       assert.deepEqual(output, Expected);
     } catch (error) {
-      console.log('用例 ' + String(i + 1) + ': ' + Message + ' 未通过');
+      console.log('用例 ' + String(i + 1) + ': ' + Message + ' 未通过 ×');
       if (error.code === 'ERR_ASSERTION') {
         console.log('Input:', JSON.stringify(Input));
         console.log('Expected:', JSON.stringify(error.expected));
@@ -37,6 +37,6 @@ const cases = [
       }
       break;
     }
-    console.log('用例 ' + String(i + 1) + ': ' + Message + ' 通过');
+    console.log('用例 ' + String(i + 1) + ': ' + Message + ' 通过 √');
   }
 })();
