@@ -14,6 +14,7 @@ import { debounce } from 'lodash';
 import EditorConfig from '~store/config/editor';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
+import PageSpinner from '~components/PageSpinner';
 
 function Question() {
   const [searchParams] = useSearchParams();
@@ -100,6 +101,8 @@ function Question() {
     }
   };
 
+  if (!detail) return <PageSpinner />;
+
   return (
     <div className={styles.container}>
       <article
@@ -125,6 +128,15 @@ function Question() {
             </Button>
           </div>
           <div className={styles.right}>
+            <Button
+              type="primary"
+              className="mr-2"
+              onClick={() => {
+                getEditor()?.getAction('editor.action.formatDocument')?.run();
+              }}
+            >
+              format
+            </Button>
             <Button onClick={handleSubmit} loading={submitLoading}>
               Submit
             </Button>
