@@ -6,7 +6,7 @@ export default function deepClone(obj, weakMap = new WeakMap()) {
   weakMap.set(obj, true);
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
-      o[key] = deepClone(obj[key]);
+      o[key] = deepClone(obj[key], weakMap);
     }
   }
   return o;
