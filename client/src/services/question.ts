@@ -11,6 +11,7 @@ export interface IQuestion {
   type?: string;
   index?: string;
   introduce?: string;
+  desc: string;
 }
 
 export function getQuestions(params: GetQuestionsRequest) {

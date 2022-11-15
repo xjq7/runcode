@@ -22,6 +22,7 @@ interface Question {
   answer: string;
   test: string;
   name?: string;
+  desc: string;
 }
 
 function formatOutput(outputString: string): string {

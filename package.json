@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "release": "standard-version",
-    "generate-qs": "node qs.mjs",
-    "test": "ava"
+    "generate-qs": "node qs.mjs"
   },
   "repository": {
     "type": "git",
@@ -17,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/xjq7/runcode/issues"
   },
-  "homepage": "https://github.com/xjq7/runcode#readme",
-  "dependencies": {
-    "ava": "^5.0.1"
-  }
+  "homepage": "https://github.com/xjq7/runcode#readme"
 }

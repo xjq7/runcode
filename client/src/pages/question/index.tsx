@@ -121,7 +121,7 @@ function Question() {
                 setShowOutput(!showOutput);
               }}
             >
-              show
+              {showOutput ? 'hide' : 'show'}
             </Button>
           </div>
           <div className={styles.right}>

@@ -13,16 +13,17 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
       const files = await fs.readdir(path.resolve(root, dir));
       json[dir] = {};
       for (const file of files) {
-        const content = await fs.readFile(
-          path.resolve(root, dir, file),
-          'utf8'
-        );
+        let content = await fs.readFile(path.resolve(root, dir, file), 'utf8');
+        content = content.replace(/\r\n/, '\n');
+
         if (/answer/.test(file)) {
           json[dir]['answer'] = content;
         } else if (/index.mjs/.test(file)) {
           json[dir]['index'] = content;
         } else if (/index.md/.test(file)) {
           json[dir]['introduce'] = content;
+          const desc = (content.match(/\n\n(.+)\n\n/) || [])[1];
+          json[dir]['desc'] = desc;
         } else if (/test/.test(file)) {
           json[dir]['test'] = content;
         }

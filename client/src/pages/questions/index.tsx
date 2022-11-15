@@ -31,9 +31,7 @@ function Questions() {
         }}
       >
         <p className={classNames('text-black', styles.title)}>{item.name}</p>
-        <p className={classNames('text-gray-400', styles.introduce)}>
-          {item.introduce}
-        </p>
+        <p className={classNames('text-gray-400', styles.desc)}>{item.desc}</p>
       </div>
     );
   };
