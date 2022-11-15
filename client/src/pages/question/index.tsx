@@ -38,23 +38,23 @@ function Question() {
     if (detail?.name) {
       storage.set(
         CodeStorageKey[CodeType.nodejs] + '_' + detail?.name,
-        getEditor()?.getValue()
+        editorRef.current?.getEditor()?.getValue()
       );
     }
   };
 
   useEffect(() => {
-    const editor = getEditor();
+    const editor = editorRef.current?.getEditor();
     if (editor && detail) {
       editor.setValue(
         storage.get(CodeStorageKey[CodeType.nodejs] + '_' + detail?.name) ||
           detail?.index
       );
     }
-  }, [getEditor, detail]);
+  }, [detail]);
 
   useEffect(() => {
-    const editor = getEditor();
+    const editor = editorRef.current?.getEditor();
 
     if (editor) {
       const debounceSaveCode = debounce(saveCode, autoSaveDelay * 1000);
@@ -68,7 +68,7 @@ function Question() {
         debounceSaveCode.cancel();
       };
     }
-  }, [getEditor, autoSaveDelay]);
+  }, [autoSaveDelay]);
 
   useEffect(() => {
     const fetchQuestion = async () => {
