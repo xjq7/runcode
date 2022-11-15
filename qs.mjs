@@ -30,6 +30,6 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
     }
   }
 
-  const dataPath = path.resolve(process.cwd(), 'server/questions.json');
+  const dataPath = path.resolve(process.cwd(), 'server/src/questions.json');
   await fs.writeFile(dataPath, JSON.stringify(json));
 })();
