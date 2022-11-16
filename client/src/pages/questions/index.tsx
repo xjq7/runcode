@@ -20,7 +20,9 @@ function Questions() {
   });
 
   useDebounceEffect(() => {
-    reload();
+    if (keyword) {
+      reload();
+    }
   }, [keyword]);
 
   const Item = (item: IQuestion) => {
