@@ -1,8 +1,8 @@
 /**
  * 深拷贝
  *
- * @param {*} obj
- * @return {*}
+ * @param {(Array|Object)} obj
+ * @return {(Array|Object)}
  */
 export default function deepClone(obj) {
   return {};

@@ -3,7 +3,10 @@ export enum OutputType {
   terminal,
 }
 
-export function parseConsoleOutput(output: string, type: OutputType) {
+export function parseConsoleOutput(
+  output: string,
+  type: OutputType = OutputType.plain
+) {
   if (!output) return [];
   // 换行解析
   let splitAsEnter = output.split(/%0A/).map((str) => {

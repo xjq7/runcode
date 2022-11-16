@@ -1,8 +1,8 @@
 /**
- * 扁平化
+ * 数组扁平化
  *
- * @param {*} arr
- * @return {*}
+ * @param {number[]} arr
+ * @return {number[]}
  */
 export default function flatten(arr) {
   return [];

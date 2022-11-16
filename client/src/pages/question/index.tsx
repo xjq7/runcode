@@ -15,6 +15,7 @@ import EditorConfig from '~store/config/editor';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import PageSpinner from '~components/PageSpinner';
+import { parseConsoleOutput } from '~utils/helper';
 
 function Question() {
   const [searchParams] = useSearchParams();
@@ -94,7 +95,7 @@ function Question() {
       const code = getEditor()?.getValue() || '';
       const res = await exec({ code, name: detail?.name || '' });
       setShowOutput(true);
-      setOutput(res.output.split(/\r\n/));
+      setOutput(parseConsoleOutput(res.output));
     } catch (error) {
     } finally {
       setSubmitLoading(false);
@@ -145,7 +146,9 @@ function Question() {
         {showOutput && (
           <div className={styles.output}>
             {output.map((str, index) => (
-              <p key={index}>{str}</p>
+              <pre className="text-gray-800" key={index}>
+                {str}
+              </pre>
             ))}
           </div>
         )}
