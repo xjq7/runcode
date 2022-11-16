@@ -6,6 +6,7 @@ import {
   QueryParam,
 } from 'routing-controllers';
 import Container from 'typedi';
+import logger from '../logger';
 import { QuestionService } from '../service/question';
 import { CodeEnv } from '../utils/type';
 
@@ -36,9 +37,12 @@ export class QuestionController {
       });
 
       output = await questionService.getContainerOutput(container);
-      console.log(output);
     } catch (error) {
-      console.log(error);
+      logger.error('/question/exec 执行出错 ' + JSON.stringify(error));
+      return {
+        code: 1,
+        message: JSON.stringify(error),
+      };
     }
     return {
       code: 0,

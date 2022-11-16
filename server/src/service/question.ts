@@ -5,7 +5,7 @@ import { CodeEnv } from '../utils/type';
 import { Stream } from 'stream';
 import { DockerRunStatus } from '../docker';
 import { isType } from '../utils/helper';
-import questions from '../questions.json';
+import questions from '../qsdata/questions.json';
 import { Response } from '../type';
 
 const docker = new Docker({
