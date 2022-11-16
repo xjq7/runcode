@@ -71,8 +71,9 @@ const cases = [
         break;
       }
     } else {
+      let output;
       try {
-        const output = f(Input);
+        output = f(Input);
         assert.deepEqual(output, Expected);
       } catch (error) {
         console.log('用例 ' + String(i + 1) + ': ' + Message + ' 未通过 ×');
