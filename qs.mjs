@@ -9,7 +9,7 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
 
   for (const dir of dirs) {
     const stat = await fs.lstat(path.resolve(root, dir));
-    if (stat.isDirectory()) {
+    if (stat.isDirectory() && dir !== 'template') {
       const files = await fs.readdir(path.resolve(root, dir));
       json[dir] = {};
       for (const file of files) {
