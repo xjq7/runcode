@@ -16,13 +16,13 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
         let content = await fs.readFile(path.resolve(root, dir, file), 'utf8');
         content = content.replace(/\r/g, '');
 
-        if (/answer/.test(file)) {
-          json[dir]['answer'] = content;
+        if (/answer.md/.test(file)) {
+          json[dir]['answermd'] = content;
         } else if (/index.mjs/.test(file)) {
           json[dir]['index'] = content;
         } else if (/index.md/.test(file)) {
           json[dir]['introduce'] = content;
-          const desc = (content.match(/\n\n(.+)\n\n/) || [])[1];
+          const desc = (content.match(/(.+)\n\n/) || [])[1];
           json[dir]['desc'] = desc;
         } else if (/test/.test(file)) {
           json[dir]['test'] = content;

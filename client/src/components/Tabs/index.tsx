@@ -15,6 +15,7 @@ interface Props<T> {
   boxed?: boolean;
   lifted?: boolean;
   bordered?: boolean;
+  className?: string;
 }
 
 function Component<T>(props: Props<T>) {
@@ -26,6 +27,7 @@ function Component<T>(props: Props<T>) {
     active = tabs[0],
     size = 'md',
     onChange = () => {},
+    className,
   } = props;
 
   const sizeCls = useMemo(() => {
@@ -42,9 +44,13 @@ function Component<T>(props: Props<T>) {
   }, [size]);
   return (
     <div
-      className={classNames('tabs', {
-        'tabs-boxed': boxed,
-      })}
+      className={classNames(
+        'tabs',
+        {
+          'tabs-boxed': boxed,
+        },
+        className
+      )}
     >
       {tabs.map((tab) => {
         const { label, value } = tab;

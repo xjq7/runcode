@@ -1,5 +1,3 @@
-## AmountThousandthsFormat
-
 金额千分位格式化
 
 用例 1:

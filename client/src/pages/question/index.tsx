@@ -16,6 +16,12 @@ import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import PageSpinner from '~components/PageSpinner';
 import { parseConsoleOutput } from '~utils/helper';
+import Tabs from '~components/Tabs';
+
+enum Introduce {
+  question,
+  answer,
+}
 
 function Question() {
   const [searchParams] = useSearchParams();
@@ -29,8 +35,15 @@ function Question() {
 
   const [showOutput, setShowOutput] = useState(false);
 
+  const [introduce, setIntroduce] = useState(Introduce.question);
+
   const [editorConfig] = useState(() => EditorConfig);
   const { autoSaveDelay } = editorConfig;
+
+  const title = useMemo(() => {
+    const name = detail?.name;
+    return name;
+  }, [detail]);
 
   const getEditor = () => {
     return editorRef.current?.getEditor();
@@ -76,12 +89,20 @@ function Question() {
   }, [name]);
 
   useEffect(() => {
-    const dom = document.querySelector('#introduce');
-    if (!dom) return;
-    dom.innerHTML = marked(detail?.introduce || '');
-    hljs.registerLanguage('javascript', javascript);
-    hljs.highlightAll();
-  }, [detail]);
+    if (introduce === Introduce.question) {
+      const dom = document.querySelector('#introduce-question');
+      if (!dom) return;
+      dom.innerHTML = marked(detail?.introduce || '');
+      hljs.registerLanguage('javascript', javascript);
+      hljs.highlightAll();
+    } else if (introduce === Introduce.answer) {
+      const dom = document.querySelector('#introduce-answer');
+      if (!dom) return;
+      dom.innerHTML = marked(detail?.answermd || '');
+      hljs.registerLanguage('javascript', javascript);
+      hljs.highlightAll();
+    }
+  }, [detail, introduce]);
 
   const handleSubmit = async () => {
     setSubmitLoading(true);
@@ -100,10 +121,34 @@ function Question() {
 
   return (
     <div className={styles.container}>
-      <article
-        id="introduce"
-        className={classNames('prose prose-stine', styles.introduce)}
-      ></article>
+      <div className={styles.introduce}>
+        <div className={styles.title}>{title}</div>
+
+        <Tabs<Introduce>
+          className="my-5 py-2"
+          tabs={[
+            { label: '简介', value: Introduce.question },
+            { label: '参考答案', value: Introduce.answer },
+          ]}
+          active={introduce}
+          boxed
+          size="md"
+          onChange={(type) => setIntroduce(type)}
+        />
+        {introduce === Introduce.question && (
+          <article
+            id="introduce-question"
+            className={classNames('prose prose-stine')}
+          ></article>
+        )}
+        {introduce === Introduce.answer && (
+          <article
+            id="introduce-answer"
+            className={classNames('prose prose-stine')}
+          ></article>
+        )}
+      </div>
+
       <div className={styles.content}>
         <Editor
           ref={editorRef}

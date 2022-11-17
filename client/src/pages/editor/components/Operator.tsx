@@ -8,7 +8,7 @@ import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { CodeType } from '~utils/codeType';
 import { parseConsoleOutput, OutputType } from '~utils/helper';
 import { runCode } from '../service';
-import Tab from '~components/Tab';
+import Tabs from '~components/Tabs';
 import TextArea from '~components/Textarea';
 import debounce from 'lodash/debounce';
 import Tooltip from '~components/Tooltip';
@@ -282,7 +282,7 @@ function Operator(props: Props) {
         </Button>
       </div>
       <div className={classnames(styles.display)}>
-        <Tab<DisplayType>
+        <Tabs<DisplayType>
           tabs={[
             { label: '输入', value: DisplayType.input },
             { label: '输出', value: DisplayType.output },
