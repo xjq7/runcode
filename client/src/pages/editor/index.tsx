@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Editor, { Expose, languageMap } from '~components/CodeEditorMonaco';
 import styles from './index.module.less';
 import Header from './components/Header';
@@ -16,9 +16,9 @@ const Component = () => {
   const [editorConfig] = useState(() => EditorConfig);
   const { editorThemeType, codeType } = editorConfig;
 
-  const getEditor = () => {
+  const getEditor = useCallback(() => {
     return editorRef.current?.getEditor();
-  };
+  }, [editorRef.current]);
 
   useEffect(() => {
     const codeCache =

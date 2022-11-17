@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Editor, { Expose, languageMap } from '~components/CodeEditorMonaco';
 import { marked } from 'marked';
 import styles from './index.module.less';
@@ -37,28 +37,22 @@ function Question() {
   };
 
   const saveCode = () => {
-    if (detail?.name) {
-      storage.set(
-        CodeStorageKey[CodeType.nodejs] + '_' + detail?.name,
-        editorRef.current?.getEditor()?.getValue()
-      );
-    }
+    storage.set(
+      CodeStorageKey[CodeType.nodejs] + '_' + detail?.name,
+      editorRef.current?.getEditor()?.getValue()
+    );
   };
 
-  useEffect(() => {
-    const editor = editorRef.current?.getEditor();
-    if (editor && detail) {
-      editor.setValue(
-        storage.get(CodeStorageKey[CodeType.nodejs] + '_' + detail?.name) ||
-          detail?.index
-      );
-    }
+  const defaultCode = useMemo(() => {
+    return (
+      storage.get(CodeStorageKey[CodeType.nodejs] + '_' + detail?.name) ||
+      detail?.index
+    );
   }, [detail]);
 
   useEffect(() => {
     const editor = editorRef.current?.getEditor();
-
-    if (editor) {
+    if (editor && detail) {
       const debounceSaveCode = debounce(saveCode, autoSaveDelay * 1000);
       const saveCodeListen = editor
         ?.getModel()
@@ -70,7 +64,7 @@ function Question() {
         debounceSaveCode.cancel();
       };
     }
-  }, [autoSaveDelay, editorRef]);
+  }, [autoSaveDelay, editorRef.current, detail]);
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -116,7 +110,7 @@ function Question() {
           className={styles.editor}
           theme={ThemeType['Visual Studio Dark']}
           language={languageMap[CodeType.nodejs]}
-          code={detail?.index || ''}
+          code={defaultCode}
         />
         <div className={styles.operator}>
           <div className={styles.left}>
