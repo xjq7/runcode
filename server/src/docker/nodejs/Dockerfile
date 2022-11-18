@@ -7,6 +7,7 @@ USER user
 
 WORKDIR /home/user
 
-RUN npm init -y \
+RUN npm config set registry https://npmmirror.com/mirrors/ \
+  && npm init -y \
   && npm install mocha \
   && npm install chai
