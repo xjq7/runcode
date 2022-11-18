@@ -26,6 +26,7 @@ interface Question {
 }
 
 function formatOutput(outputString: string): string {
+  outputString = outputString.replace(/AssertionError: /g, '');
   if (outputString.length > 8200) {
     outputString =
       outputString.slice(0, 4000) +
@@ -38,17 +39,18 @@ function formatOutput(outputString: string): string {
     outputString = JSON.stringify(outputString);
   }
 
-  let outputStringArr = outputString.split('%0A');
+  let outputStringArr = outputString.split(/\r\n|\n/);
+
   if (outputStringArr.length > 200) {
     outputStringArr = outputStringArr
       .slice(0, 100)
       .concat(
-        ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
+        ['\n', '...' + '数据太多,已折叠', '\n'],
         outputStringArr.slice(outputStringArr.length - 100)
       );
   }
 
-  return outputStringArr.join('%0A');
+  return outputStringArr.join('\n');
 }
 
 @Service()

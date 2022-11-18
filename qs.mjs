@@ -18,6 +18,8 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
 
         if (/answer.md/.test(file)) {
           json[dir]['answermd'] = content;
+        } else if (/answer.mjs/.test(file)) {
+          json[dir]['answer'] = content;
         } else if (/index.mjs/.test(file)) {
           json[dir]['index'] = content;
         } else if (/index.md/.test(file)) {

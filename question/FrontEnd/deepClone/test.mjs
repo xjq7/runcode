@@ -1,93 +1,32 @@
-import assert from 'assert';
 import _deepClone from './answer.mjs';
 import f from './index.mjs';
+import { it } from 'mocha';
+import { assert } from 'chai';
 
-const circle1 = { foo: 1 };
-const circle2 = { bar: 2, c1: circle1 };
-circle1.c2 = circle2;
+it('一层对象: 输入 { f: 1 }', () => {
+  assert.deepEqual(f({ f: 2 }), { f: 2 });
+});
 
-const cases = [
-  {
-    Input: [{ f: 1 }],
-    Expected: [{ f: 1 }],
-    Message: '一层对象',
-  },
-  {
-    Input: [1, 2, { a: 1 }],
-    Expected: [1, 2, { a: 1 }],
-    Message: '两层对象',
-  },
-  {
-    Input: { b: [{ c: 1, d: [{ d: 1, f: 2 }] }] },
-    Expected: { b: [{ c: 1, d: [{ d: 1, f: 2 }] }] },
-    Message: '两层对象, 且修改返回值属性',
-    callback: function (i) {
-      const originInput = _deepClone(this.Input);
-      try {
-        const output = f(this.Input);
-        output['1'] = Math.random();
-        assert.deepEqual(this.Input, originInput);
-        return true;
-      } catch (error) {
-        if (error.code === 'ERR_ASSERTION') {
-          console.log(
-            '用例 ' + String(i + 1) + ': ' + this.Message + ' 未通过 ×'
-          );
-          console.log(
-            '修改输出对象属性后的输入对象: ',
-            JSON.stringify(this.Input)
-          );
-          console.log('原输入对象: ', JSON.stringify(originInput));
-        } else {
-          console.log(error);
-        }
-      }
-    },
-  },
-  {
-    Input: circle1,
-    Expected: { foo: 1, c2: { bar: 2, c1: {} } },
-    Message: '存在循环引用',
-    callback: function (i) {
-      try {
-        const output = f(this.Input);
-        assert.deepEqual(output, this.Expected);
-        return true;
-      } catch (error) {
-        console.log(
-          '用例 ' + String(i + 1) + ': ' + this.Message + ' 未通过 ×'
-        );
-        console.log(error);
-      }
-    },
-  },
-];
+it('两层对象: 输入 { a: 1, b: { c: 3 } }', () => {
+  assert.deepEqual(f({ a: 1, b: { c: 3 } }), { a: 1, b: { c: 3 } });
+});
 
-(function () {
-  for (let i = 0; i < cases.length; i++) {
-    const { Input, Expected, Message, callback } = cases[i];
-    if (callback) {
-      if (!cases[i].callback(i)) {
-        break;
-      }
-    } else {
-      let output;
-      try {
-        output = f(Input);
-        assert.deepEqual(output, Expected);
-      } catch (error) {
-        console.log('用例 ' + String(i + 1) + ': ' + Message + ' 未通过 ×');
-        if (error.code === 'ERR_ASSERTION') {
-          console.log('Input:', JSON.stringify(Input));
-          console.log('Expected:', JSON.stringify(error.expected));
-          console.log('Received:', JSON.stringify(output));
-        } else {
-          console.log(error);
-        }
-        break;
-      }
-    }
+it('数组: 输入 [1, { a: 1 }]', () => {
+  assert.deepEqual(f([1, { a: 1 }]), [1, { a: 1 }]);
+});
 
-    console.log('用例 ' + String(i + 1) + ': ' + Message + ' 通过 √');
-  }
-})();
+it('修改拷贝对象属性, 原对象应不受影响', () => {
+  const Input = { b: { c: 1, d: 2 } };
+  const cloneObj = f(Input);
+  cloneObj.b.c = 2;
+  assert.deepEqual(Input, {
+    b: { c: 1, d: 2 },
+  });
+});
+
+it('循环引用', () => {
+  const circle1 = { foo: 1 };
+  const circle2 = { bar: 2, c1: circle1 };
+  circle1.c2 = circle2;
+  assert.deepEqual(f(circle1), { foo: 1, c2: { bar: 2, c1: {} } });
+});

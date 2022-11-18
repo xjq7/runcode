@@ -32,7 +32,7 @@ export class QuestionController {
         cmd: `cat > index.mjs << 'EOF' ${wrapCode} 
         cat > test.mjs << 'EOF' ${wrapTestCode} 
         cat > answer.mjs << 'EOF' ${wrapAnswerCode} 
-        node test.mjs
+        ./node_modules/mocha/bin/mocha.js test.mjs -b
        `,
       });
 
