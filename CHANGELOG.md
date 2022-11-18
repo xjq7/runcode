@@ -2,21 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.4.0](https://github.com/xjq7/runcode/compare/v1.3.0...v1.4.0) (2022-11-01)
-
-### Features
-
-- 访问设备、近三天访问用户量增加图表展示 ([565c1f2](https://github.com/xjq7/runcode/commit/565c1f218ad94bf4816077aefeb97b52fb9886bf))
-- **访问数据:** 增加 设备分析 ([ba34be4](https://github.com/xjq7/runcode/commit/ba34be42e90a349fe200d11f4385f2391d896f54))
-- 增加 C# 语言 ([d7e3183](https://github.com/xjq7/runcode/commit/d7e3183555c6a8f9c17ebccc123d973ad56d11ae))
-- 增加导航栏，增加访问数据统计功能 ([d6cd4c6](https://github.com/xjq7/runcode/commit/d6cd4c67863bf9465895750ed84459cab5725c6f))
-- server 引入 routing-controllers ([53279c9](https://github.com/xjq7/runcode/commit/53279c96ea09da8c5bab9bdd1a883bfbec7a0397))
-
-### Bug Fixes
-
-- 近三天访问 统计数据修正 ([c8daddc](https://github.com/xjq7/runcode/commit/c8daddc77a3fd6bd6f6af64cbd92abf9df0d914b))
-- 时间时区+8 ([99e6839](https://github.com/xjq7/runcode/commit/99e6839e0999f84b530185a3ee2200addad6c454))
-
 ## [1.3.0](https://github.com/xjq7/runcode/compare/v1.2.0...v1.3.0) (2022-10-28)
 
 ### Features

@@ -1,10 +1,9 @@
 {
   "name": "runcode",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "在线运行代码编辑器",
   "main": "index.js",
   "scripts": {
-    "release": "standard-version",
     "qs:generate": "node qs.mjs",
     "qs:create": "node qscreate.mjs"
   },
@@ -17,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/xjq7/runcode/issues"
   },
-  "homepage": "https://github.com/xjq7/runcode#readme"
+  "homepage": "https://github.com/xjq7/runcode#readme",
+  "devDependencies": {
+    "release-please": "^14.17.0"
+  }
 }
