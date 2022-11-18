@@ -11,7 +11,7 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           release-type: node
-          command: github-release
+          command: manifest
           package-name: release-please-action
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false}]'
       - uses: actions/checkout@v2
