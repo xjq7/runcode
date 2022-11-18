@@ -10,7 +10,8 @@
     "cdn": "node cdn.cjs",
     "preview": "vite preview",
     "build:tailwind": "tailwindcss build src/tailwind.css -o src/tailwind.output.css",
-    "build:tailwind:watch": "tailwindcss -i src/tailwind.css -o src/tailwind.output.css --watch"
+    "build:tailwind:watch": "tailwindcss -i src/tailwind.css -o src/tailwind.output.css --watch",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@antv/data-set": "^0.11.8",

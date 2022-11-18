@@ -9,7 +9,8 @@
     "deploy": "pm2 start dist/app.js --name runcode -i max",
     "kill": "pm2 delete runcode",
     "inject:env": "node sh/injectEnv.js",
-    "generate": "prisma generate"
+    "generate": "prisma generate",
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [],
   "author": "",

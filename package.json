@@ -6,7 +6,8 @@
   "scripts": {
     "release": "standard-version",
     "qs:generate": "node qs.mjs",
-    "qs:create": "node qscreate.mjs"
+    "qs:create": "node qscreate.mjs",
+    "preinstall": "npx only-allow pnpm"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "mocha": "^10.1.0"
   },
   "devDependencies": {
-    "chai": "^4.3.7"
+    "chai": "^4.3.7",
+    "standard-version": "^9.5.0"
   }
 }
