@@ -6,6 +6,8 @@
 
 - C++ 11
 
+- C
+
 - Java
 
 - Rust lts
@@ -30,11 +32,15 @@
 
 - Nodejs
 
+## Js-challenges
+
+前端编程题挑战
+
 ## 开发
 
 前置条件
 
-nodejs > 14.17.0
+nodejs >= 14.20.0
 
 包管理工具 pnpm 安装
 
