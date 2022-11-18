@@ -4,7 +4,6 @@
   "description": "在线运行代码编辑器",
   "main": "index.js",
   "scripts": {
-    "release": "standard-version",
     "qs:generate": "node qs.mjs",
     "qs:create": "node qscreate.mjs"
   },
@@ -19,7 +18,6 @@
   },
   "homepage": "https://github.com/xjq7/runcode#readme",
   "devDependencies": {
-    "release-please": "^14.17.0",
-    "standard-version": "^9.5.0"
+    "release-please": "^14.17.0"
   }
 }
