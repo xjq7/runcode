@@ -8,36 +8,36 @@ on:
   push:
     branches: [main]
     paths:
-      - 'server/qsdata/**'
+      - 'question/FrontEnd/**'
       - '.github/workflows/qs.yml'
+      - '!question/FrontEnd/cache.json'
+      - '!question/FrontEnd/cache.prod.json'
   pull_request:
     branches: [main]
     paths:
-      - 'server/qsdata/**'
+      - 'question/FrontEnd/**'
       - '.github/workflows/qs.yml'
+      - '!question/FrontEnd/cache.json'
+      - '!question/FrontEnd/cache.prod.json'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy-qsdata:
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./server
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Deploy to Server # 第二步，rsync推文件
-        uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }} # 引用配置，SSH私钥
-          ARGS: -avz --delete --exclude='*.pyc' # rsync参数，排除.pyc文件
-          SERVER_PORT: ${{ secrets.SSH_PORT }} # SSH端口
-          FOLDER: ./server/src/qsdata # 要推送的文件夹，路径相对于代码仓库的根目录
-          SERVER_IP: ${{ secrets.SSH_HOST }} # 引用配置，服务器的host名（IP或者域名domain.com）
-          USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
-          SERVER_DESTINATION: /root/project/runcodeserver/server/src # 部署到目标文件夹
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+      - name: Create local changes
+        run: |
+          npm run qs:generate prod
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "chore: qs 文件缓存"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

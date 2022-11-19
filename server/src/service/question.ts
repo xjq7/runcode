@@ -5,9 +5,10 @@ import { CodeEnv } from '../utils/type';
 import { Stream } from 'stream';
 import { DockerRunStatus } from '../docker';
 import { isType } from '../utils/helper';
-import questions from '../qsdata/questions.json';
-import { Response } from '../type';
-
+import { question } from '@prisma/client';
+import prisma from '../config/prisma';
+import { CatchError } from '../middleware/CatchError';
+import { Pager, Response, ResponseList } from '../type';
 const docker = new Docker({
   ...dockerConfig,
 });
@@ -15,15 +16,6 @@ const docker = new Docker({
 const DockerRunConfig = {
   timeout: 6000,
 };
-
-interface Question {
-  index: string;
-  introduce: string;
-  answer: string;
-  test: string;
-  name?: string;
-  desc: string;
-}
 
 function formatOutput(outputString: string): string {
   outputString = outputString.replace(/AssertionError: /g, '');
@@ -107,21 +99,61 @@ export class QuestionService {
     });
   }
 
-  async getQuestion({ name }: { name: string }): Promise<Response<Question>> {
-    const data = (questions as any)[name];
-    return {
-      code: 0,
-      data: {
-        ...data,
-        name,
-      },
-    };
+  @CatchError()
+  async getQuestion({ name }: { name: string }): Promise<Response<question>> {
+    const data = await prisma.question.findUnique({ where: { name } });
+    console.log(data);
+
+    if (!data) return { code: 1, message: '未查到记录!' };
+    return { code: 0, data };
   }
 
-  async getQuestions({ keyword }: { keyword: string }): Promise<any> {
-    const data = Object.keys(questions)
-      .filter((name) => (keyword ? name.includes(keyword) : true))
-      .map((name) => ({ name, ...(questions as any)[name] }));
-    return { code: 0, data: { list: data, pager: { total: data.length } } };
+  @CatchError()
+  async getQuestions({
+    keyword,
+    pager,
+  }: {
+    keyword: string;
+    pager: Pager;
+  }): Promise<ResponseList<question>> {
+    const { page, pageSize } = pager;
+
+    const data = await prisma.question.findMany({
+      where: { name: { contains: keyword } },
+      skip: (Number(page) - 1) * Number(pageSize),
+      take: Number(pageSize),
+    });
+
+    const total = await prisma.question.count({
+      where: { name: { contains: keyword } },
+    });
+    return { code: 0, data: { list: data, pager: { total, page, pageSize } } };
+  }
+
+  @CatchError()
+  async createQuestion(
+    body: Omit<question, 'id'>
+  ): Promise<Response<question>> {
+    const data = await prisma.question.create({ data: body });
+    return { code: 0, data, message: '创建成功!' };
+  }
+
+  @CatchError()
+  async updateQuestion(body: Partial<question>): Promise<Response<question>> {
+    const name = body.name;
+    console.log(this);
+    if (!name) return { code: 1, message: '未查到记录!' };
+
+    const prev = await this.getQuestion({ name });
+    console.log(prev);
+
+    const data = await prisma.question.update({
+      where: { name },
+      data: { ...prev.data, ...body },
+    });
+    return {
+      data,
+      code: 0,
+    };
   }
 }

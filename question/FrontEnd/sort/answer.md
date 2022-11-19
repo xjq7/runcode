@@ -8,3 +8,7 @@ export default function sort(arr) {
   return arr.sort();
 }
 ```
+
+### 方法二
+
+快速排序

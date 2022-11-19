@@ -1,15 +1,15 @@
-import { Context, HttpError } from 'koa';
-
-export const CatchError = async (ctx: Context, next: () => any) => {
-  try {
-    await next();
-    if (ctx.status === 404) {
-      throw new HttpError();
-    }
-  } catch (err: any) {
-    ctx.body = {
-      code: 2,
-      message: `未知异常,${err.message}`,
+export function CatchError() {
+  return (target: any, key: string, descriptor: PropertyDescriptor) => {
+    const fn = descriptor.value;
+    descriptor.value = function (...args: any) {
+      try {
+        return fn.apply(this, args);
+      } catch (error: any) {
+        return {
+          code: 1,
+          message: error.message,
+        };
+      }
     };
-  }
-};
+  };
+}

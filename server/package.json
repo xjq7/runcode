@@ -25,6 +25,7 @@
     "dotenv": "^16.0.3",
     "ioredis": "^5.2.3",
     "ip2region": "^2.3.0",
+    "kcors": "^2.2.2",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^12.0.0",

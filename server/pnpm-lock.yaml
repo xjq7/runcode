@@ -28,6 +28,7 @@ specifiers:
   eslint-plugin-promise: ^6.0.0
   ioredis: ^5.2.3
   ip2region: ^2.3.0
+  kcors: ^2.2.2
   koa: ^2.13.4
   koa-bodyparser: ^4.3.0
   koa-router: ^12.0.0
@@ -58,6 +59,7 @@ dependencies:
   dotenv: 16.0.3
   ioredis: 5.2.3
   ip2region: 2.3.0_@types+node@18.8.4
+  kcors: 2.2.2
   koa: 2.13.4
   koa-bodyparser: 4.3.0
   koa-router: 12.0.0
@@ -2425,6 +2427,11 @@ packages:
     optionalDependencies:
       graceful-fs: 4.2.10
     dev: true
+
+  /kcors/2.2.2:
+    resolution: {integrity: sha512-rIqbKa2S0gT0wC/790jsQM6hNpABHBNWQ7+XYS1xJV6zOGxlanW+RtCmlDn6wPZsGpRk371yy8abfBgl2OTavg==}
+    engines: {node: '>= 6.0.0'}
+    dev: false
 
   /keygrip/1.1.0:
     resolution: {integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==}
