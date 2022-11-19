@@ -6,7 +6,9 @@ import { PageInfo } from '~utils/type';
 import styles from './index.module.less';
 import { getQuestions, IQuestion } from '~services/question';
 import { useDebounceEffect } from 'ahooks';
-import PageSpinner from '~components/PageSpinner';
+import Spin from '~components/Spin';
+import Pagination from '~components/Pagination';
+import Empty from '~components/Empty';
 
 function Questions() {
   const [keyword, setKeyword] = useState('');
@@ -15,14 +17,16 @@ function Questions() {
     return getQuestions({ page: o.page, pageSize: o.pageSize, keyword });
   };
 
-  const { dataSource, reload, loading } = useList(fetchQuestions, {
-    pageSize: 100,
-  });
+  const { dataSource, reload, loading, pageInfo, onPageChange } = useList(
+    fetchQuestions,
+    {
+      pageSize: 10,
+      autoFetch: false,
+    }
+  );
 
   useDebounceEffect(() => {
-    if (keyword) {
-      reload();
-    }
+    reload();
   }, [keyword]);
 
   const Item = (item: IQuestion) => {
@@ -30,7 +34,7 @@ function Questions() {
       <div
         className={styles.item}
         onClick={() => {
-          window.open(`/question?name=${item.name}`);
+          window.open(`/question?name=${item.name}`, '_blank');
         }}
       >
         <p className={classNames('text-black', styles.title)}>{item.name}</p>
@@ -38,8 +42,6 @@ function Questions() {
       </div>
     );
   };
-
-  if (loading) return <PageSpinner />;
 
   return (
     <div className={styles.container}>
@@ -51,11 +53,20 @@ function Questions() {
             setKeyword(e.target.value);
           }}
         />
-        <div className={styles.list}>
-          {dataSource.map((o) => (
-            <Item key={o.name} {...o} />
-          ))}
-        </div>
+        <Spin loading={loading}>
+          <div className={styles.list}>
+            {dataSource.length !== 0 ? (
+              <>
+                {dataSource.map((o) => (
+                  <Item key={o.name} {...o} />
+                ))}
+              </>
+            ) : (
+              <Empty />
+            )}
+          </div>
+        </Spin>
+        <Pagination {...pageInfo} onPageChange={onPageChange} />
       </div>
     </div>
   );

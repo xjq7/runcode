@@ -43,8 +43,8 @@ export default function useList<T>(
     pageSize,
     total: '0',
   });
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
 
   const _fetchData = async (
     page: PageInfo['page'] = pageInfo.page,

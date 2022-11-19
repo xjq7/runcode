@@ -59,7 +59,7 @@ function Question() {
   const defaultCode = useMemo(() => {
     return (
       storage.get(CodeStorageKey[CodeType.nodejs] + '_' + detail?.name) ||
-      detail?.index
+      detail?.template
     );
   }, [detail]);
 

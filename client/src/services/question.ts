@@ -9,7 +9,7 @@ export interface IQuestion {
   id?: number;
   name?: string;
   type?: string;
-  index?: string;
+  template?: string;
   introduce?: string;
   answermd?: string;
   desc: string;
