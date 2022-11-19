@@ -66,7 +66,6 @@ export class QuestionController {
   }
 
   @Get('/')
-  @UseBefore(TokenMiddleware)
   getQuestion(@QueryParam('name', { required: true }) name: string) {
     return questionService.getQuestion({ name });
   }
