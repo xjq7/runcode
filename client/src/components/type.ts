@@ -8,3 +8,5 @@ export interface CommonProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+export type IPosition = 'top' | 'bottom' | 'left' | 'right';

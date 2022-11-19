@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import './iconfont.css';
 
-type IconName = 'setting' | 'github';
+type IconName = 'setting' | 'github' | 'yijianfankui' | 'feedback2e';
 
 interface Props
   extends React.DetailedHTMLProps<

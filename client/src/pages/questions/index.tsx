@@ -49,6 +49,7 @@ function Questions() {
         <Input
           className={classNames('mt-6 mb-3', styles.search)}
           value={keyword}
+          placeholder="search question name"
           onChange={(e) => {
             setKeyword(e.target.value);
           }}

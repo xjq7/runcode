@@ -3,6 +3,7 @@ import useLocation from 'react-use/lib/useLocation';
 import Iconfont from '../Iconfont';
 import Menu from '../Menu';
 import router, { RouterPath } from '~pages/router';
+import Tooltip from '~components/Tooltip';
 import styles from './header.module.less';
 
 export const settingDrawerId = 'editor-setting';
@@ -38,17 +39,39 @@ function Component() {
         />
 
         <div>
-          <Iconfont
-            name="github"
-            size={24}
-            className={classNames('w-7 mr-3')}
-            onClick={() => {
-              window.open('https://github.com/xjq7/runcode');
-            }}
-          />
-          <label htmlFor={settingDrawerId}>
-            <Iconfont name="setting" size={24} className={classNames('w-7')} />
-          </label>
+          <Tooltip tips="意见反馈" position="bottom">
+            <Iconfont
+              name="yijianfankui"
+              size={26}
+              className={classNames('w-7 mr-3')}
+              onClick={() => {
+                window.open(
+                  'https://github.com/xjq7/runcode/issues/new',
+                  '_blank'
+                );
+              }}
+            />
+          </Tooltip>
+          <Tooltip tips="Github 开源地址" position="bottom">
+            <Iconfont
+              name="github"
+              size={24}
+              className={classNames('w-7 mr-3')}
+              onClick={() => {
+                window.open('https://github.com/xjq7/runcode', '_blank');
+              }}
+            />
+          </Tooltip>
+
+          <Tooltip tips="设置" position="bottom">
+            <label htmlFor={settingDrawerId}>
+              <Iconfont
+                name="setting"
+                size={24}
+                className={classNames('w-7')}
+              />
+            </label>
+          </Tooltip>
         </div>
       </div>
     </div>

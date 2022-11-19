@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6282787",
+      "name": "意见反馈",
+      "font_class": "yijianfankui",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "494447",
+      "name": "feedback_2e",
+      "font_class": "feedback2e",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
       "icon_id": "356877",
       "name": "setting",
       "font_class": "setting",
