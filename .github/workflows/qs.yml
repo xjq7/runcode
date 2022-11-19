@@ -42,7 +42,7 @@ jobs:
 
       - name: Create local changes
         run: |
-          npm run qs:generate prod ${{ secrets.QS_TOKEN }}
+          pnpm qs:generate prod qstoken=${{ secrets.QS_TOKEN }}
       - name: Commit files
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
