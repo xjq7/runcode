@@ -5,6 +5,6 @@
  * @param {Function} fn
  * @return {Function}
  */
-export default function currying(fn) {
+export default function curry(fn) {
   return fn;
 }
