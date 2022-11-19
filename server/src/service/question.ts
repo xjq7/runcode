@@ -102,7 +102,6 @@ export class QuestionService {
   @CatchError()
   async getQuestion({ name }: { name: string }): Promise<Response<question>> {
     const data = await prisma.question.findUnique({ where: { name } });
-    console.log(data);
 
     if (!data) return { code: 1, message: '未查到记录!' };
     return { code: 0, data };
@@ -141,11 +140,9 @@ export class QuestionService {
   @CatchError()
   async updateQuestion(body: Partial<question>): Promise<Response<question>> {
     const name = body.name;
-    console.log(this);
     if (!name) return { code: 1, message: '未查到记录!' };
 
     const prev = await this.getQuestion({ name });
-    console.log(prev);
 
     const data = await prisma.question.update({
       where: { name },

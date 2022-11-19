@@ -8,8 +8,8 @@ const args = process.argv.slice(2);
 
 const isProd = !!args.find((arg) => arg === 'prod');
 
-let qsToken = args.find((arg) => /qstoken=/.test(arg));
-qsToken = qsToken.replace(/qstoken=/, '');
+let qsToken = args.find((arg) => /QS_TOKEN=/.test(arg));
+qsToken = qsToken.replace(/QS_TOKEN=/, '');
 
 const cacheFile = isProd ? 'cache.prod.json' : 'cache.json';
 

@@ -12,7 +12,6 @@ on:
       - '.github/workflows/server.yml'
       - '!server/config/nginx.conf'
       - '!server/sql/**'
-      - '!server/qsdata/**'
   pull_request:
     branches: [main]
     paths:
@@ -20,7 +19,6 @@ on:
       - '.github/workflows/server.yml'
       - '!server/config/nginx.conf'
       - '!server/sql/**'
-      - '!server/qsdata/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
