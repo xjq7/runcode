@@ -3,7 +3,7 @@ import f from './index.mjs';
 import { it } from 'mocha';
 import { assert } from 'chai';
 
-it('一层对象: 输入 { f: 1 }', () => {
+it('一层对象: 输入 { f: 2 }', () => {
   assert.deepEqual(f({ f: 2 }), { f: 2 });
 });
 

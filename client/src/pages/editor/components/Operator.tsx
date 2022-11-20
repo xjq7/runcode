@@ -52,7 +52,9 @@ function Operator(props: Props) {
     getEditor()?.setValue(result);
   };
 
-  const [clangFormat] = useClangFormat({ onCodeFormatDone });
+  const [isFormatReady, format] = useClangFormat({
+    onCodeFormatDone,
+  });
 
   const { width } = useWindowSize();
 
@@ -105,15 +107,6 @@ function Operator(props: Props) {
   }, [output, outputType, loading]);
 
   const [timesPrevent, setTimesPrevent] = useState(false);
-
-  const showClangFormat = useMemo(
-    () =>
-      clangFormat &&
-      (CodeType.cpp === codeType ||
-        CodeType.java === codeType ||
-        CodeType.c === codeType),
-    [codeType, clangFormat]
-  );
 
   const saveCode = () => {
     storage.set(CodeStorageKey[codeType], getEditor()?.getValue());
@@ -226,21 +219,13 @@ function Operator(props: Props) {
           </Dropdown>
         )}
 
-        {(codeType === CodeType.nodejs || showClangFormat) && (
+        {isFormatReady && (
           <Button
             type="primary"
             className="mr-2"
             onClick={() => {
-              if (codeType === CodeType.nodejs) {
-                getEditor()?.getAction('editor.action.formatDocument')?.run();
-              } else if (showClangFormat) {
-                const code = getEditor()?.getValue();
-                if (!code) return;
-                clangFormat?.worker?.postMessage({
-                  function: 'format',
-                  code,
-                });
-              }
+              const code = getEditor()?.getValue() || '';
+              format({ type: codeType, code });
             }}
           >
             format
