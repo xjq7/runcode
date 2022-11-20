@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { CodeType } from '~utils/codeType';
+import { prettierCodeFormat } from '~utils/helper';
 import ProcessManager from './process-manager';
 
 interface Props {
@@ -37,19 +38,8 @@ function useClangFormat({
 
   const format = ({ type, code }: { code: string; type: CodeType }) => {
     if (type === CodeType.nodejs) {
-      if (window.prettier && window.prettierPlugins) {
-        try {
-          const formatCode = window.prettier.format(code, {
-            parser: 'babel',
-            plugins: window.prettierPlugins,
-            singleQuote: true,
-            tabWidth: 4,
-          });
-          onCodeFormatDone(formatCode);
-        } catch (error: any) {
-          console.log('js format error', error.message);
-        }
-      }
+      const formatCode = prettierCodeFormat(code);
+      if (formatCode) onCodeFormatDone(formatCode);
     } else if (
       [CodeType.c, CodeType.cpp, CodeType.java, CodeType.dotnet].includes(type)
     ) {

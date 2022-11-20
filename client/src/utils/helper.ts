@@ -1,3 +1,5 @@
+import { CodeType } from './codeType';
+
 export enum OutputType {
   plain,
   terminal,
@@ -33,4 +35,21 @@ export function saveAsFile(msg: string) {
   document.documentElement.appendChild(a);
   a.click();
   document.documentElement.removeChild(a);
+}
+
+export function prettierCodeFormat(code: string) {
+  if (window.prettier && window.prettierPlugins) {
+    try {
+      const formatCode = window.prettier.format(code, {
+        parser: 'babel',
+        plugins: window.prettierPlugins,
+        singleQuote: true,
+        tabWidth: 4,
+      });
+      return formatCode;
+    } catch (error: any) {
+      console.log('js format error', error.message);
+    }
+  }
+  return null;
 }

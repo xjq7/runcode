@@ -15,7 +15,7 @@ import EditorConfig from '~store/config/editor';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import PageSpinner from '~components/PageSpinner';
-import { parseConsoleOutput } from '~utils/helper';
+import { parseConsoleOutput, prettierCodeFormat } from '~utils/helper';
 import Tabs from '~components/Tabs';
 
 enum Introduce {
@@ -172,7 +172,13 @@ function Question() {
               type="primary"
               className="mr-2"
               onClick={() => {
-                getEditor()?.getAction('editor.action.formatDocument')?.run();
+                const code = getEditor()?.getValue();
+                const formatCode = prettierCodeFormat(code || '');
+                if (formatCode) {
+                  getEditor()?.setValue(formatCode);
+                } else {
+                  getEditor()?.getAction('editor.action.formatDocument')?.run();
+                }
               }}
             >
               format

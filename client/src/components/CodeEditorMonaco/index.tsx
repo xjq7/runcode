@@ -76,9 +76,7 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
         value: code,
         language: language,
         theme,
-        formatOnType: true,
         smoothScrolling: true,
-        formatOnPaste: true,
         readOnly: false,
       });
 
