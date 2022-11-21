@@ -28,7 +28,7 @@ function Component() {
         <Menu
           value={pathname}
           options={[
-            { label: 'Js-challenge', value: RouterPath.questions },
+            { label: '前端编程题', value: RouterPath.questions },
             { label: '编辑器', value: RouterPath.editor },
             { label: '访问数据', value: RouterPath.stat },
           ]}
