@@ -121,6 +121,9 @@ export class QuestionService {
       where: { name: { contains: keyword } },
       skip: (Number(page) - 1) * Number(pageSize),
       take: Number(pageSize),
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     const total = await prisma.question.count({
