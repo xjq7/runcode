@@ -1,6 +1,23 @@
 实现一个柯里化函数
 
-直到未传递参数时真正调用函数
+柯里化函数是将接收多个参数的函数变换成一个接收单一参数的函数,并且返回一个接收余下参数并返回结果的新函数
+
+例: 延迟执行
+
+url 拼接
+
+```js
+const curringUrl = curring((...args) => args.reduce((acc, cur) => acc + cur));
+
+curringUrl('https://');
+curringUrl('r.xjq.icu');
+curringUrl(); // https://r.xjq.icu
+curringUrl('/question');
+curringUrl('?name=curry');
+curringUrl(); // https://r.xjq.icu/question?name=curry
+```
+
+请实现一个延迟执行的柯里化函数, 最终无参数传递时真正调用
 
 用例 1:
 
