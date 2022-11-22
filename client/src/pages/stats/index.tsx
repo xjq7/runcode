@@ -53,40 +53,36 @@ function Component() {
     chart.coordinate('theta', {
       radius: 0.75,
     });
+
     chart.tooltip({
+      showTitle: false,
       showMarkers: false,
     });
 
-    const interval = chart
+    chart
       .interval()
-      .adjust('stack')
       .position('value')
-      .color('type', ['#063d8a', '#1770d6', '#47abfc', '#38c060'])
-      .style({ opacity: 0.4 })
-      .state({
-        active: {
-          style: (element) => {
-            const shape = element.shape;
-            return {
-              matrix: Util.zoom(shape, 1.1),
-            };
+      .color('type', [
+        '#873bf4',
+        '#063d8a',
+        '#1770d6',
+        '#47abfc',
+        '#38c060',
+        'rgb(255, 112, 8)',
+      ])
+      .label('value', {
+        layout: [
+          { type: 'pie-spider' },
+          {
+            type: 'limit-in-plot',
+            cfg: { action: 'ellipsis' /** 或 translate */ },
           },
+        ],
+        content: (data) => {
+          return `${data.type}: ${data.value}`;
         },
       })
-      .label('type', (val) => {
-        return {
-          offset: -30,
-          style: {
-            fill: 'white',
-            fontSize: 10,
-            shadowBlur: 2,
-            shadowColor: 'rgba(0, 0, 0, .45)',
-          },
-          content: (obj) => {
-            return obj.type + '\n' + obj.value;
-          },
-        };
-      });
+      .adjust('stack');
 
     chart.interaction('element-single-selected');
 
@@ -177,6 +173,7 @@ function Component() {
       .color('type')
       .label('value', {
         layout: [
+          { type: 'pie-spider' },
           {
             type: 'limit-in-plot',
             cfg: { action: 'ellipsis' /** 或 translate */ },
