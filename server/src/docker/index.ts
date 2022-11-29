@@ -237,7 +237,12 @@ function formatOutput(outputString: string): string {
     outputString = JSON.stringify(outputString);
   }
 
+  if (typeof outputString !== 'string') {
+    outputString = String(outputString);
+  }
+
   let outputStringArr = outputString.split('%0A');
+
   if (outputStringArr.length > 200) {
     outputStringArr = outputStringArr
       .slice(0, 100)
