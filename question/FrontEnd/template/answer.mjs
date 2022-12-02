@@ -1,3 +1,3 @@
-export default function f(arr) {
+export default function template(arr) {
   return arr;
 }
