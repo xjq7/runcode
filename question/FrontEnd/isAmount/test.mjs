@@ -37,3 +37,11 @@ it('用例 8: 输入 20', () => {
 it('用例 9: 输入 02', () => {
   assert.equal(isAmount('02'), false);
 });
+
+it('用例 10: 输入 102', () => {
+  assert.equal(isAmount('102'), true);
+});
+
+it('用例 11: 输入 102.2', () => {
+  assert.equal(isAmount('102.2'), true);
+});

@@ -36,3 +36,10 @@ isAmount(amount); // true
 const amount = '.1';
 isAmount(amount); // false
 ```
+
+用例 6:
+
+```js
+const amount = '02';
+isAmount(amount); // false
+```
