@@ -1,4 +1,4 @@
-import compose from './index.mjs';
+import compose from './answer.mjs';
 import { it } from 'mocha';
 import { assert } from 'chai';
 

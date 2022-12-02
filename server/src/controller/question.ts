@@ -33,9 +33,9 @@ export class QuestionController {
     try {
       const container = await questionService.createContainer({
         env: CodeEnv.nodejs,
-        cmd: `cat > index.mjs << 'EOF' ${wrapCode} 
+        cmd: `cat > answer.mjs << 'EOF' ${wrapCode} 
         cat > test.mjs << 'EOF' ${wrapTestCode} 
-        cat > answer.mjs << 'EOF' ${wrapAnswerCode} 
+        cat > _answer.mjs << 'EOF' ${wrapAnswerCode} 
         ./node_modules/mocha/bin/mocha.js test.mjs -b
        `,
       });

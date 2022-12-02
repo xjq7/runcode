@@ -1,7 +1,7 @@
-import f from './index.mjs';
+import f from './answer.mjs';
 import { it } from 'mocha';
 import { assert } from 'chai';
 
 it(': 输入 ', () => {
-  assert.deepEqual(f(), {});
+  assert.deepEqual(f(), undefined);
 });

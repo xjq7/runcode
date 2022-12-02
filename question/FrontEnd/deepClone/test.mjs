@@ -1,5 +1,4 @@
-import _deepClone from './answer.mjs';
-import f from './index.mjs';
+import f from './answer.mjs';
 import { it } from 'mocha';
 import { assert } from 'chai';
 
