@@ -9,6 +9,7 @@ import { useDebounceEffect } from 'ahooks';
 import Spin from '~components/Spin';
 import Pagination from '~components/Pagination';
 import Empty from '~components/Empty';
+import dayjs from 'dayjs';
 
 function Questions() {
   const [keyword, setKeyword] = useState('');
@@ -38,7 +39,10 @@ function Questions() {
         }}
       >
         <p className={classNames('text-black', styles.title)}>{item.name}</p>
-        <p className={classNames('text-gray-400', styles.desc)}>{item.desc}</p>
+        <p className={classNames('text-black', styles.desc)}>{item.desc}</p>
+        <p className={classNames('text-gray-500', styles.createdAt)}>
+          创建时间: {dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+        </p>
       </div>
     );
   };

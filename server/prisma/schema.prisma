@@ -16,6 +16,7 @@ model stat {
   isp       String?  @default("")
   userAgent String?  @default("")
   createdAt DateTime @db.DateTime()
+  updatedAt DateTime @db.DateTime()
 }
 
 model question {
@@ -31,4 +32,5 @@ model question {
   answer    String?  @default("")
   tag       Int?
   createdAt DateTime @db.DateTime()
+  updatedAt DateTime @db.DateTime()
 }

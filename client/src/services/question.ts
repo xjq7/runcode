@@ -13,6 +13,8 @@ export interface IQuestion {
   introduce?: string;
   answermd?: string;
   desc: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export function getQuestions(params: GetQuestionsRequest) {
