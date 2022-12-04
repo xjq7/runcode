@@ -6,11 +6,14 @@ import { useEffect } from 'react';
 import { visit } from '~services/stat';
 import dayjs from 'dayjs';
 import 'highlight.js/styles/rainbow.css';
+import { parseReferrerToChannel } from '~utils/helper';
 
 function App() {
   useEffect(() => {
     const channel = Number(
-      new URLSearchParams(location.search).get('channel') || 0
+      parseReferrerToChannel() ||
+        new URLSearchParams(location.search).get('channel') ||
+        0
     );
     const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
     visit({ createdAt: now, channel });

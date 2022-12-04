@@ -1,4 +1,4 @@
-import { CodeType } from './codeType';
+import { Channel } from './codeType';
 
 export enum OutputType {
   plain,
@@ -52,4 +52,17 @@ export function prettierCodeFormat(code: string) {
     }
   }
   return null;
+}
+
+export function parseReferrerToChannel() {
+  const referrer = document.referrer;
+  if (/juejin/.test(referrer)) {
+    return Channel.juejin;
+  } else if (/v2ex/.test(referrer)) {
+    return Channel.v2ex;
+  } else if (/tools\.fun/.test(referrer)) {
+    return Channel['tools.fun'];
+  } else if (/github/.test(referrer)) {
+    return Channel.github;
+  }
 }

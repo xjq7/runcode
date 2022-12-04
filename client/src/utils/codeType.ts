@@ -19,7 +19,7 @@ export enum CodeEnv {
   php = 'php:8',
   rust = 'rust:latest',
   c = 'cpp:11',
-  dotnet = 'dotnet:lts',
+  dotnet = 'mono:lts',
 }
 
 export enum FileSuffix {
@@ -39,6 +39,7 @@ export enum Channel {
   juejin,
   v2ex,
   'tools.fun',
+  github,
 }
 
 export const ChannelText = {
@@ -46,4 +47,5 @@ export const ChannelText = {
   [Channel.juejin]: '掘金',
   [Channel.v2ex]: 'v2ex',
   [Channel['tools.fun']]: 'tools.fun',
+  [Channel.github]: 'Github',
 };
