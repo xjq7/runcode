@@ -91,7 +91,7 @@ export class StatController {
             });
 
             const curCount =
-              source[ChannelText[channel as Channel]] || ChannelText[0];
+              source[ChannelText[channel as Channel] || ChannelText[0]];
             if (curCount) {
               source[ChannelText[channel as Channel]]++;
             } else {
