@@ -108,6 +108,7 @@ export class StatController {
             gte: wrapDayjs(endAt).subtract(3, 'd').add(1, 's').toISOString(),
           },
         },
+        distinct: ['ip'],
         orderBy: [
           {
             createdAt: 'desc',
