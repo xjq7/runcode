@@ -33,3 +33,17 @@ export enum FileSuffix {
   c = 'c',
   dotnet = 'cs',
 }
+
+export enum Channel {
+  self = 0,
+  juejin,
+  v2ex,
+  'tools.fun',
+}
+
+export const ChannelText = {
+  [Channel.self]: '自然流量',
+  [Channel.juejin]: '掘金',
+  [Channel.v2ex]: 'v2ex',
+  [Channel['tools.fun']]: 'tools.fun',
+};

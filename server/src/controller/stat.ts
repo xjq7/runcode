@@ -15,6 +15,7 @@ import uaparser from 'ua-parser-js';
 import { stat } from '@prisma/client';
 import { uniqBy } from 'lodash';
 import { wrapDayjs } from '../utils/helper';
+import { Channel, ChannelText } from '../utils/type';
 
 const IP_PREFIX = 'ip_';
 
@@ -98,7 +99,6 @@ export class StatController {
             gte: wrapDayjs(endAt).subtract(3, 'd').add(1, 's').toISOString(),
           },
         },
-        distinct: ['ip'],
         orderBy: [
           {
             createdAt: 'desc',
@@ -124,10 +124,22 @@ export class StatController {
         },
       ];
 
-      list7.forEach((stat) => {
-        const { createdAt } = stat;
+      const source: Record<string, number> = {};
+      const ipSet = new Set();
+
+      list7.reverse().forEach((stat) => {
+        const { createdAt, channel, ip } = stat;
         const diff = wrapDayjs(endAt).diff(createdAt, 'd');
         uvStats[diff].value++;
+
+        const curCount = source[ChannelText[channel as Channel]];
+        if (curCount) {
+          source[ChannelText[channel as Channel]]++;
+        } else {
+          source[ChannelText[channel as Channel]] = 1;
+        }
+
+        ipSet.add(ip);
       });
 
       return {
@@ -154,6 +166,10 @@ export class StatController {
             type: city,
             value,
           })),
+          source: Object.entries(source).map(([key, value]) => ({
+            type: key,
+            value,
+          })),
         },
       };
     } catch (error) {
@@ -169,7 +185,8 @@ export class StatController {
   async visit(
     @Ip() ip: string,
     @HeaderParam('User-Agent') userAgent: string,
-    @BodyParam('createdAt', { required: true }) createdAt: string
+    @BodyParam('createdAt', { required: true }) createdAt: string,
+    @BodyParam('channel') channel: number
   ) {
     logger.info('/visit POST body createdAt: %s', createdAt);
     if (!ip) {
@@ -185,6 +202,7 @@ export class StatController {
       if (ipCache !== null) {
         return {
           code: 0,
+          message: '缓存中',
         };
       }
 
@@ -203,14 +221,15 @@ export class StatController {
           province,
           isp,
           userAgent,
+          channel,
           createdAt: wrapDayjs(createdAt).toISOString(),
         },
       });
-    } catch (error) {
-      logger.error(`visit error, ${JSON.stringify(error)}`);
+    } catch (error: any) {
+      logger.error(`visit error, ${error?.message}`);
       return {
         code: 0,
-        message: JSON.stringify(error),
+        message: error?.message,
       };
     }
 

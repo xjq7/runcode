@@ -20,6 +20,7 @@ function Component() {
     province: [],
     city: [],
     country: [],
+    source: [],
   });
 
   const [regionType, setRegionType] = useState(RegionType.country);
@@ -140,6 +141,58 @@ function Component() {
   }, [stats]);
 
   useEffect(() => {
+    let data = stats.source;
+
+    const chart = new Chart({
+      container: 'source-stats',
+      autoFit: true,
+      height: 360,
+    });
+
+    chart.coordinate('theta', {
+      radius: 0.75,
+    });
+
+    chart.data(data);
+
+    chart.tooltip({
+      showTitle: false,
+      showMarkers: false,
+    });
+
+    chart
+      .interval()
+      .position('value')
+      .color('type', [
+        '#873bf4',
+        '#47abfc',
+        '#38c060',
+        '#1770d6',
+        'rgb(255, 112, 8)',
+      ])
+      .label('value', {
+        layout: [
+          { type: 'pie-spider' },
+          {
+            type: 'limit-in-plot',
+            cfg: { action: 'ellipsis' /** 或 translate */ },
+          },
+        ],
+        content: (data) => {
+          return `${data.type}: ${data.value}`;
+        },
+      })
+      .adjust('stack');
+
+    chart.interaction('element-active');
+
+    chart.render();
+    return () => {
+      chart.destroy();
+    };
+  }, [stats]);
+
+  useEffect(() => {
     let data: any = [];
 
     if (regionType === RegionType.country) {
@@ -238,6 +291,10 @@ function Component() {
             }}
           />
           <div id="region-stats"></div>
+        </div>
+        <div className="w-1/2">
+          <div className="mb-6">来源统计</div>
+          <div id="source-stats"></div>
         </div>
       </div>
     </div>

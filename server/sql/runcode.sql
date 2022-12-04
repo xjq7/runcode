@@ -29,7 +29,7 @@ CREATE TABLE `stat`  (
   `province` varchar(128) NOT NULL DEFAULT '' COMMENT '省',
   `city` varchar(128) NOT NULL DEFAULT '' COMMENT '城市',
   `isp` varchar(128) NOT NULL DEFAULT '' COMMENT '城市运营商',
-  `channel` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '来源渠道: 0: 自来, 1: v2ex, 2: 掘金, 3: ',
+  `channel` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '来源渠道: 0: 自来, 1: v2ex, 2: 掘金, 3: tools.fun',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 0 COMMENT = '访问数据' ROW_FORMAT = Dynamic;

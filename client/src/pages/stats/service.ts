@@ -13,6 +13,11 @@ export interface UvStat {
   value: number;
 }
 
+export interface SourceStat {
+  type: string;
+  value: number;
+}
+
 export interface RegionStat {
   type: string;
   value: number;
@@ -24,6 +29,7 @@ export interface Stat {
   province: RegionStat[];
   city: RegionStat[];
   country: RegionStat[];
+  source: SourceStat[];
 }
 
 export interface IStatRequest {

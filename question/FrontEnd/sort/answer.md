@@ -13,6 +13,40 @@ export default function sort(arr) {
 
 快速排序
 
+```js
+function quicksort(arr, l = 0, r = arr.length - 1) {
+  const t = arr[l];
+
+  if (l >= r) return;
+
+  let _r = r,
+    _l = l;
+
+  while (_l < _r) {
+    while (_r > _l && arr[_r] >= t) {
+      _r--;
+    }
+    while (_l < _r && arr[_l] <= t) {
+      _l++;
+    }
+
+    if (_l < _r) {
+      const temp = arr[_l];
+      arr[_l] = arr[_r];
+      arr[_r] = temp;
+    }
+  }
+  1;
+
+  arr[l] = arr[_l];
+  arr[_l] = t;
+
+  quicksort(arr, l, _l - 1);
+  quicksort(arr, _r + 1, r);
+  return arr;
+}
+```
+
 ### 方法三
 
 冒泡排序

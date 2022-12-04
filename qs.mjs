@@ -70,8 +70,6 @@ const root = path.resolve(process.cwd(), 'question/FrontEnd');
           data['test'] = content;
         }
 
-        const date = dayjs().add(8, 'h').toISOString();
-        data['createdAt'] = date;
         data['type'] = 1;
         data['level'] = 1;
         data['name'] = dir;
