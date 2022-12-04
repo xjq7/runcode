@@ -46,7 +46,7 @@ export class StatController {
         ],
       });
 
-      const uniqList = uniqBy(list, (x) => x.ip);
+      const uniqList = uniqBy(list.reverse(), (x) => x.ip);
       const uv = uniqList.length;
       const pv = list.length;
 
@@ -90,7 +90,8 @@ export class StatController {
               }
             });
 
-            const curCount = source[ChannelText[channel as Channel]];
+            const curCount =
+              source[ChannelText[channel as Channel]] || ChannelText[0];
             if (curCount) {
               source[ChannelText[channel as Channel]]++;
             } else {
