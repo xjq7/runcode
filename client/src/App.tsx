@@ -9,8 +9,11 @@ import 'highlight.js/styles/rainbow.css';
 
 function App() {
   useEffect(() => {
+    const channel = Number(
+      new URLSearchParams(location.search).get('channel') || 0
+    );
     const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    visit({ createdAt: now });
+    visit({ createdAt: now, channel });
   }, []);
 
   return (
