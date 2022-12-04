@@ -50,6 +50,8 @@ export class StatController {
       const uv = uniqList.length;
       const pv = list.length;
 
+      const source: Record<string, number> = {};
+
       const parseList = uniqList.map((o) => {
         const ua = uaparser(o.userAgent ?? '');
         const browser = ua?.browser?.name ?? '未知';
@@ -69,7 +71,7 @@ export class StatController {
           ]
         >(
           (acc, cur) => {
-            const { os, country, province, city } = cur;
+            const { os, country, province, city, channel } = cur;
             if (os) {
               if (!acc[0][os]) {
                 acc[0][os] = 1;
@@ -87,6 +89,13 @@ export class StatController {
                 acc[idx][value]++;
               }
             });
+
+            const curCount = source[ChannelText[channel as Channel]];
+            if (curCount) {
+              source[ChannelText[channel as Channel]]++;
+            } else {
+              source[ChannelText[channel as Channel]] = 1;
+            }
 
             return acc;
           },
@@ -124,22 +133,11 @@ export class StatController {
         },
       ];
 
-      const source: Record<string, number> = {};
-      const ipSet = new Set();
-
       list7.reverse().forEach((stat) => {
-        const { createdAt, channel, ip } = stat;
+        const { createdAt } = stat;
+
         const diff = wrapDayjs(endAt).diff(createdAt, 'd');
         uvStats[diff].value++;
-
-        const curCount = source[ChannelText[channel as Channel]];
-        if (curCount) {
-          source[ChannelText[channel as Channel]]++;
-        } else {
-          source[ChannelText[channel as Channel]] = 1;
-        }
-
-        ipSet.add(ip);
       });
 
       return {

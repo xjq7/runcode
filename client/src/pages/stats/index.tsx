@@ -293,7 +293,7 @@ function Component() {
           <div id="region-stats"></div>
         </div>
         <div className="w-1/2">
-          <div className="mb-6">来源统计</div>
+          <div className="mb-6">今日访问用户来源统计</div>
           <div id="source-stats"></div>
         </div>
       </div>
