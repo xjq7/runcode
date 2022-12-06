@@ -40,6 +40,9 @@ export enum Channel {
   v2ex,
   'tools.fun',
   github,
+  google,
+  baidu,
+  bing,
 }
 
 export const ChannelText = {
@@ -48,4 +51,7 @@ export const ChannelText = {
   [Channel.v2ex]: 'v2ex',
   [Channel['tools.fun']]: 'tools.fun',
   [Channel.github]: 'Github',
+  [Channel.google]: 'Google',
+  [Channel.baidu]: 'Baidu',
+  [Channel.bing]: 'bing',
 };

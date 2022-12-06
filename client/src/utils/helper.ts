@@ -56,13 +56,19 @@ export function prettierCodeFormat(code: string) {
 
 export function parseReferrerToChannel() {
   const referrer = document.referrer;
-  if (/juejin/.test(referrer)) {
+  if (/juejin\.cn/.test(referrer)) {
     return Channel.juejin;
-  } else if (/v2ex/.test(referrer)) {
+  } else if (/v2ex\.com/.test(referrer)) {
     return Channel.v2ex;
   } else if (/tools\.fun/.test(referrer)) {
     return Channel['tools.fun'];
-  } else if (/github/.test(referrer)) {
+  } else if (/github\.com/.test(referrer)) {
     return Channel.github;
+  } else if (/google\.com/.test(referrer)) {
+    return Channel.google;
+  } else if (/baidu\.com/.test(referrer)) {
+    return Channel.baidu;
+  } else if (/bing\.com/.test(referrer)) {
+    return Channel.bing;
   }
 }
