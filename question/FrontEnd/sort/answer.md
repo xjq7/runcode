@@ -36,7 +36,6 @@ function quicksort(arr, l = 0, r = arr.length - 1) {
       arr[_r] = temp;
     }
   }
-  1;
 
   arr[l] = arr[_l];
   arr[_l] = t;
