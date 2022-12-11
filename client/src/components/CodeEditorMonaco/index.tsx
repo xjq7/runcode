@@ -50,7 +50,7 @@ export interface Expose {
 const Component = (props: Props, ref: ForwardedRef<Expose>) => {
   const {
     className,
-    language = CodeType.cpp,
+    language = 'cpp',
     theme = ThemeType['Visual Studio'],
     code = '',
   } = props;
@@ -72,14 +72,17 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
 
   useEffect(() => {
     if (monacoRef.current) {
+      const isUseClangFormat = ['cpp', 'java', 'c', 'csharp'].includes(
+        language
+      );
       editorRef.current = monaco.editor.create(monacoRef.current, {
         value: code,
-        language: language,
+        language,
         theme,
         smoothScrolling: true,
         readOnly: false,
+        tabSize: isUseClangFormat ? 2 : 4,
       });
-
       return () => editorRef.current?.dispose();
     }
   }, [language, theme]);
