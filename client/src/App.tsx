@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './pages/router';
 import Layout from '~components/Layout';
 import { useEffect } from 'react';
-import { visit } from '~services/stat';
+import { IVisit, visit } from '~services/stat';
 import dayjs from 'dayjs';
 import 'highlight.js/styles/rainbow.css';
 import { parseReferrerToChannel } from '~utils/helper';
@@ -16,7 +16,15 @@ function App() {
         0
     );
     const now = dayjs().format('YYYY-MM-DD HH:mm:ss');
-    visit({ createdAt: now, channel });
+
+    const body: IVisit = {
+      createdAt: now,
+      channel,
+    };
+    if (channel === 0 && !/r\.xjq\.icu/.test(document.referrer)) {
+      body.source = document.referrer;
+    }
+    visit(body);
   }, []);
 
   return (

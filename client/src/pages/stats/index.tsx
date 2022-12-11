@@ -21,6 +21,7 @@ function Component() {
     city: [],
     country: [],
     source: [],
+    channel: [],
   });
 
   const [regionType, setRegionType] = useState(RegionType.country);
@@ -141,10 +142,10 @@ function Component() {
   }, [stats]);
 
   useEffect(() => {
-    let data = stats.source;
+    let data = stats.channel;
 
     const chart = new Chart({
-      container: 'source-stats',
+      container: 'channel-stats',
       autoFit: true,
       height: 360,
     });
@@ -184,7 +185,7 @@ function Component() {
       })
       .adjust('stack');
 
-    chart.interaction('element-active');
+    chart.interaction('element-single-selected');
 
     chart.render();
     return () => {
@@ -238,13 +239,68 @@ function Component() {
       })
       .adjust('stack');
 
-    chart.interaction('element-active');
+    chart.interaction('element-single-selected');
 
     chart.render();
     return () => {
       chart.destroy();
     };
   }, [stats, regionType]);
+
+  useEffect(() => {
+    const data = stats.source || [];
+
+    if (!data.length) return;
+
+    const chart = new Chart({
+      container: 'source-stats',
+      autoFit: true,
+      height: 360,
+    });
+    chart.data(data);
+
+    chart.coordinate('theta', {
+      radius: 0.75,
+    });
+
+    chart.tooltip({
+      showTitle: false,
+      showMarkers: false,
+    });
+
+    chart
+      .interval()
+      .position('value')
+      .color('type', [
+        '#873bf4',
+        '#063d8a',
+        '#1770d6',
+        '#47abfc',
+        '#38c060',
+        'rgb(255, 112, 8)',
+      ])
+      .label('value', {
+        layout: [
+          { type: 'pie-spider' },
+          {
+            type: 'limit-in-plot',
+            cfg: { action: 'ellipsis' /** 或 translate */ },
+          },
+        ],
+        content: (data) => {
+          return `${data.type}: ${data.value}`;
+        },
+      })
+      .adjust('stack');
+
+    chart.interaction('element-single-selected');
+
+    chart.render();
+
+    return () => {
+      chart.destroy();
+    };
+  }, [stats]);
 
   return (
     <div className={styles.container}>
@@ -271,7 +327,7 @@ function Component() {
         </div>
 
         <div className="w-1/2">
-          <div className="mb-6">近三天用户访问统计</div>
+          <div className="mb-3">近三天用户访问统计</div>
           <div id="uv-stats"></div>
         </div>
       </div>
@@ -293,9 +349,17 @@ function Component() {
           <div id="region-stats"></div>
         </div>
         <div className="w-1/2">
-          <div className="mb-6">今日访问用户来源统计</div>
+          <div className="mb-3">今日访问用户来源统计</div>
+          <div id="channel-stats"></div>
+        </div>
+      </div>
+      <div className={styles.chart}>
+        <div className="w-1/2">
+          <div className="mb-3">今日未知渠道 referrer 统计</div>
           <div id="source-stats"></div>
         </div>
+
+        <div className="w-1/2"></div>
       </div>
     </div>
   );

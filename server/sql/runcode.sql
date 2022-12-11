@@ -30,6 +30,7 @@ CREATE TABLE `stat`  (
   `city` varchar(128) NOT NULL DEFAULT '' COMMENT '城市',
   `isp` varchar(128) NOT NULL DEFAULT '' COMMENT '城市运营商',
   `channel` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '来源渠道: 0: 自来, 1: v2ex, 2: 掘金, 3: tools.fun 4: github 5: google 6: baidu 7: bing',
+  `source` varchar(128) NOT NULL DEFAULT '' COMMENT '来源 referrer 字段, 未记录到来源则记录 referrer 用于 数据统计',
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 0 COMMENT = '访问数据' ROW_FORMAT = Dynamic;

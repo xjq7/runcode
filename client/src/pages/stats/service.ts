@@ -18,6 +18,11 @@ export interface SourceStat {
   value: number;
 }
 
+export interface ChannelStat {
+  type: string;
+  value: number;
+}
+
 export interface RegionStat {
   type: string;
   value: number;
@@ -30,6 +35,7 @@ export interface Stat {
   city: RegionStat[];
   country: RegionStat[];
   source: SourceStat[];
+  channel: ChannelStat[];
 }
 
 export interface IStatRequest {

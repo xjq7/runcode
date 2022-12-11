@@ -16,6 +16,7 @@ model stat {
   isp       String?   @default("")
   userAgent String?   @default("")
   channel   Int?      @default(0)
+  source    String?   @default("")
   createdAt DateTime? @db.DateTime()
   updatedAt DateTime? @db.DateTime()
   latestAt  DateTime? @db.DateTime()

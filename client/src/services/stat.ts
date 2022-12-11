@@ -1,8 +1,9 @@
 import request from '~utils/request';
 
-interface IVisit {
+export interface IVisit {
   createdAt: string;
   channel: number;
+  source?: string;
 }
 
 export function visit(data: IVisit): Promise<{}> {

@@ -28,7 +28,7 @@ export class StatController {
   @Get('/')
   async getStat(
     @QueryParam('startAt', { required: true }) startAt: string,
-    @QueryParam('endAt', { required: true }) endAt: string
+    @QueryParam('endAt', { required: true }) endAt: string,
   ) {
     logger.info('/stat GET query startAt: %s ,endAt: %s', startAt, endAt);
     try {
@@ -50,8 +50,6 @@ export class StatController {
       const uv = uniqList.length;
       const pv = list.length;
 
-      const source: Record<string, number> = {};
-
       const parseList = uniqList.map((o) => {
         const ua = uaparser(o.userAgent ?? '');
         const browser = ua?.browser?.name ?? '未知';
@@ -61,17 +59,21 @@ export class StatController {
         return { ...o, browser, os, device, engine };
       }) as StatRes[];
 
+      const channelStat: Record<string, number> = {};
+
+      const sourceStat: Record<string, number> = {};
+
       const [osStats, countryStats, provinceStats, cityStats] =
         parseList.reduce<
           [
             Record<string, number>,
             Record<string, number>,
             Record<string, number>,
-            Record<string, number>
+            Record<string, number>,
           ]
         >(
           (acc, cur) => {
-            const { os, country, province, city, channel } = cur;
+            const { os, country, province, city, channel, source } = cur;
             if (os) {
               if (!acc[0][os]) {
                 acc[0][os] = 1;
@@ -91,16 +93,26 @@ export class StatController {
             });
 
             const curCount =
-              source[ChannelText[channel as Channel] || ChannelText[0]];
-            if (curCount) {
-              source[ChannelText[channel as Channel]]++;
+              channelStat[ChannelText[channel as Channel] || ChannelText[0]];
+
+            let hostname = '';
+            try {
+              const url = new URL(source || '');
+              hostname = url?.hostname;
+            } catch (error) {}
+
+            if (channel === 0 && hostname) {
+              channelStat['未知渠道'] = (channelStat['未知渠道'] || 0) + 1;
+              sourceStat[hostname] = (sourceStat[hostname] || 0) + 1;
+            } else if (curCount) {
+              channelStat[ChannelText[channel as Channel]]++;
             } else {
-              source[ChannelText[channel as Channel]] = 1;
+              channelStat[ChannelText[channel as Channel]] = 1;
             }
 
             return acc;
           },
-          [{}, {}, {}, {}]
+          [{}, {}, {}, {}],
         );
       const list7 = await prisma.stat.findMany({
         where: {
@@ -166,17 +178,21 @@ export class StatController {
             type: city,
             value,
           })),
-          source: Object.entries(source).map(([key, value]) => ({
+          channel: Object.entries(channelStat).map(([key, value]) => ({
+            type: key,
+            value,
+          })),
+          source: Object.entries(sourceStat).map(([key, value]) => ({
             type: key,
             value,
           })),
         },
       };
-    } catch (error) {
-      logger.error('stats 查询出错', JSON.stringify(error));
+    } catch (error: any) {
+      logger.error('stats 查询出错', error.message);
       return {
         code: 1,
-        message: JSON.stringify(error),
+        message: error.message,
       };
     }
   }
@@ -186,7 +202,8 @@ export class StatController {
     @Ip() ip: string,
     @HeaderParam('User-Agent') userAgent: string,
     @BodyParam('createdAt', { required: true }) createdAt: string,
-    @BodyParam('channel') channel: number
+    @BodyParam('channel') channel: number,
+    @BodyParam('source') source: string,
   ) {
     logger.info('/visit POST body createdAt: %s', createdAt);
     if (!ip) {
@@ -222,6 +239,7 @@ export class StatController {
           isp,
           userAgent,
           channel,
+          source,
           createdAt: wrapDayjs(createdAt).toISOString(),
         },
       });
