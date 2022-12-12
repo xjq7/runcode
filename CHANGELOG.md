@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/xjq7/runcode/compare/v1.4.0...v1.4.1) (2022-12-12)
+
+
+### Features
+
+* 访问来源统计增加 几种搜索引擎 ([bbadd45](https://github.com/xjq7/runcode/commit/bbadd45bee6bc4d43da10d3cc6d0cb8248c2ef81))
+* 更新 sort answer ([ea2a9ee](https://github.com/xjq7/runcode/commit/ea2a9ee4ca0edb5cb7ea420c551dd0537c3308a2))
+* 客户端访问上报加上来源字段 ([2f797f8](https://github.com/xjq7/runcode/commit/2f797f82a28295574aca6cef028fc014427262be))
+* 客户端添加 referrer 判断统计访问来源 ([43f046b](https://github.com/xjq7/runcode/commit/43f046b252489b0e72e05e171f15af07ca8bca1a))
+* 题库 UI 更新 ([c3de895](https://github.com/xjq7/runcode/commit/c3de895ecb49d1af4b71f3ce7b9adb9db422adba))
+* 题库新增时间字段展示 ([2ebab6b](https://github.com/xjq7/runcode/commit/2ebab6b3961e54ae0ec6a210d5397417c15a9372))
+* 未知渠道来源统计 ([5b6bc0d](https://github.com/xjq7/runcode/commit/5b6bc0daca252abfce923ab75b3328836c9731e2))
+* 新增 金额判断 题目 ([42db203](https://github.com/xjq7/runcode/commit/42db20356a605fee9231d1a73460cc8f4cfb08f2))
+* 新增 渠道来源统计 ([811ce9b](https://github.com/xjq7/runcode/commit/811ce9b29a8d8a51a8b4722fcabde462e26e0856))
+* 新增 compose 题目 ([e937712](https://github.com/xjq7/runcode/commit/e9377120e9e196556b100e3fb81c6000437a1aa1))
+* 新增 deepMerge 题目 ([f4bb928](https://github.com/xjq7/runcode/commit/f4bb928626a78740a3c265af0ad84528ec6b24cd))
+* 新增 flattenTree 题目 ([f053775](https://github.com/xjq7/runcode/commit/f053775cd5a7e17a571832f381cc6e0868693418))
+* 新增 indexOf 题目 ([7bd7dc8](https://github.com/xjq7/runcode/commit/7bd7dc8e332009d5af06e58ee0905f4464ae694e))
+* 新增 IP 地址合法性验证题目 ([6ac746f](https://github.com/xjq7/runcode/commit/6ac746f4fdeb7692c03cf4b0a51aaecb6685d9cf))
+* 增加 seo 相关 meta ([8f95c25](https://github.com/xjq7/runcode/commit/8f95c252fe957d51abb12938427e581debd67e37))
+* 增加意见反馈入口 ([c7f7223](https://github.com/xjq7/runcode/commit/c7f7223900960defe7b8c3ac1a63114fbc3c47bb))
+* js 代码格式化切换为 prettier ([6beafb1](https://github.com/xjq7/runcode/commit/6beafb16b66a6dbcf5c2e8b3ce569318b42b1da1))
+
+
+### Bug Fixes
+
+* 来源采用时间最早的记录 ([ee9496d](https://github.com/xjq7/runcode/commit/ee9496dafba14e48a60d5a90153cbcc45adf4d89))
+* 来源统计改为当日数据 ([919e747](https://github.com/xjq7/runcode/commit/919e747c18f61880e47c08ad22df992117549986))
+* 前端编程题题目按时间倒序排序 ([a25507c](https://github.com/xjq7/runcode/commit/a25507c5f060440700ea70aac7cfd445a04ac1f9))
+* 输出为基础数据类型时，需要转为 字符串再处理 ([857a080](https://github.com/xjq7/runcode/commit/857a08056d9380df3e5b3e69237a7988d71d4b87))
+* 统一clang-format 与editor tab size长度 ([b666e72](https://github.com/xjq7/runcode/commit/b666e724ef3a36f2144be645e7d8b2c5efa9f187))
+
 ## [1.4.0](https://github.com/xjq7/runcode/compare/v1.3.0...v1.4.0) (2022-11-18)
 
 
