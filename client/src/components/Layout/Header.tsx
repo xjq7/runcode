@@ -23,6 +23,13 @@ function Component() {
         >
           Runcode
         </a>
+        <a
+          href="https://github.com/xjq7/runcode"
+          target="_blank"
+          className="text-xs mt-1 text-indigo-700"
+        >
+          觉得好用的话点击前往 Github 点亮 ⭐, 提一些产品建议
+        </a>
       </div>
       <div className="flex-none pr-4">
         <Menu
