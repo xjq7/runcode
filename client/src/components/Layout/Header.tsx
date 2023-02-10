@@ -35,9 +35,10 @@ function Component() {
         <Menu
           value={pathname}
           options={[
-            { label: '前端编程题', value: RouterPath.questions },
+            { label: '编程题', value: RouterPath.questions },
             { label: '编辑器', value: RouterPath.editor },
             { label: '访问数据', value: RouterPath.stat },
+            { label: '友情链接', value: RouterPath.external },
           ]}
           onClick={(pathname) => {
             router.navigate(pathname);

@@ -7,12 +7,14 @@ const Stat = lazy(() => import('./stats'));
 const Questions = lazy(() => import('./questions'));
 const Editor = lazy(() => import('./editor'));
 const Question = lazy(() => import('./question'));
+const External = lazy(() => import('./external'));
 
 export const enum RouterPath {
   stat = '/stat',
   question = '/question',
   questions = '/questions',
   editor = '/',
+  external = '/external',
 }
 
 const router = createBrowserRouter([
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
     element: (
       <React.Suspense fallback={<PageSpinner />}>
         <Stat />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: RouterPath.external,
+    element: (
+      <React.Suspense fallback={<PageSpinner />}>
+        <External />
       </React.Suspense>
     ),
   },

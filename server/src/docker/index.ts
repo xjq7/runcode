@@ -193,7 +193,7 @@ export async function run2(params: {
               }
             } catch (error) {
               logger.error(
-                'docker runner output handle error' + JSON.stringify(error)
+                'docker runner output handle error' + JSON.stringify(error),
               );
               removeContainer();
               reject(error);
@@ -207,7 +207,7 @@ export async function run2(params: {
             { stream: true, stdout: true, stderr: true },
             function (_err, stream?: Stream) {
               stream?.pipe(process.stdout);
-            }
+            },
           );
 
           const timeoutSig = setTimeout(handleOutput, DockerRunConfig.timeout);
@@ -219,7 +219,7 @@ export async function run2(params: {
             }
           });
         });
-      }
+      },
     );
   });
 }
@@ -248,80 +248,9 @@ function formatOutput(outputString: string): string {
       .slice(0, 100)
       .concat(
         ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-        outputStringArr.slice(outputStringArr.length - 100)
+        outputStringArr.slice(outputStringArr.length - 100),
       );
   }
 
   return outputStringArr.join('%0A');
-}
-
-export async function run({ type, code }: { type: CodeType; code: string }) {
-  const Error = {
-    output: '',
-    code: 1,
-    time: 0,
-    message: '',
-  };
-
-  const result = Error;
-
-  const dockerOptions = imageMap[type];
-
-  if (!dockerOptions) return Error;
-
-  const { env, shell, fileSuffix } = dockerOptions;
-
-  try {
-    const data = await docker.run(
-      env,
-      [
-        'bash',
-        '-c',
-        `cat > code.${fileSuffix} << EOF ${code} \
-        ${shell}`,
-      ],
-      process.stdout,
-      { StopTimeout: 5 }
-    );
-
-    const output = data[0] || {};
-    result.code = output?.StatusCode;
-
-    const container: Container = data[1];
-    const readstream: any = await container.logs({
-      stdout: true,
-      stderr: true,
-    });
-
-    let outputString = readstream.toString('utf8') as string;
-
-    if (outputString.length > 4200) {
-      outputString =
-        outputString.slice(0, 2000) +
-        outputString.slice(outputString.length - 2000);
-    }
-
-    outputString = encodeURI(outputString);
-
-    outputString = outputString.replace(
-      /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
-      ''
-    );
-
-    let outputStringArr = outputString.split('%0A');
-    if (outputStringArr.length > 200) {
-      outputStringArr = outputStringArr
-        .slice(0, 100)
-        .concat(
-          ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-          outputStringArr.slice(outputStringArr.length - 100)
-        );
-    }
-
-    result.output = outputStringArr.join('%0A');
-    result.code = 0;
-  } catch (error) {
-    console.log(error);
-  }
-  return result;
 }
