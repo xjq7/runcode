@@ -8,6 +8,7 @@ export enum CodeType {
   rust = 'rust',
   c = 'c',
   dotnet = 'dotnet',
+  ts = 'typescript',
 }
 
 export enum CodeEnv {
@@ -20,6 +21,7 @@ export enum CodeEnv {
   rust = 'rust:latest',
   c = 'cpp:11',
   dotnet = 'mono:lts',
+  ts = 'nodejs:lts',
 }
 
 export enum FileSuffix {
@@ -32,6 +34,7 @@ export enum FileSuffix {
   rust = 'rs',
   c = 'c',
   dotnet = 'cs',
+  ts = 'ts',
 }
 
 export enum Channel {

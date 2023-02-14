@@ -52,4 +52,5 @@ namespace CodeApplication
       }
     }
 }`,
+  [CodeType.ts]: `console.log('hello world')`,
 };

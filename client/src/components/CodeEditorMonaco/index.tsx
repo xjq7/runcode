@@ -42,6 +42,7 @@ export const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.rust]: 'rust',
   [CodeType.c]: 'c',
   [CodeType.dotnet]: 'csharp',
+  [CodeType.ts]: 'typescript',
 };
 export interface Expose {
   getEditor: () => monaco.editor.IStandaloneCodeEditor | null;

@@ -102,6 +102,13 @@ expand_arg_files()
     shellWithStdin: 'mcs -out:code.exe code.cs && mono code.exe < input.txt',
     fileSuffix: FileSuffix.dotnet,
   },
+  typescript: {
+    env: CodeEnv.ts,
+    shell: './node_modules/typescript/bin/tsc code.ts && node code.js',
+    shellWithStdin:
+      './node_modules/typescript/bin/tsc code.ts && node code.js < input.txt',
+    fileSuffix: FileSuffix.ts,
+  },
 };
 
 export async function run2(params: {
@@ -193,7 +200,7 @@ export async function run2(params: {
               }
             } catch (error) {
               logger.error(
-                'docker runner output handle error' + JSON.stringify(error)
+                'docker runner output handle error' + JSON.stringify(error),
               );
               removeContainer();
               reject(error);
@@ -207,7 +214,7 @@ export async function run2(params: {
             { stream: true, stdout: true, stderr: true },
             function (_err, stream?: Stream) {
               stream?.pipe(process.stdout);
-            }
+            },
           );
 
           const timeoutSig = setTimeout(handleOutput, DockerRunConfig.timeout);
@@ -219,7 +226,7 @@ export async function run2(params: {
             }
           });
         });
-      }
+      },
     );
   });
 }
@@ -248,7 +255,7 @@ function formatOutput(outputString: string): string {
       .slice(0, 100)
       .concat(
         ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-        outputStringArr.slice(outputStringArr.length - 100)
+        outputStringArr.slice(outputStringArr.length - 100),
       );
   }
 
@@ -281,7 +288,7 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
         ${shell}`,
       ],
       process.stdout,
-      { StopTimeout: 5 }
+      { StopTimeout: 5 },
     );
 
     const output = data[0] || {};
@@ -305,7 +312,7 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
 
     outputString = outputString.replace(
       /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
-      ''
+      '',
     );
 
     let outputStringArr = outputString.split('%0A');
@@ -314,7 +321,7 @@ export async function run({ type, code }: { type: CodeType; code: string }) {
         .slice(0, 100)
         .concat(
           ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-          outputStringArr.slice(outputStringArr.length - 100)
+          outputStringArr.slice(outputStringArr.length - 100),
         );
     }
 

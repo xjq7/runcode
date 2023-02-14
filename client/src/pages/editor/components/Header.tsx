@@ -15,6 +15,7 @@ const codeOptions: IOption<CodeType>[] = [
   { label: 'C#', value: CodeType.dotnet },
   { label: 'Python3', value: CodeType.python3 },
   { label: 'php', value: CodeType.php },
+  { label: 'Typescript', value: CodeType.ts },
 ];
 
 const themeOptions: IOption<ThemeType>[] = [
