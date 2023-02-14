@@ -37,7 +37,7 @@ function useClangFormat({
   }, []);
 
   const format = ({ type, code }: { code: string; type: CodeType }) => {
-    if (type === CodeType.nodejs) {
+    if (type === CodeType.nodejs || type === CodeType.ts) {
       const formatCode = prettierCodeFormat(code);
       if (formatCode) onCodeFormatDone(formatCode);
     } else if (
