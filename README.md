@@ -36,6 +36,34 @@
 
 前端编程题挑战
 
+## 创建题目
+
+在项目根目录下运行
+
+```sh
+pnpm qs:create <你的题目名>
+
+# 例如我创建 demo 题目
+pnpm qs:create demo
+```
+
+运行完之后会在 question/FrontEnd 目录下生成以下文件
+
+- demo
+  - answer.md
+  - answer.mjs
+  - index.md
+  - index.mjs
+  - test.mjs
+
+## 将新添加的文件写入数据库
+
+在项目根目录下运行
+
+```sh
+pnpm qs:generate
+```
+
 ## 开发
 
 前置条件
@@ -131,6 +159,12 @@ sql 结构文件在 /server/sql 下
    cd server
    pnpm i
    ```
+
+3. generate
+
+```sh
+pnpm generate
+```
 
 3. 启动
 
