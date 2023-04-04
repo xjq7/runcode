@@ -9,12 +9,14 @@ on:
     branches: [main]
     paths:
       - 'client/**'
+      - '.github/workflows/client.yml'
       - '!client/config/nginx.conf'
 
   pull_request:
     branches: [main]
     paths:
       - 'client/**'
+      - '.github/workflows/client.yml'
       - '!client/config/nginx.conf'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -42,7 +44,7 @@ jobs:
         run: npm i pnpm -g
 
       - name: Install Packages
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
