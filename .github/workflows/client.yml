@@ -41,10 +41,10 @@ jobs:
           node-version: 16.19.1
 
       - name: Install pnpm
-        run: npm i pnpm -g
+        run: npm i pnpm@7.30.0 -g
 
       - name: Install Packages
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
         run: pnpm build
