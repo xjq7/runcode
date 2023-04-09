@@ -5,17 +5,18 @@ import Menu from '../Menu';
 import router, { RouterPath } from '~pages/router';
 import Tooltip from '~components/Tooltip';
 import styles from './header.module.less';
-import { useDeviceSelectors } from 'react-device-detect';
+import { useWindowSize } from 'react-use';
+import { useMemo } from 'react';
 
 export const settingDrawerId = 'editor-setting';
 
 function Component() {
   let location = useLocation();
-  const [selectors] = useDeviceSelectors(window.navigator.userAgent);
 
-  const { isMobile } = selectors;
-
+  const { width } = useWindowSize();
   const { pathname } = location;
+
+  const showTips = useMemo(() => width > 860, [width]);
 
   return (
     <div className={classNames('navbar bg-base-100', styles.container)}>
@@ -28,7 +29,7 @@ function Component() {
         >
           Runcode
         </a>
-        {!isMobile && (
+        {showTips && (
           <a
             href="https://github.com/xjq7/runcode"
             target="_blank"
