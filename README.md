@@ -1,5 +1,9 @@
 ## runcode
 
+微信交流群
+
+<img width=300 src="https://image.xjq.icu/2023/4/20/1682002932919_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230420230110.jpg"/>
+
 在线运行代码编辑器
 
 语言支持度
