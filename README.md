@@ -208,6 +208,53 @@ npm install pnpm -g
    pnpm prod
    ```
 
+## 部署
+
+### server
+
+1. 服务端环境
+
+- nodejs
+- pm2
+- docker
+- pnpm
+
+2. 编译
+
+进入 server 目录
+
+```sh
+cd server
+pnpm i
+pnpm build
+```
+
+3. 启动服务
+
+```sh
+pnpm deploy
+```
+
+### client
+
+进入 client 目录
+
+1. 安装依赖
+
+```sh
+pnpm i
+```
+
+2. 构建
+
+```sh
+pnpm build
+```
+
+3. 使用 nginx 代理静态资源, 构建好的静态资源在 dist 目录下
+
+主要是 html 文件, 其他静态资源部署到我的 cdn 上了
+
 ## commit 规范
 
 - feat：新功能（feature）
