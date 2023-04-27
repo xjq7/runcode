@@ -3,13 +3,11 @@ import Demo from './demo';
 import React, { lazy } from 'react';
 import PageSpinner from '~components/PageSpinner';
 
-const Stat = lazy(() => import('./stats'));
 const Questions = lazy(() => import('./questions'));
 const Editor = lazy(() => import('./editor'));
 const Question = lazy(() => import('./question'));
 
 export const enum RouterPath {
-  stat = '/stat',
   question = '/question',
   questions = '/questions',
   editor = '/',
@@ -37,14 +35,6 @@ const router = createBrowserRouter([
     element: (
       <React.Suspense fallback={<PageSpinner />}>
         <Questions />
-      </React.Suspense>
-    ),
-  },
-  {
-    path: RouterPath.stat,
-    element: (
-      <React.Suspense fallback={<PageSpinner />}>
-        <Stat />
       </React.Suspense>
     ),
   },

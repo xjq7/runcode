@@ -10,25 +10,19 @@ on:
     paths:
       - 'server/**'
       - '.github/workflows/server.yml'
-      - '!server/config/nginx.conf'
-      - '!server/sql/**'
+      - 'question/FrontEnd/**'
   pull_request:
     branches: [main]
     paths:
       - 'server/**'
       - '.github/workflows/server.yml'
-      - '!server/config/nginx.conf'
-      - '!server/sql/**'
+      - 'question/FrontEnd/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-server:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./server
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -39,9 +33,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: inject env
-        run: npm run inject:env ${{ secrets.DATABASE_URL }} ${{ secrets.REDIS_HOST }}  ${{ secrets.REDIS_PASSWORD }} ${{ secrets.QS_TOKEN }}
 
       - name: Deploy to Server # 第二步，rsync推文件
         uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
@@ -63,10 +54,9 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
+            cd project/runcodeserver
+            pnpm install
+            pnpm qs:generate
             cd project/runcodeserver/server
-            pnpm install 
-            pnpm generate
-            pnpm build
-            pnpm kill
-            pnpm run deploy
-            nginx -s reload
+            docker build . -t runcode/server
+            docker run -p 39005:8080 -d runcode/server

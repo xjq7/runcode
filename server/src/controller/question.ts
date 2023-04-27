@@ -1,20 +1,15 @@
 import {
-  Body,
   BodyParam,
   Get,
   JsonController,
   Post,
-  Put,
   QueryParam,
-  UseBefore,
 } from 'routing-controllers';
-import Container from 'typedi';
+import qss from '../../qs.json';
 import logger from '../logger';
-import { QuestionService } from '../service/question';
 import { CodeEnv } from '../utils/type';
-import { question } from '@prisma/client';
-import { Pager } from '../type';
-import { TokenMiddleware } from '../middleware/tokenMiddleware';
+import Container from 'typedi';
+import { QuestionService } from '../service/question';
 
 const questionService = Container.get(QuestionService);
 
@@ -22,9 +17,9 @@ const questionService = Container.get(QuestionService);
 export class QuestionController {
   @Post('/exec')
   async exec(@BodyParam('name') name: string, @BodyParam('code') code: string) {
-    const questionRes = await questionService.getQuestion({ name });
-    if (questionRes.code) return questionRes;
-    const { test: testCode = '', answer } = questionRes?.data ?? {};
+    const questionRes = qss.data;
+    const qs = questionRes.find((o) => o.name === name);
+    const { test: testCode = '', answer } = qs ?? {};
 
     const wrapCode = '\n' + decodeURI(code) + '\n' + 'EOF' + '\n';
     const wrapTestCode = '\n' + testCode + '\n' + 'EOF' + '\n';
@@ -57,32 +52,18 @@ export class QuestionController {
   }
 
   @Get('/list')
-  list(
-    @QueryParam('keyword') keyword: string = '',
-    @QueryParam('page') page: Pager['page'],
-    @QueryParam('pageSize') pageSize: Pager['pageSize']
-  ) {
-    return questionService.getQuestions({ keyword, pager: { page, pageSize } });
+  async list() {
+    return {
+      code: 0,
+      data: { list: qss.data },
+    };
   }
 
   @Get('/')
   getQuestion(@QueryParam('name', { required: true }) name: string) {
-    return questionService.getQuestion({ name });
-  }
-
-  @Post('/')
-  @UseBefore(TokenMiddleware)
-  async createQuestion(@Body() body: Omit<question, 'id'>) {
-    return await questionService.createQuestion(body);
-  }
-
-  @Put('/')
-  @UseBefore(TokenMiddleware)
-  async updateQuestion(@Body() body: Omit<question, 'id'>) {
-    try {
-      return await questionService.updateQuestion(body);
-    } catch (error) {
-      console.log(error);
-    }
+    return {
+      code: 0,
+      data: qss.data.find((o) => o.name === name),
+    };
   }
 }

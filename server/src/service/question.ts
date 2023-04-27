@@ -5,10 +5,7 @@ import { CodeEnv } from '../utils/type';
 import { Stream } from 'stream';
 import { DockerRunStatus } from '../docker';
 import { isType } from '../utils/helper';
-import { question } from '@prisma/client';
-import prisma from '../config/prisma';
-import { CatchError } from '../middleware/CatchError';
-import { Pager, Response, ResponseList } from '../type';
+
 const docker = new Docker({
   ...dockerConfig,
 });
@@ -38,7 +35,7 @@ function formatOutput(outputString: string): string {
       .slice(0, 100)
       .concat(
         ['\n', '...' + '数据太多,已折叠', '\n'],
-        outputStringArr.slice(outputStringArr.length - 100)
+        outputStringArr.slice(outputStringArr.length - 100),
       );
   }
 
@@ -88,7 +85,7 @@ export class QuestionService {
         { stream: true, stdout: true, stderr: true },
         function (_err, stream?: Stream) {
           stream?.pipe(process.stdout);
-        }
+        },
       );
 
       container?.wait((status) => {
@@ -97,63 +94,5 @@ export class QuestionService {
         }
       });
     });
-  }
-
-  @CatchError()
-  async getQuestion({ name }: { name: string }): Promise<Response<question>> {
-    const data = await prisma.question.findUnique({ where: { name } });
-
-    if (!data) return { code: 1, message: '未查到记录!' };
-    return { code: 0, data };
-  }
-
-  @CatchError()
-  async getQuestions({
-    keyword,
-    pager,
-  }: {
-    keyword: string;
-    pager: Pager;
-  }): Promise<ResponseList<question>> {
-    const { page, pageSize } = pager;
-
-    const data = await prisma.question.findMany({
-      where: { name: { contains: keyword } },
-      skip: (Number(page) - 1) * Number(pageSize),
-      take: Number(pageSize),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-
-    const total = await prisma.question.count({
-      where: { name: { contains: keyword } },
-    });
-    return { code: 0, data: { list: data, pager: { total, page, pageSize } } };
-  }
-
-  @CatchError()
-  async createQuestion(
-    body: Omit<question, 'id'>
-  ): Promise<Response<question>> {
-    const data = await prisma.question.create({ data: body });
-    return { code: 0, data, message: '创建成功!' };
-  }
-
-  @CatchError()
-  async updateQuestion(body: Partial<question>): Promise<Response<question>> {
-    const name = body.name;
-    if (!name) return { code: 1, message: '未查到记录!' };
-
-    const prev = await this.getQuestion({ name });
-
-    const data = await prisma.question.update({
-      where: { name },
-      data: { ...prev.data, ...body },
-    });
-    return {
-      data,
-      code: 0,
-    };
   }
 }
