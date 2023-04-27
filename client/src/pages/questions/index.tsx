@@ -1,34 +1,18 @@
 import classNames from 'classnames';
-import { useState } from 'react';
-import Input from '~components/Input';
 import useList from '~hooks/useList';
 import { PageInfo } from '~utils/type';
 import styles from './index.module.less';
 import { getQuestions, IQuestion } from '~services/question';
-import { useDebounceEffect } from 'ahooks';
 import Spin from '~components/Spin';
-import Pagination from '~components/Pagination';
 import Empty from '~components/Empty';
 import dayjs from 'dayjs';
 
 function Questions() {
-  const [keyword, setKeyword] = useState('');
-
   const fetchQuestions = (o: PageInfo) => {
-    return getQuestions({ page: o.page, pageSize: o.pageSize, keyword });
+    return getQuestions();
   };
 
-  const { dataSource, reload, loading, pageInfo, onPageChange } = useList(
-    fetchQuestions,
-    {
-      pageSize: 10,
-      autoFetch: false,
-    }
-  );
-
-  useDebounceEffect(() => {
-    reload();
-  }, [keyword]);
+  const { dataSource, loading } = useList(fetchQuestions);
 
   const Item = (item: IQuestion) => {
     return (
@@ -50,14 +34,6 @@ function Questions() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <Input
-          className={classNames('mt-6 mb-3', styles.search)}
-          value={keyword}
-          placeholder="search question name"
-          onChange={(e) => {
-            setKeyword(e.target.value);
-          }}
-        />
         <Spin loading={loading}>
           <div className={styles.list}>
             {dataSource.length !== 0 ? (
@@ -71,7 +47,6 @@ function Questions() {
             )}
           </div>
         </Spin>
-        <Pagination {...pageInfo} onPageChange={onPageChange} />
       </div>
     </div>
   );

@@ -10,25 +10,19 @@ on:
     paths:
       - 'server/**'
       - '.github/workflows/server.yml'
-      - '!server/config/nginx.conf'
-      - '!server/sql/**'
+      - 'question/FrontEnd/**'
   pull_request:
     branches: [main]
     paths:
       - 'server/**'
       - '.github/workflows/server.yml'
-      - '!server/config/nginx.conf'
-      - '!server/sql/**'
+      - 'question/FrontEnd/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-server:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./server
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -40,19 +34,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: inject env
-        run: npm run inject:env ${{ secrets.DATABASE_URL }} ${{ secrets.REDIS_HOST }}  ${{ secrets.REDIS_PASSWORD }} ${{ secrets.QS_TOKEN }}
+      - name: Install pnpm
+        run: npm i pnpm@7.30.0 -g
 
-      - name: Deploy to Server # 第二步，rsync推文件
-        uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }} # 引用配置，SSH私钥
-          ARGS: -avz --delete --exclude='*.pyc' # rsync参数，排除.pyc文件
-          SERVER_PORT: ${{ secrets.SSH_PORT }} # SSH端口
-          FOLDER: ./server # 要推送的文件夹，路径相对于代码仓库的根目录
-          SERVER_IP: ${{ secrets.SSH_HOST }} # 引用配置，服务器的host名（IP或者域名domain.com）
-          USERNAME: ${{ secrets.SSH_USER }} # 引用配置，服务器登录名
-          SERVER_DESTINATION: /root/project/runcodeserver/ # 部署到目标文件夹
+      - name: Install Packages
+        run: pnpm install
+
+      - name: Build
+        run: pnpm qs:generate
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: server/
+          remote_path: /root/project/runcodeserver/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_port: ${{ secrets.SSH_PORT }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Restart server # 第三步，重启服务
         uses: appleboy/ssh-action@master
@@ -63,10 +63,8 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           # 重启的脚本，根据自身情况做相应改动，一般要做的是migrate数据库以及重启服务器
           script: |
-            cd project/runcodeserver/server
+            cd project/runcodeserver
             pnpm install 
-            pnpm generate
             pnpm build
             pnpm kill
             pnpm run deploy
-            nginx -s reload

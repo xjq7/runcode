@@ -60,13 +60,17 @@ pnpm qs:create demo
   - index.mjs
   - test.mjs
 
-## 将新添加的文件写入数据库
+## 生成静态文件
 
 在项目根目录下运行
 
 ```sh
 pnpm qs:generate
 ```
+
+运行后会在 server 目录下生成 qs.json 文件
+
+然后启动服务端, 服务端 数据来源于 qs.json
 
 ## 开发
 
@@ -82,22 +86,11 @@ npm install pnpm -g
 
 ### server
 
-- mysql
-
-版本: 8.0
-sql 结构文件在 /server/sql 下
-
-在 .env 中配置 DATABASE_URL
-
-- redis
-
-在 .env 中配置 REDIS_HOST、REDIS_PASSWORD
-
 - koa + typescript + dockerode
 
 1. 构建镜像
 
-前置条件, 安装了 docker
+前置条件, 安装了 docker, docker 需要设置端口 为 2375
 
 未构建的镜像, 在编辑器里 run 代码时会报镜像 404, 所以开发过程中无需全部构建, 构建需要的语言环境即可
 
@@ -166,11 +159,13 @@ sql 结构文件在 /server/sql 下
 
 3. generate
 
-```sh
-pnpm generate
-```
+   生成编程题静态文件
 
-3. 启动
+   ```sh
+   pnpm generate
+   ```
+
+4. 启动
 
    ```sh
    pnpm dev

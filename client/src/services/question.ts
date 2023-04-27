@@ -1,3 +1,12 @@
+/*
+ * @Todo: 请补充模块描述
+ *
+ * @Author: 夏洁琼
+ * @Date: 2023-03-14 16:53:08
+ *
+ * Copyright © 2014-2023 Rabbitpre.com. All Rights Reserved.
+ */
+
 import request from '~utils/request';
 import { PageInfo, ResponseList } from '~utils/type';
 
@@ -17,10 +26,8 @@ export interface IQuestion {
   updatedAt?: Date;
 }
 
-export function getQuestions(params: GetQuestionsRequest) {
-  return request.get<IQuestion, ResponseList<IQuestion>>('/question/list', {
-    params,
-  });
+export function getQuestions() {
+  return request.get<IQuestion, ResponseList<IQuestion>>('/question/list');
 }
 
 export interface GetQuestionRequest {

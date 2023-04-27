@@ -45,7 +45,6 @@ function Component() {
           options={[
             { label: '前端编程题', value: RouterPath.questions },
             { label: '编辑器', value: RouterPath.editor },
-            { label: '访问数据', value: RouterPath.stat },
           ]}
           onClick={(pathname) => {
             router.navigate(pathname);
