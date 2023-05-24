@@ -2,7 +2,7 @@
 
 微信交流群
 
-<img width=300 src="https://image.xjq.icu/2023/4/22/1682139023748_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230422125007.jpg"/>
+<img width=300 src="https://image.xjq.icu/2023/5/24/1684910832506_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230524144636.jpg"/>
 
 在线运行代码编辑器
 
