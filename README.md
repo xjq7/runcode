@@ -1,8 +1,8 @@
 ## runcode
 
-微信交流群
+添加小助手微信进入微信交流群
 
-<img width=300 src="https://image.xjq.icu/2023/5/24/1684910832506_%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230524144636.jpg"/>
+<img width=200 src="https://image.xjq.icu/2023/7/11/1689041043150_books.jpg"/>
 
 在线运行代码编辑器
 
