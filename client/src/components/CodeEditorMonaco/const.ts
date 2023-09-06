@@ -22,6 +22,10 @@ func main () {
 if __name__ == "__main__":
     print("hello world")
   `,
+  [CodeType.python2]: `# encoding: utf-8
+if __name__ == "__main__":
+    print "hello world"
+  `,
   [CodeType.java]: `class Code {
 public
   static void main(String[] args) { 
