@@ -37,6 +37,7 @@ export const languageMap: Record<CodeType, monacoLang> = {
   [CodeType.cpp]: 'cpp',
   [CodeType.go]: 'go',
   [CodeType.python3]: 'python',
+  [CodeType.python2]: 'python',
   [CodeType.java]: 'java',
   [CodeType.php]: 'php',
   [CodeType.rust]: 'rust',
