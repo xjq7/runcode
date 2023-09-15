@@ -7,9 +7,6 @@ dependencies:
   '@antv/g2':
     specifier: ^4.2.8
     version: 4.2.8
-  '@mtrjs/sdk':
-    specifier: ^1.1.1
-    version: 1.1.1
   ahooks:
     specifier: ^3.7.1
     version: 3.7.1(react@18.2.0)
@@ -708,14 +705,6 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@mtrjs/sdk@1.1.1:
-    resolution: {integrity: sha512-7W+9Jnw8GaWDB4SEJUJCylrezQHSxHcqUnNUoLmz8zFGyCwTqoFfPiM8Wq/RNxOmTaXOgXU9fW+pHmiH9IvQtQ==}
-    dependencies:
-      '@babel/runtime': 7.22.3
-      core-js: 3.30.2
-      web-vitals: 3.3.2
-    dev: false
-
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -1365,11 +1354,6 @@ packages:
 
   /copy-to@2.0.1:
     resolution: {integrity: sha512-3DdaFaU/Zf1AnpLiFDeNCD4TOWe3Zl2RZaTzUvWiIk5ERzcCodOE20Vqq4fzCbNoHURFHT4/us/Lfq+S2zyY4w==}
-    dev: false
-
-  /core-js@3.30.2:
-    resolution: {integrity: sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg==}
-    requiresBuild: true
     dev: false
 
   /core-util-is@1.0.3:
@@ -4387,10 +4371,6 @@ packages:
     dependencies:
       acorn: 8.8.0
       acorn-walk: 8.2.0
-    dev: false
-
-  /web-vitals@3.3.2:
-    resolution: {integrity: sha512-qRkpmSeKfEWAzNhtX541xA8gCJ+pqCqBmUlDVkVDSCSYUvfvNqF+k9g8I+uyreRcDBdfiJrd0/aLbTy5ydo49Q==}
     dev: false
 
   /which-boxed-primitive@1.0.2:
