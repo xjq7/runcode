@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/xjq7/runcode/compare/v1.4.1...v1.5.0) (2023-10-07)
+
+
+### Features
+
+* 编程题文档更新, sql 结构更新 ([0d925c1](https://github.com/xjq7/runcode/commit/0d925c13db94c77c86399f02ba42663ad95ef7d5))
+* 接入 监控 SDK ([91de57e](https://github.com/xjq7/runcode/commit/91de57ec81ca0684a8f81fca3d674081c512ff2e))
+* 渠道统计 sdk 替换 ([07c9de6](https://github.com/xjq7/runcode/commit/07c9de6c48a71b738c26d08fe30ef9e130e54e6c))
+* 剔除 数据库, 数据统计模块 ([96c1b12](https://github.com/xjq7/runcode/commit/96c1b122d7ba1bba1ceb512b15fcc6bb71ecf22d))
+* 新增 字体大小调节设置 ([647b6c5](https://github.com/xjq7/runcode/commit/647b6c5d4d31a91dedd3e14ba17b3edddfa71261))
+* 新增 python2 ([bc15036](https://github.com/xjq7/runcode/commit/bc150369a8e3b1c94c8a81829bde784246c746dd))
+* 新增 typescript 语言 ([4ca59d8](https://github.com/xjq7/runcode/commit/4ca59d81ae213bc7fac3b86a6c66c11305062c19))
+* 新增站点提示 ([6218b65](https://github.com/xjq7/runcode/commit/6218b65fed1beca7d3c9d61adda2d81b36f80d50))
+* **seo:** meta 属性优化 ([28a7b08](https://github.com/xjq7/runcode/commit/28a7b08c557b693650841ff54ed01d4939ac081e))
+* typescript 语言 format 支持 ([ff3dcc3](https://github.com/xjq7/runcode/commit/ff3dcc3a120a27336f341aa3a1e0f8bf84b1feee))
+
+
+### Bug Fixes
+
+* 导航栏 tips 移动端隐藏 ([808db69](https://github.com/xjq7/runcode/commit/808db69a98357dcd1c93d98d1597fe8fabbaad72))
+
 ### [1.4.1](https://github.com/xjq7/runcode/compare/v1.4.0...v1.4.1) (2022-12-12)
 
 
