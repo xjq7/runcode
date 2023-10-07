@@ -5,7 +5,6 @@ import Button from '~components/Button';
 import { template } from '~components/CodeEditorMonaco/const';
 import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
-import { CodeType } from '~utils/codeType';
 import { parseConsoleOutput, OutputType } from '~utils/helper';
 import { runCode } from '../service';
 import Tabs from '~components/Tabs';

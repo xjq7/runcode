@@ -14,7 +14,7 @@ const Component = () => {
   const editorRef = useRef<Expose>(null);
 
   const [editorConfig] = useState(() => EditorConfig);
-  const { editorThemeType, codeType } = editorConfig;
+  const { editorThemeType, codeType, fontSize } = editorConfig;
 
   const getEditor = useCallback(() => {
     return editorRef.current?.getEditor();
@@ -33,6 +33,7 @@ const Component = () => {
         ref={editorRef}
         theme={editorThemeType}
         language={languageMap[codeType]}
+        fontSize={fontSize}
       />
       <Operator getEditor={getEditor} />
     </div>

@@ -18,6 +18,7 @@ interface Props {
   theme?: ThemeType;
   language?: monacoLang;
   code?: string;
+  fontSize?: number;
 }
 
 type monacoLang =
@@ -55,6 +56,7 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
     language = 'cpp',
     theme = ThemeType['Visual Studio'],
     code = '',
+    fontSize,
   } = props;
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -73,6 +75,10 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
   }, [code]);
 
   useEffect(() => {
+    editorRef.current?.updateOptions({ theme, fontSize });
+  }, [theme, fontSize]);
+
+  useEffect(() => {
     if (monacoRef.current) {
       const isUseClangFormat = ['cpp', 'java', 'c', 'csharp'].includes(
         language
@@ -80,6 +86,7 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
       editorRef.current = monaco.editor.create(monacoRef.current, {
         value: code,
         language,
+        fontSize,
         theme,
         smoothScrolling: true,
         readOnly: false,
@@ -87,7 +94,7 @@ const Component = (props: Props, ref: ForwardedRef<Expose>) => {
       });
       return () => editorRef.current?.dispose();
     }
-  }, [language, theme]);
+  }, [language]);
 
   useEffect(() => {
     editorRef.current?.layout();
