@@ -92,6 +92,13 @@ npm install pnpm -g
 
 前置条件, 安装了 docker, docker 需要设置端口 为 2375
 
+在 centos 7 端口修改方法:
+在配置文件里 ExecStart=/usr/bin/dockerd 这串后面加上 -H tcp://0.0.0.0:2375 , 然后重启 docker
+我的配置文件在 /usr/lib/systemd/system/docker.service 这个路径
+配置文件示例
+
+![Alt text](images/image.png)
+
 未构建的镜像, 在编辑器里 run 代码时会报镜像 404, 所以开发过程中无需全部构建, 构建需要的语言环境即可
 
 - 构建 C++ 镜像
