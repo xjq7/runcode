@@ -52,6 +52,8 @@ namespace CodeApplication
     {
       static void Main(string[] args)
       {
+          // 这行代码解决中文打印乱码问题
+          Console.OutputEncoding = System.Text.Encoding.UTF8;
           Console.WriteLine("Hello World!");
       }
     }
