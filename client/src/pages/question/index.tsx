@@ -7,7 +7,7 @@ import { CodeType } from '~utils/codeType';
 import hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
 import classNames from 'classnames';
-import Button from '~components/Button';
+import { Button, Radio } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { exec, getQuestion, IQuestion } from '~services/question';
 import { debounce } from 'lodash';
@@ -16,7 +16,6 @@ import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import PageSpinner from '~components/PageSpinner';
 import { parseConsoleOutput, prettierCodeFormat } from '~utils/helper';
-import Tabs from '~components/Tabs';
 
 enum Introduce {
   question,
@@ -123,18 +122,13 @@ function Question() {
     <div className={styles.container}>
       <div className={styles.introduce}>
         <div className={styles.title}>{title}</div>
-
-        <Tabs<Introduce>
-          className="my-5 py-2"
-          tabs={[
-            { label: '简介', value: Introduce.question },
-            { label: '参考答案', value: Introduce.answer },
-          ]}
-          active={introduce}
-          boxed
-          size="md"
-          onChange={(type) => setIntroduce(type)}
-        />
+        <Radio.Group
+          value={introduce}
+          onChange={(e) => setIntroduce(e.target.value)}
+        >
+          <Radio.Button value={Introduce.question}>简介</Radio.Button>
+          <Radio.Button value={Introduce.answer}>参考答案</Radio.Button>
+        </Radio.Group>
         {introduce === Introduce.question && (
           <article
             id="introduce-question"
@@ -160,15 +154,18 @@ function Question() {
         <div className={styles.operator}>
           <div className={styles.left}>
             <Button
+              size="large"
+              type="primary"
               onClick={() => {
                 setShowOutput(!showOutput);
               }}
             >
-              {showOutput ? 'hide' : 'show'}
+              {showOutput ? '收起' : '展开'}
             </Button>
           </div>
           <div className={styles.right}>
             <Button
+              size="large"
               type="primary"
               className="mr-2"
               onClick={() => {
@@ -181,10 +178,15 @@ function Question() {
                 }
               }}
             >
-              format
+              格式化
             </Button>
-            <Button onClick={handleSubmit} loading={submitLoading}>
-              Submit
+            <Button
+              size="large"
+              type="primary"
+              onClick={handleSubmit}
+              loading={submitLoading}
+            >
+              提交
             </Button>
           </div>
         </div>

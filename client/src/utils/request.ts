@@ -1,5 +1,5 @@
+import { message } from 'antd';
 import Axios from 'axios';
-import { toast } from '~components/Toast';
 
 const { VITE_APP_API } = import.meta.env;
 
@@ -22,10 +22,10 @@ instance.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    const { code, data, message } = response.data;
+    const { code, data, message: msg } = response.data;
 
     if (code) {
-      toast({ message, type: 'error' });
+      message.error(msg);
       throw new Error();
     }
 
@@ -34,7 +34,7 @@ instance.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    toast({ type: 'error', message: error.message });
+    message.error(error.message);
     return Promise.reject(error);
   }
 );

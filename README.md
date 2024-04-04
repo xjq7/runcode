@@ -172,11 +172,9 @@ npm install pnpm -g
 
 ### client
 
-- vite + react + typescript
+- vite + react + typescript + antd
 
 - UI
-
-  daisyui 风格简约, 项目侵入性小, 样式复写方便
 
   tailwindcss, 原子化 css, 在个人项目里使用优势很大, 节省时间、代码
 

@@ -3,9 +3,8 @@ import useList from '~hooks/useList';
 import { PageInfo } from '~utils/type';
 import styles from './index.module.less';
 import { getQuestions, IQuestion } from '~services/question';
-import Spin from '~components/Spin';
-import Empty from '~components/Empty';
 import dayjs from 'dayjs';
+import { Empty, Spin } from 'antd';
 
 function Questions() {
   const fetchQuestions = (o: PageInfo) => {
@@ -32,9 +31,9 @@ function Questions() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <Spin loading={loading}>
+    <Spin spinning={loading}>
+      <div className={styles.container}>
+        <div className={styles.content}>
           <div className={styles.list}>
             {dataSource.length !== 0 ? (
               <>
@@ -43,12 +42,12 @@ function Questions() {
                 ))}
               </>
             ) : (
-              <Empty />
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
           </div>
-        </Spin>
+        </div>
       </div>
-    </div>
+    </Spin>
   );
 }
 

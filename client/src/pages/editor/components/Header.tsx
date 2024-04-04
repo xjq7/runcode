@@ -1,11 +1,12 @@
 import classnames from 'classnames';
 import { CodeType } from '~utils/codeType';
-import Select, { IOption } from '~components/Select';
 import EditorConfig, { ThemeType } from '~store/config/editor';
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 
-const codeOptions: IOption<CodeType>[] = [
+const codeOptions: DefaultOptionType[] = [
   { label: 'C++', value: CodeType.cpp },
   { label: 'C', value: CodeType.c },
   { label: 'Java', value: CodeType.java },
@@ -19,7 +20,7 @@ const codeOptions: IOption<CodeType>[] = [
   { label: 'Typescript', value: CodeType.ts },
 ];
 
-const themeOptions: IOption<ThemeType>[] = [
+const themeOptions: DefaultOptionType[] = [
   {
     label: 'Visual Studio',
     value: ThemeType['Visual Studio'],
@@ -52,15 +53,15 @@ function Component() {
     >
       <div className="flex-row">
         <Select<CodeType>
-          className="w-30 ml-2"
-          size="md"
+          className="w-32 ml-2"
           options={codeOptions}
+          size="large"
           value={codeType}
           onChange={(type) => setCodeType(type)}
         />
         <Select<ThemeType>
-          className="w-42 ml-4"
-          size="md"
+          className="w-40 ml-4"
+          size="large"
           options={themeOptions}
           value={editorThemeType}
           onChange={(type) => setEditorThemeType(type)}

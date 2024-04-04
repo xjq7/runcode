@@ -1,26 +1,24 @@
 import useRequest from 'ahooks/lib/useRequest';
 import classnames from 'classnames';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Button from '~components/Button';
+import { Button, Dropdown, Radio, message } from 'antd';
 import { template } from '~components/CodeEditorMonaco/const';
-import { toast } from '~components/Toast';
 import useClangFormat from '~hooks/useClangFormat/useClangFormat';
 import { parseConsoleOutput, OutputType } from '~utils/helper';
 import { runCode } from '../service';
-import Tabs from '~components/Tabs';
-import TextArea from '~components/Textarea';
+import { Input, Tooltip } from 'antd';
 import debounce from 'lodash/debounce';
-import Tooltip from '~components/Tooltip';
 import storage from '~utils/storage';
 import { CodeStorageKey } from '~constant/storage';
 import styles from './operator.module.less';
 import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
 import { WebLinksAddon } from 'xterm-addon-web-links';
-import Dropdown, { Option } from '~components/Dropdown';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import EditorConfig from '~store/config/editor';
 import { observer } from 'mobx-react-lite';
+
+const { TextArea } = Input;
 
 enum DisplayType {
   input,
@@ -69,10 +67,6 @@ function Operator(props: Props) {
     return parseConsoleOutput(output, outputType);
   }, [data, outputType]);
 
-  const handleTerminalChange = (option: Option) => {
-    setOutputType(option.value);
-  };
-
   useEffect(() => {
     if (hiddenTerminalOutput) {
       setOutputType(OutputType.plain);
@@ -113,7 +107,7 @@ function Operator(props: Props) {
 
   const handleRunCode = async () => {
     if (timesPrevent) {
-      toast({ message: '您点击太快啦! 请稍后重试!', type: 'info' });
+      message.info('您点击太快啦! 请稍后重试!');
       return;
     }
 
@@ -164,7 +158,6 @@ function Operator(props: Props) {
           height: 231,
         }}
         placeholder="stdin..."
-        border
       />
     );
   };
@@ -207,75 +200,98 @@ function Operator(props: Props) {
       <div className={classnames(styles.operator, 'pt-2')}>
         {!hiddenTerminalOutput && (
           <Dropdown
-            optionStyle="w-36"
-            options={[
-              { label: 'plain', value: OutputType.plain },
-              { label: 'terminal', value: OutputType.terminal },
-            ]}
-            onChange={handleTerminalChange}
+            menu={{
+              items: [
+                {
+                  label: (
+                    <div
+                      onClick={() => {
+                        setOutputType(OutputType.plain);
+                      }}
+                    >
+                      plain
+                    </div>
+                  ),
+                  key: OutputType.plain,
+                },
+                {
+                  label: (
+                    <div
+                      onClick={() => {
+                        setOutputType(OutputType.terminal);
+                      }}
+                    >
+                      terminal
+                    </div>
+                  ),
+                  key: OutputType.terminal,
+                },
+              ],
+            }}
           >
-            <Button className="mr-2">终端样式</Button>
+            <Button size="large" type="primary" className="mr-2">
+              终端样式
+            </Button>
           </Dropdown>
         )}
 
         {isFormatReady && (
           <Button
-            type="primary"
+            size="large"
             className="mr-2"
             onClick={() => {
               const code = getEditor()?.getValue() || '';
               format({ type: codeType, code });
             }}
           >
-            format
+            格式化
           </Button>
         )}
         <Tooltip
           className="mr-2"
-          tips={`无需频繁保存, 代码变更 ${autoSaveDelay}s 后会自动保存`}
+          title={`无需频繁保存, 代码变更 ${autoSaveDelay}s 后会自动保存`}
         >
           <Button
-            type="primary"
+            size="large"
             disabled={saveDisabled}
             onClick={() => {
               saveCode();
-              toast({ type: 'info', message: '保存成功!' });
+              message.info('保存成功!');
               setSaveDisabled(true);
             }}
           >
-            save
+            保存
           </Button>
         </Tooltip>
 
         <Button
+          size="large"
           type="primary"
           className="mr-2"
           onClick={() => {
             getEditor()?.setValue(template[codeType]);
           }}
         >
-          reset
+          重置
         </Button>
         <Button
+          size="large"
           type="primary"
           className="mr-2"
           loading={loading}
           onClick={handleRunCode}
         >
-          run
+          运行
         </Button>
       </div>
       <div className={classnames(styles.display)}>
-        <Tabs<DisplayType>
-          tabs={[
-            { label: '输入', value: DisplayType.input },
-            { label: '输出', value: DisplayType.output },
-          ]}
-          active={display}
-          lifted
-          size="md"
-          onChange={(type) => setDisplay(type)}
-        />
+        <Radio.Group
+          value={display}
+          onChange={(e) => setDisplay(e.target.value)}
+        >
+          <Radio.Button value={DisplayType.input}>输入</Radio.Button>
+          <Radio.Button value={DisplayType.output}>输出</Radio.Button>
+        </Radio.Group>
 
         {renderInput()}
         {renderOutput()}
