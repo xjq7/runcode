@@ -6,7 +6,7 @@ type rawType = 'Object' | 'Array' | 'Number' | 'String';
 export function isType(...args: rawType[]) {
   return (o: unknown) => {
     return args.some(
-      (t) => Object.prototype.toString.call(o) === `[object ${t}]`,
+      (t) => Object.prototype.toString.call(o) === `[object ${t}]`
     );
   };
 }
@@ -22,7 +22,7 @@ export function wrapDayjs(date: Parameters<typeof dayjs>[0]): Dayjs {
 }
 
 export function tarStreamToString(
-  stream: NodeJS.ReadableStream,
+  stream: NodeJS.ReadableStream
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const extract = tar.extract();

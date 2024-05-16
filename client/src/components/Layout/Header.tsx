@@ -3,11 +3,10 @@ import useLocation from 'react-use/lib/useLocation';
 import Iconfont from '../Iconfont';
 import Menu from '../Menu';
 import router, { RouterPath } from '~pages/router';
-import { Tooltip } from 'antd';
+import { Tooltip ,Button} from 'antd';
 import styles from './header.module.less';
 import { useWindowSize } from 'react-use';
 import { useMemo, useState } from 'react';
-import { Button } from 'antd';
 import SettingSidebar from './SettingSidebar';
 
 export const settingDrawerId = 'editor-setting';
