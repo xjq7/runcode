@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/xjq7/runcode/compare/v1.5.0...v1.6.0) (2024-05-20)
+
+
+### Features
+
+* 组件库改用 antd ([b03ae27](https://github.com/xjq7/runcode/commit/b03ae2783d8d32dd83e10a3d98f780726dbececd))
+
+
+### Bug Fixes
+
+* C# 添加编码设置解决中文打印乱码问题 ([f954f6c](https://github.com/xjq7/runcode/commit/f954f6c0c5c08588e3c4f5eaf41616d326e6b460))
+* docker image name fix ([e259586](https://github.com/xjq7/runcode/commit/e2595863737b9e864bf34827322515bcf3303390))
+
 ## [1.5.0](https://github.com/xjq7/runcode/compare/v1.4.1...v1.5.0) (2023-10-07)
 
 
