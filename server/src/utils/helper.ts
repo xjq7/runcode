@@ -1,4 +1,3 @@
-import dayjs, { Dayjs } from 'dayjs';
 import tar from 'tar-stream';
 
 type rawType = 'Object' | 'Array' | 'Number' | 'String';
@@ -9,16 +8,6 @@ export function isType(...args: rawType[]) {
       (t) => Object.prototype.toString.call(o) === `[object ${t}]`,
     );
   };
-}
-/**
- * 包装 dayjs toISOString 并 +8 hours
- *
- * @export
- * @param {Parameters<typeof dayjs>[0]} date
- * @return {*}
- */
-export function wrapDayjs(date: Parameters<typeof dayjs>[0]): Dayjs {
-  return dayjs(date).add(8, 'h');
 }
 
 export function tarStreamToString(

@@ -8,24 +8,12 @@ export class CodeController {
   async run(@Body() body: CodeRunDto) {
     const { code, type, stdin = '' } = body;
 
-    let result = {};
+    const output = await docker.run({
+      type,
+      code,
+      stdin,
+    });
 
-    try {
-      const output = await docker.run({
-        type,
-        code,
-        stdin,
-      });
-      result = {
-        code: 0,
-        data: output,
-      };
-    } catch (error) {
-      result = {
-        code: 1,
-        message: JSON.stringify(error),
-      };
-    }
-    return result;
+    return output;
   }
 }
