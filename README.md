@@ -122,6 +122,13 @@ npm install pnpm -g
     docker build -t python:3 .
   ```
 
+- 构建 python2 镜像
+
+  ```bash
+    cd server/src/docker/python2
+    docker build -t python:2 .
+  ```
+
 - 构建 go 镜像
 
   ```bash
