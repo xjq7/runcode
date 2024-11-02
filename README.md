@@ -88,6 +88,8 @@ npm install pnpm -g
 
 前置条件, 安装了 docker, docker 需要设置端口 为 2375
 
+**防火墙跟服务器安全组不要开放 2375 端口, 以免造成严重的安全问题, 详情参考 [issues/24](https://github.com/xjq7/runcode/issues/24)**,
+
 在 centos 7 端口修改方法:
 在配置文件里 ExecStart=/usr/bin/dockerd 这串后面加上 -H tcp://0.0.0.0:2375 , 然后重启 docker
 我的配置文件在 /usr/lib/systemd/system/docker.service 这个路径
@@ -217,6 +219,8 @@ npm install pnpm -g
    ```
 
 ## 部署
+
+---
 
 ### server
 
