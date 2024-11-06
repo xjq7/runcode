@@ -10,12 +10,19 @@ export const enum ThemeType {
   'High Contrast Dark' = 'hc-black',
 }
 
+export const enum Lang {
+  ZHCN = 'zh-CN',
+  EN = 'en',
+}
+
 export class EditorConfig {
   autoSaveDelay = 1;
   fontSize = 16;
   editorThemeType = ThemeType['Visual Studio'];
   codeType = CodeType.cpp;
   outputType = OutputType.plain;
+  lang = Lang.EN;
+
   constructor() {
     makeObservable(this, {
       autoSaveDelay: observable,
@@ -23,11 +30,13 @@ export class EditorConfig {
       codeType: observable,
       editorThemeType: observable,
       outputType: observable,
+      lang: observable,
       setAutoSaveDelay: action.bound,
       setEditorThemeType: action.bound,
       setCodeType: action.bound,
       setOutputType: action.bound,
       setFontSize: action.bound,
+      setLang: action.bound,
     });
     makePersistable(this, {
       name: 'EditorConfig',
@@ -37,6 +46,7 @@ export class EditorConfig {
         'editorThemeType',
         'codeType',
         'outputType',
+        'lang',
       ],
       storage: window.localStorage,
     });
@@ -60,6 +70,10 @@ export class EditorConfig {
 
   setFontSize(fontSize: number) {
     this.fontSize = fontSize;
+  }
+
+  setLang(lang: Lang) {
+    this.lang = lang;
   }
 }
 

@@ -1,26 +1,42 @@
 import classNames from 'classnames';
 import useLocation from 'react-use/lib/useLocation';
+import EditorConfig, { Lang } from '~store/config/editor';
+import { observer } from 'mobx-react-lite';
+import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 import Iconfont from '../Iconfont';
 import Menu from '../Menu';
 import router, { RouterPath } from '~pages/router';
 import { Tooltip } from 'antd';
-import styles from './header.module.less';
-import { useWindowSize } from 'react-use';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button } from 'antd';
 import SettingSidebar from './SettingSidebar';
+import styles from './header.module.less';
 
 export const settingDrawerId = 'editor-setting';
 
 function Component() {
   let location = useLocation();
 
-  const { width } = useWindowSize();
+  const { t } = useTranslation();
+
+  const [editorConfig] = useState(() => EditorConfig);
+
+  const { lang, setLang } = editorConfig;
+
   const { pathname } = location;
 
   const [settingDrawerOpen, setSettingDrawerOpen] = useState(false);
 
-  const showTips = useMemo(() => width > 860, [width]);
+  const handleChangeLang = () => {
+    if (lang === Lang.EN) {
+      setLang(Lang.ZHCN);
+      i18n.changeLanguage(Lang.ZHCN);
+    } else if (lang === Lang.ZHCN) {
+      setLang(Lang.EN);
+      i18n.changeLanguage(Lang.EN);
+    }
+  };
 
   return (
     <div className={classNames('navbar bg-base-100', styles.container)}>
@@ -35,24 +51,13 @@ function Component() {
         >
           Runcode
         </Button>
-        {showTips && (
-          <Button
-            type="text"
-            onClick={() => {
-              window.open('https://github.com/xjq7/runcode');
-            }}
-            className="text-xs mt-2 text-indigo-700"
-          >
-            觉得好用的话点击前往 Github 点亮 ⭐, 提一些产品建议
-          </Button>
-        )}
       </div>
       <div className="flex-none pr-4">
         <Menu
           value={pathname}
           options={[
-            { label: '前端编程题', value: RouterPath.questions },
-            { label: '编辑器', value: RouterPath.editor },
+            // { label: '前端编程题', value: RouterPath.questions },
+            { label: t('header.editor'), value: RouterPath.editor },
           ]}
           onClick={(pathname) => {
             router.navigate(pathname);
@@ -61,7 +66,22 @@ function Component() {
         />
 
         <div>
-          <Tooltip title="意见反馈">
+          <Tooltip title={t('header.langch')}>
+            <Iconfont
+              name={
+                lang === Lang.EN
+                  ? 'zhongyingqiehuan-ying'
+                  : 'zhongyingqiehuan-zhong'
+              }
+              size={26}
+              className={classNames('w-7 mr-3')}
+              onClick={handleChangeLang}
+            />
+          </Tooltip>
+        </div>
+
+        <div>
+          <Tooltip title={t('header.feedback')}>
             <Iconfont
               name="yijianfankui"
               size={26}
@@ -74,7 +94,7 @@ function Component() {
               }}
             />
           </Tooltip>
-          <Tooltip title="Github 开源地址">
+          <Tooltip title={t('header.github.repo')}>
             <Iconfont
               name="github"
               size={24}
@@ -85,7 +105,7 @@ function Component() {
             />
           </Tooltip>
 
-          <Tooltip title="设置">
+          <Tooltip title={t('setting.text')}>
             <Iconfont
               name="setting"
               size={24}
@@ -105,4 +125,4 @@ function Component() {
   );
 }
 
-export default Component;
+export default observer(Component);

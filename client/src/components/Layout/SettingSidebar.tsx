@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import EditorConfig from '~store/config/editor';
 import { Drawer, Input, Slider } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   open: boolean;
@@ -10,6 +11,9 @@ interface Props {
 
 export function Component(props: Props) {
   const { open, onClose } = props;
+
+  const { t } = useTranslation();
+
   const [editorConfig] = useState(() => EditorConfig);
 
   const { autoSaveDelay, setAutoSaveDelay, setFontSize, fontSize } =
@@ -20,16 +24,18 @@ export function Component(props: Props) {
   };
 
   return (
-    <Drawer title="设置面板" onClose={onClose} open={open}>
-      <div className="font-semibold m-2 text-xl">自动保存:</div>
+    <Drawer title={t('setting.panel.title')} onClose={onClose} open={open}>
+      <div className="font-semibold m-2 text-xl">{t('setting.autosave')}:</div>
       <Slider
         min={1}
         max={10}
         value={autoSaveDelay}
         onChange={handleDelayChange}
       />
-      <li className="p-2">代码变更 {autoSaveDelay}s 后自动保存</li>
-      <div className="font-semibold m-2 text-xl">字体大小:</div>
+      <li className="p-2">
+        {t('setting.autosave.prompt', { delay: autoSaveDelay })}
+      </li>
+      <div className="font-semibold m-2 text-xl">{t('setting.fontsize')}:</div>
       <Input
         size="large"
         value={fontSize}

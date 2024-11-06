@@ -17,6 +17,7 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import EditorConfig from '~store/config/editor';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
@@ -33,6 +34,8 @@ interface Props {
 
 function Operator(props: Props) {
   const { getEditor } = props;
+
+  const { t } = useTranslation();
 
   const [editorConfig] = useState(() => EditorConfig);
   const { autoSaveDelay, codeType, outputType, setOutputType } = editorConfig;
@@ -107,7 +110,7 @@ function Operator(props: Props) {
 
   const handleRunCode = async () => {
     if (timesPrevent) {
-      message.info('您点击太快啦! 请稍后重试!');
+      message.info(t('editor.tips.run.fast'));
       return;
     }
 
@@ -189,7 +192,7 @@ function Operator(props: Props) {
             </pre>
           ))
         ) : (
-          <span className="text-sm text-gray-400">output...</span>
+          <span className="text-sm text-gray-400">{t('editor.output')}...</span>
         )}
       </div>
     );
@@ -230,7 +233,7 @@ function Operator(props: Props) {
             }}
           >
             <Button size="large" type="primary" className="mr-2">
-              终端样式
+              {t('editor.terminalStyle')}
             </Button>
           </Dropdown>
         )}
@@ -244,23 +247,23 @@ function Operator(props: Props) {
               format({ type: codeType, code });
             }}
           >
-            格式化
+            {t('editor.format')}
           </Button>
         )}
         <Tooltip
           className="mr-2"
-          title={`无需频繁保存, 代码变更 ${autoSaveDelay}s 后会自动保存`}
+          title={t('editor.tips.save', { delay: autoSaveDelay })}
         >
           <Button
             size="large"
             disabled={saveDisabled}
             onClick={() => {
               saveCode();
-              message.info('保存成功!');
+              message.info(t('editor.tips.save.success'));
               setSaveDisabled(true);
             }}
           >
-            保存
+            {t('editor.save')}
           </Button>
         </Tooltip>
 
@@ -272,7 +275,7 @@ function Operator(props: Props) {
             getEditor()?.setValue(template[codeType]);
           }}
         >
-          重置
+          {t('editor.reset')}
         </Button>
         <Button
           size="large"
@@ -281,7 +284,7 @@ function Operator(props: Props) {
           loading={loading}
           onClick={handleRunCode}
         >
-          运行
+          {t('editor.run')}
         </Button>
       </div>
       <div className={classnames(styles.display)}>
@@ -289,8 +292,12 @@ function Operator(props: Props) {
           value={display}
           onChange={(e) => setDisplay(e.target.value)}
         >
-          <Radio.Button value={DisplayType.input}>输入</Radio.Button>
-          <Radio.Button value={DisplayType.output}>输出</Radio.Button>
+          <Radio.Button value={DisplayType.input}>
+            {t('editor.stdin')}
+          </Radio.Button>
+          <Radio.Button value={DisplayType.output}>
+            {t('editor.stdout')}
+          </Radio.Button>
         </Radio.Group>
 
         {renderInput()}

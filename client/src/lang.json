@@ -1,0 +1,66 @@
+{
+  "en": {
+    "translation": {
+      "editor": {
+        "run": "Run",
+        "reset": "Reset",
+        "format": "Format",
+        "save": "Save",
+        "terminalStyle": "Terminal Style",
+        "stdin": "Stdin",
+        "stdout": "Stdout",
+        "output": "Output",
+        "tips": {
+          "run.fast": "You clicked too fast! Please try again later!",
+          "save": "No need to save frequently, code changes are automatically saved after {{delay}} second.",
+          "save.success": "Save success!"
+        }
+      },
+      "header": {
+        "editor": "Editor",
+        "langch": "Language Change",
+        "feedback": "Feedback",
+        "github.repo": "Github Repo"
+      },
+      "setting": {
+        "text": "Setting",
+        "panel.title": "Setting Panel",
+        "autosave": "Autosave delay(s)",
+        "autosave.prompt": "Code changes are automatically saved after {{delay}}s.",
+        "fontsize": "FontSize"
+      }
+    }
+  },
+  "zh-CN": {
+    "translation": {
+      "header": {
+        "editor": "编辑器",
+        "langch": "语言切换",
+        "feedback": "意见反馈",
+        "github.repo": "Github 开源地址"
+      },
+      "editor": {
+        "run": "运行",
+        "reset": "重置",
+        "format": "格式化",
+        "save": "保存",
+        "terminalStyle": "终端样式",
+        "stdin": "输入",
+        "stdout": "输出",
+        "output": "输出",
+        "tips": {
+          "run.fast": "您点击太快啦! 请稍后重试!",
+          "save": "无需频繁保存, 代码变更 {{delay}}s 后会自动保存.",
+          "save.success": "保存成功!"
+        }
+      },
+      "setting": {
+        "text": "设置",
+        "panel.title": "设置面板",
+        "autosave": "自动保存(秒)",
+        "autosave.prompt": "代码变更 {{delay}}s 后自动保存.",
+        "fontsize": "字体大小"
+      }
+    }
+  }
+}
