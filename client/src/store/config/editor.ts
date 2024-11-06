@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { makePersistable } from 'mobx-persist-store';
+import { getPersistedStore, makePersistable } from 'mobx-persist-store';
 import { CodeType } from '~utils/codeType';
 import { OutputType } from '~utils/helper';
 
@@ -74,6 +74,10 @@ export class EditorConfig {
 
   setLang(lang: Lang) {
     this.lang = lang;
+  }
+
+  async getStoredData() {
+    return getPersistedStore(this);
   }
 }
 
