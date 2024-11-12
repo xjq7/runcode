@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import analyze from 'rollup-plugin-analyzer';
+import analyze from 'vite-bundle-analyzer';
 import dayjs from 'dayjs';
 
 const cdnPrefix =
@@ -11,7 +11,7 @@ const cdnPrefix =
 export default ({ command }) => {
   const isBuild = command === 'build';
   return defineConfig({
-    plugins: [react(), analyze()],
+    plugins: [react()],
     base: isBuild ? cdnPrefix : '/',
     resolve: {
       alias: {
@@ -23,6 +23,15 @@ export default ({ command }) => {
         '~hooks': path.resolve(__dirname, './src/hooks'),
         '~pages': path.resolve(__dirname, './src/pages'),
         '~services': path.resolve(__dirname, './src/services'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        input: {
+          zh: 'index.html',
+          en: 'index.en.html',
+          main: 'src/main.tsx',
+        },
       },
     },
   });
