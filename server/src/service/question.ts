@@ -83,8 +83,8 @@ export class QuestionService {
 
       container?.attach(
         { stream: true, stdout: true, stderr: true },
-        function (_err, stream?: Stream) {
-          stream?.pipe(process.stdout);
+        function (_err, stream) {
+          stream?.pipe(process.stdout as any);
         },
       );
 

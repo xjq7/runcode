@@ -13,6 +13,9 @@
     "build:tailwind:watch": "tailwindcss -i src/tailwind.css -o src/tailwind.output.css --watch",
     "preinstall": "npx only-allow pnpm"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@ant-design/cssinjs": "^1.19.1",
     "ahooks": "^3.7.1",

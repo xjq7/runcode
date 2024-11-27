@@ -218,8 +218,8 @@ export async function run2(params: {
 
           container?.attach(
             { stream: true, stdout: true, stderr: true },
-            function (_err, stream?: Stream) {
-              stream?.pipe(process.stdout);
+            function (_err: any, stream: any) {
+              stream?.pipe(process.stdout as any);
             },
           );
 

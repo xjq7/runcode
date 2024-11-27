@@ -72,7 +72,7 @@ pnpm qs:generate
 
 前置条件
 
-nodejs >= 14.20.0
+nodejs >= 18.20.4
 
 包管理工具 pnpm 安装
 

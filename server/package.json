@@ -11,6 +11,9 @@
     "inject:env": "node sh/injectEnv.js",
     "preinstall": "npx only-allow pnpm"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
