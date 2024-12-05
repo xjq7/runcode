@@ -35,13 +35,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install pnpm
-        run: npm i pnpm@7.30.0 -g
+        run: npm i pnpm@9 -g
 
       - name: Install Packages
         run: pnpm install
-
-      - name: Build
-        run: pnpm qs:generate
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.2.1
