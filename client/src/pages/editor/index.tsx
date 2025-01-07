@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import EditorConfig from '~store/config/editor';
 import { observer } from 'mobx-react-lite';
 import storage from '~utils/storage';
-import { CodeStorageKey } from '~constant/storage';
+import { getCodeStorageKey } from '~constant/storage';
 import { template } from '~components/CodeEditorMonaco/const';
 
 const Component = () => {
@@ -22,13 +22,13 @@ const Component = () => {
 
   useEffect(() => {
     const codeEnv = `${codeType}:${codeVersion}`;
-    let codeCache = storage.get(CodeStorageKey[codeEnv]);
+    let codeCache = storage.get(getCodeStorageKey(codeType, codeVersion));
 
     if (!codeCache) {
       codeCache = template[codeEnv] || template[codeType];
     }
     getEditor()?.setValue(codeCache);
-  }, [codeType, getEditor]);
+  }, [codeType, codeVersion, getEditor]);
 
   return (
     <div className={classNames(styles.container, 'bg-primary-content')}>

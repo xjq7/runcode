@@ -9,7 +9,7 @@ import { runCode } from '../service';
 import { Input, Tooltip } from 'antd';
 import debounce from 'lodash/debounce';
 import storage from '~utils/storage';
-import { CodeStorageKey } from '~constant/storage';
+import { getCodeStorageKey } from '~constant/storage';
 import styles from './operator.module.less';
 import { editor } from 'monaco-editor';
 import { Terminal } from 'xterm';
@@ -106,7 +106,10 @@ function Operator(props: Props) {
   const [timesPrevent, setTimesPrevent] = useState(false);
 
   const saveCode = () => {
-    storage.set(CodeStorageKey[codeType], getEditor()?.getValue());
+    storage.set(
+      getCodeStorageKey(codeType, codeVersion),
+      getEditor()?.getValue()
+    );
   };
 
   const handleRunCode = async () => {
@@ -153,7 +156,7 @@ function Operator(props: Props) {
         debounceSaveCode.cancel();
       };
     }
-  }, [codeType, getEditor, autoSaveDelay]);
+  }, [codeType, codeVersion, getEditor, autoSaveDelay]);
 
   const renderInput = () => {
     return (

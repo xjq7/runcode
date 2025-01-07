@@ -114,6 +114,7 @@ const defaultVersion = {
   [CodeEnv.python]: '3.9.18',
   [CodeEnv.php]: '8.4',
   [CodeEnv.dotnet]: '6.12',
+  [CodeEnv.go]: '1.18',
 };
 
 export async function run(params: {
