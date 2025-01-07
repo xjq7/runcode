@@ -32,42 +32,6 @@
 
 - Nodejs
 
-## Js-challenges
-
-前端编程题挑战
-
-## 创建题目
-
-在项目根目录下运行
-
-```sh
-pnpm qs:create <你的题目名>
-
-# 例如我创建 demo 题目
-pnpm qs:create demo
-```
-
-运行完之后会在 question/FrontEnd 目录下生成以下文件
-
-- demo
-  - answer.md
-  - answer.mjs
-  - index.md
-  - index.mjs
-  - test.mjs
-
-## 生成静态文件
-
-在项目根目录下运行
-
-```sh
-pnpm qs:generate
-```
-
-运行后会在 server 目录下生成 qs.json 文件
-
-然后启动服务端, 服务端 数据来源于 qs.json
-
 ## 开发
 
 前置条件
@@ -102,64 +66,90 @@ npm install pnpm -g
 - 构建 C++ 镜像
 
   ```bash
-    cd server/src/docker/cpp
-    docker build -t cpp:11 .
+    cd server/src/docker/cpp/11.5
+    docker build -t cpp:11.5 .
+
+    cd server/src/docker/cpp/14.2
+    docker build -t cpp:14.2 .
   ```
 
 - 构建 rust 镜像
 
   ```bash
-    cd server/src/docker/rust
-    docker build -t rust:lts .
+    cd server/src/docker/rust/1.83.0
+    docker build -t rust:1.83.0 .
   ```
 
-- 构建 python3 镜像
+- 构建 python 镜像
 
   ```bash
-    cd server/src/docker/python3
-    docker build -t python:3 .
-  ```
+    cd server/src/docker/python/3.9.18
+    docker build -t python:3.9.18 .
 
-- 构建 python2 镜像
-
-  ```bash
-    cd server/src/docker/python2
-    docker build -t python:2 .
+    cd server/src/docker/python/2.7.18
+    docker build -t python:2.7.18 .
   ```
 
 - 构建 go 镜像
 
   ```bash
-    cd server/src/docker/go
-    docker build -t go:lts .
+    cd server/src/docker/go/1.23
+    docker build -t go:1.23 .
+
+    cd server/src/docker/go/1.20
+    docker build -t go:1.20 .
+
+    cd server/src/docker/go/1.18
+    docker build -t go:1.18 .
   ```
 
 - 构建 nodejs 镜像
 
   ```bash
-    cd server/src/docker/nodejs
-    docker build -t nodejs:lts .
+    cd server/src/docker/nodejs/22
+    docker build -t nodejs:22 .
+
+    cd server/src/docker/nodejs/20
+    docker build -t nodejs:20 .
+
+    cd server/src/docker/nodejs/18
+    docker build -t nodejs:18 .
+
+    cd server/src/docker/nodejs/16
+    docker build -t nodejs:16 .
   ```
 
 - 构建 java 镜像
 
   ```bash
-    cd server/src/docker/java
-    docker build -t java:lts .
+    cd server/src/docker/java/20
+    docker build -t java:20 .
+
+    cd server/src/docker/java/17
+    docker build -t java:17 .
+
+    cd server/src/docker/java/11
+    docker build -t java:11 .
+
+    cd server/src/docker/java/8
+    docker build -t java:8 .
   ```
 
 - 构建 C# 镜像
 
   ```bash
-    cd server/src/docker/dotnet
-    docker build -t mono:lts .
+    cd server/src/docker/dotnet/6.12
+    docker build -t dotnet:6.12 .
   ```
 
 - 构建 php 镜像
 
   ```bash
-    cd server/src/docker/php
-    docker build -t php:8 .
+    cd server/src/docker/php/8.4
+    docker build -t php:8.4 .
+
+    cd server/src/docker/php/7.4
+    docker build -t php:7.4 .
   ```
 
 2. 安装依赖
