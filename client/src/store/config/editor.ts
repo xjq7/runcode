@@ -48,6 +48,7 @@ export class EditorConfig {
         'fontSize',
         'editorThemeType',
         'codeType',
+        'codeVersion',
         'outputType',
         'lang',
       ],
