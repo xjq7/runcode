@@ -6,13 +6,14 @@ interface IRunRequest {
   stdin?: string;
   code?: string;
   type?: CodeType;
+  version?: string;
 }
 
 @JsonController('/code')
 export class CodeController {
   @Post('/run')
   async run(@Body() body: IRunRequest) {
-    const { code, type, stdin = '' } = body;
+    const { code, version, type, stdin = '' } = body;
 
     if (
       typeof code !== 'string' ||
@@ -35,9 +36,10 @@ export class CodeController {
     let result = {};
 
     try {
-      const output = await docker.run2({
+      const output = await docker.run({
         type,
         code,
+        version,
         stdin,
       });
       result = {

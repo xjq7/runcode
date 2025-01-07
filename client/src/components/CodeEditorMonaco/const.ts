@@ -1,6 +1,6 @@
 import { CodeType } from '~utils/codeType';
 
-export const template: Record<CodeType, string> = {
+export const template: Record<string, string> = {
   [CodeType.cpp]: `#include <iostream>
 
 int main() {
@@ -18,13 +18,9 @@ func main () {
   fmt.Println("hello world")
 }
   `,
-  [CodeType.python3]: `# encoding: utf-8
+  [CodeType.python]: `# encoding: utf-8
 if __name__ == "__main__":
     print("hello world")
-  `,
-  [CodeType.python2]: `# encoding: utf-8
-if __name__ == "__main__":
-    print "hello world"
   `,
   [CodeType.java]: `class Code {
 public

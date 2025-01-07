@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:22-slim
 
 RUN useradd --create-home --no-log-init --shell /bin/bash user \
   && adduser user sudo
@@ -11,4 +11,4 @@ RUN npm config set registry https://registry.npmmirror.com \
   && npm init -y \
   && npm install mocha \
   && npm install chai \
-  && npm install typescript
+  && npm install typescript@5.7.2

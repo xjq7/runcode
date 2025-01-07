@@ -1,1 +1,0 @@
-FROM mono:latest

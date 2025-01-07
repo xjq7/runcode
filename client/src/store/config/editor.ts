@@ -20,6 +20,7 @@ export class EditorConfig {
   fontSize = 16;
   editorThemeType = ThemeType['Visual Studio'];
   codeType = CodeType.cpp;
+  codeVersion = '14.2';
   outputType = OutputType.plain;
   lang = Lang.EN;
 
@@ -31,9 +32,11 @@ export class EditorConfig {
       editorThemeType: observable,
       outputType: observable,
       lang: observable,
+      codeVersion: observable,
       setAutoSaveDelay: action.bound,
       setEditorThemeType: action.bound,
       setCodeType: action.bound,
+      setCodeVersion: action.bound,
       setOutputType: action.bound,
       setFontSize: action.bound,
       setLang: action.bound,
@@ -54,6 +57,10 @@ export class EditorConfig {
 
   setCodeType(type: CodeType) {
     this.codeType = type;
+  }
+
+  setCodeVersion(version: string) {
+    this.codeVersion = version;
   }
 
   setOutputType(type: OutputType) {

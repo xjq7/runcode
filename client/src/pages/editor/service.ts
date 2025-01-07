@@ -5,6 +5,7 @@ export interface IRunCodeRequest {
   type: CodeType;
   stdin?: string;
   code: string;
+  version?: string;
 }
 
 export interface IRunCodeResponse {

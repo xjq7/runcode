@@ -14,15 +14,19 @@ const Component = () => {
   const editorRef = useRef<Expose>(null);
 
   const [editorConfig] = useState(() => EditorConfig);
-  const { editorThemeType, codeType, fontSize } = editorConfig;
+  const { editorThemeType, codeType, codeVersion, fontSize } = editorConfig;
 
   const getEditor = useCallback(() => {
     return editorRef.current?.getEditor();
   }, [editorRef.current]);
 
   useEffect(() => {
-    const codeCache =
-      storage.get(CodeStorageKey[codeType]) || template[codeType];
+    const codeEnv = `${codeType}:${codeVersion}`;
+    let codeCache = storage.get(CodeStorageKey[codeEnv]);
+
+    if (!codeCache) {
+      codeCache = template[codeEnv] || template[codeType];
+    }
     getEditor()?.setValue(codeCache);
   }, [codeType, getEditor]);
 

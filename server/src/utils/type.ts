@@ -2,8 +2,7 @@ export enum CodeType {
   cpp = 'cpp',
   nodejs = 'nodejs',
   go = 'go',
-  python3 = 'python3',
-  python2 = 'python2',
+  python = 'python',
   java = 'java',
   php = 'php',
   rust = 'rust',
@@ -12,19 +11,18 @@ export enum CodeType {
   ts = 'typescript',
 }
 
-export enum CodeEnv {
-  cpp = 'cpp:11',
-  nodejs = 'nodejs:lts',
-  go = 'go:lts',
-  python3 = 'python:3',
-  python2 = 'python:2',
-  java = 'java:lts',
-  php = 'php:8',
-  rust = 'rust:lts',
-  c = 'cpp:11',
-  dotnet = 'mono:lts',
-  ts = 'nodejs:lts',
-}
+export const CodeEnv: Record<string, string> = {
+  cpp: 'cpp',
+  nodejs: 'nodejs',
+  go: 'go',
+  python: 'python',
+  java: 'java',
+  php: 'php',
+  rust: 'rust',
+  c: 'cpp',
+  dotnet: 'dotnet',
+  ts: 'nodejs',
+};
 
 export enum FileSuffix {
   cpp = 'cpp',

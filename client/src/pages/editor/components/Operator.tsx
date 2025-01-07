@@ -38,7 +38,8 @@ function Operator(props: Props) {
   const { t } = useTranslation();
 
   const [editorConfig] = useState(() => EditorConfig);
-  const { autoSaveDelay, codeType, outputType, setOutputType } = editorConfig;
+  const { autoSaveDelay, codeType, codeVersion, outputType, setOutputType } =
+    editorConfig;
 
   const inputRef = useRef('');
   const [display, setDisplay] = useState(DisplayType.output);
@@ -116,7 +117,12 @@ function Operator(props: Props) {
 
     if (getEditor()) {
       const code = getEditor()?.getValue() || '';
-      run({ code: encodeURI(code), type: codeType, stdin: inputRef.current });
+      run({
+        code: encodeURI(code),
+        type: codeType,
+        stdin: inputRef.current,
+        version: codeVersion,
+      });
       setTimesPrevent(true);
       setTimeout(() => {
         setTimesPrevent(false);

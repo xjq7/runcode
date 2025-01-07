@@ -1,4 +1,4 @@
-FROM php:8.2-rc-buster
+FROM openjdk:11-jdk-slim
 
 RUN useradd --create-home --no-log-init --shell /bin/bash user \
   && adduser user sudo 

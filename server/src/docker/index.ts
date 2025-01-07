@@ -1,5 +1,4 @@
 import Docker, { Container } from 'dockerode';
-import { Stream } from 'stream';
 import dockerConfig from '../config/docker';
 import { CodeEnv, CodeType, FileSuffix } from '../utils/type';
 import { isType } from '../utils/helper';
@@ -25,40 +24,35 @@ const docker = new Docker({
 });
 
 interface CodeDockerOption {
-  env: CodeEnv;
   shell: string;
   fileSuffix: FileSuffix;
   shellWithStdin: string;
   prefix?: string;
 }
 
-const imageMap: Record<CodeType, CodeDockerOption> = {
+const imageMap: Record<string, CodeDockerOption> = {
   cpp: {
-    env: CodeEnv.cpp,
     shell: 'g++ code.cpp -o code.out && ./code.out',
     shellWithStdin: 'g++ code.cpp -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.cpp,
   },
   nodejs: {
-    env: CodeEnv.nodejs,
     shell: 'node code.js',
     shellWithStdin: 'node code.js < input.txt',
     fileSuffix: FileSuffix.nodejs,
   },
   go: {
-    env: CodeEnv.go,
     shell: 'go run code.go',
     shellWithStdin: 'go run code.go < input.txt',
     fileSuffix: FileSuffix.go,
   },
-  python2: {
-    env: CodeEnv.python2,
+
+  'python:2.7.18': {
     shell: 'python code.py',
     shellWithStdin: 'python code.py input.txt',
     fileSuffix: FileSuffix.python2,
   },
-  python3: {
-    env: CodeEnv.python3,
+  'python:3.9.18': {
     shell: 'python3 code.py',
     shellWithStdin: 'python3 code.py input.txt',
     fileSuffix: FileSuffix.python3,
@@ -79,37 +73,31 @@ expand_arg_files()
 `,
   },
   java: {
-    env: CodeEnv.java,
     shell: 'javac Code.java && java Code',
     shellWithStdin: 'javac Code.java && java Code < input.txt',
     fileSuffix: FileSuffix.java,
   },
   php: {
-    env: CodeEnv.php,
     shell: 'php code.php',
     shellWithStdin: 'php code.php < input.txt',
     fileSuffix: FileSuffix.php,
   },
   rust: {
-    env: CodeEnv.rust,
     shell: 'rustc code.rs && ./code',
     shellWithStdin: 'rustc code.rs && ./code < input.txt',
     fileSuffix: FileSuffix.rust,
   },
   c: {
-    env: CodeEnv.c,
     shell: 'g++ code.c -o code.out && ./code.out',
     shellWithStdin: 'g++ code.c -o code.out && ./code.out < input.txt',
     fileSuffix: FileSuffix.c,
   },
   dotnet: {
-    env: CodeEnv.dotnet,
     shell: 'mcs -out:code.exe code.cs && mono code.exe',
     shellWithStdin: 'mcs -out:code.exe code.cs && mono code.exe < input.txt',
     fileSuffix: FileSuffix.dotnet,
   },
   typescript: {
-    env: CodeEnv.ts,
     shell: './node_modules/typescript/bin/tsc code.ts && node code.js',
     shellWithStdin:
       './node_modules/typescript/bin/tsc code.ts && node code.js < input.txt',
@@ -117,10 +105,22 @@ expand_arg_files()
   },
 };
 
-export async function run2(params: {
+const defaultVersion = {
+  [CodeEnv.cpp]: '14.2',
+  [CodeEnv.c]: '14.2',
+  [CodeEnv.java]: '8',
+  [CodeEnv.rust]: '1.83.0',
+  [CodeEnv.nodejs]: '18',
+  [CodeEnv.python]: '3.9.18',
+  [CodeEnv.php]: '8.4',
+  [CodeEnv.dotnet]: '6.12',
+};
+
+export async function run(params: {
   type: CodeType;
   code: string;
   stdin: string;
+  version?: string;
 }) {
   const Error = {
     output: '',
@@ -133,11 +133,27 @@ export async function run2(params: {
 
   const { code, type, stdin } = params;
 
-  const dockerOptions = imageMap[type];
+  let { version } = params;
 
-  if (!dockerOptions) return Error;
+  const codeEnv = CodeEnv[type];
 
-  const { env, prefix = '', shell, shellWithStdin, fileSuffix } = dockerOptions;
+  if (!version) {
+    version = defaultVersion[codeEnv];
+  }
+
+  let image = `${codeEnv}:${version}`;
+
+  if (type === CodeType.ts) {
+    image = `${CodeEnv.nodejs}:18`;
+  }
+
+  let dockerOptions = imageMap[image];
+
+  if (!dockerOptions) {
+    dockerOptions = imageMap[type];
+  }
+
+  const { shellWithStdin, fileSuffix, prefix = '', shell } = dockerOptions;
 
   let removeContainer = () => {};
 
@@ -160,7 +176,7 @@ export async function run2(params: {
   return await new Promise((resolve, reject) => {
     docker.createContainer(
       {
-        Image: env,
+        Image: image,
         Cmd: ['bash', '-c', bashCmd],
         StopTimeout: 6,
         Tty: true,
@@ -266,75 +282,4 @@ function formatOutput(outputString: string): string {
   }
 
   return outputStringArr.join('%0A');
-}
-
-export async function run({ type, code }: { type: CodeType; code: string }) {
-  const Error = {
-    output: '',
-    code: 1,
-    time: 0,
-    message: '',
-  };
-
-  const result = Error;
-
-  const dockerOptions = imageMap[type];
-
-  if (!dockerOptions) return Error;
-
-  const { env, shell, fileSuffix } = dockerOptions;
-
-  try {
-    const data = await docker.run(
-      env,
-      [
-        'bash',
-        '-c',
-        `cat > code.${fileSuffix} << EOF ${code} \
-        ${shell}`,
-      ],
-      process.stdout,
-      { StopTimeout: 5 },
-    );
-
-    const output = data[0] || {};
-    result.code = output?.StatusCode;
-
-    const container: Container = data[1];
-    const readstream: any = await container.logs({
-      stdout: true,
-      stderr: true,
-    });
-
-    let outputString = readstream.toString('utf8') as string;
-
-    if (outputString.length > 4200) {
-      outputString =
-        outputString.slice(0, 2000) +
-        outputString.slice(outputString.length - 2000);
-    }
-
-    outputString = encodeURI(outputString);
-
-    outputString = outputString.replace(
-      /%1B%5B.*?m.*?%1B%5BK|%1B%5B.*?m|%0D/g,
-      '',
-    );
-
-    let outputStringArr = outputString.split('%0A');
-    if (outputStringArr.length > 200) {
-      outputStringArr = outputStringArr
-        .slice(0, 100)
-        .concat(
-          ['%0A', '...' + encodeURI('数据太多,已折叠'), '%0A'],
-          outputStringArr.slice(outputStringArr.length - 100),
-        );
-    }
-
-    result.output = outputStringArr.join('%0A');
-    result.code = 0;
-  } catch (error) {
-    console.log(error);
-  }
-  return result;
 }
