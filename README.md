@@ -152,6 +152,34 @@ npm install pnpm -g
     docker build -t php:7.4 .
   ```
 
+2. 配置调整
+
+本地开发时根据系统调整 docker 连接配置
+
+```js
+// server/src/config/docker.ts 此文件为 docker 连接配置
+
+// 通过端口号连接, Windows 或 Linux 下可以使用这种
+const config: DockerOptions = {
+  // 通过端口连接方式
+  host: '127.0.0.1',
+  port: '2375',
+  protocol: 'http',
+  // 通过 socket 连接方式
+  // socketPath: '/var/run/docker.sock',
+};
+
+// 通过 socket 连接, Mac 或者 Linux 下可以使用这这种
+const config: DockerOptions = {
+  // 通过端口连接方式
+  // host: '127.0.0.1',
+  // port: '2375',
+  // protocol: 'http',
+  // 通过 socket 连接方式
+  socketPath: '/var/run/docker.sock',
+};
+```
+
 2. 安装依赖
 
    ```sh
