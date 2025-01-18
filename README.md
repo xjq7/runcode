@@ -259,7 +259,9 @@ pnpm i
 pnpm build
 ```
 
-3. 启动服务
+3. [需要构建好 docker 镜像](#server)
+
+4. 启动服务
 
 ```sh
 pnpm run deploy
