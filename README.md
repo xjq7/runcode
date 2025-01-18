@@ -262,7 +262,7 @@ pnpm build
 3. 启动服务
 
 ```sh
-pnpm deploy
+pnpm run deploy
 ```
 
 ### client
