@@ -263,6 +263,8 @@ pnpm build
 
 4. 启动服务
 
+启动后服务端口号 为 39005
+
 ```sh
 pnpm run deploy
 ```
