@@ -1,5 +1,7 @@
 ## runcode
 
+希望 Runcode 可以帮助到你
+
 在线代码运行编辑器
 
 语言支持度
@@ -301,3 +303,9 @@ pnpm build
 - perf：提高性能的改动
 - ci：自动化流程配置修改、与 CI（持续集成服务）有关的改动
 - revert：回滚到上一个版本，执行 git revert 打印的 message
+
+## 赞助
+
+如果觉得 Runcode 对你有帮助, 可以赞助一下
+
+![微信赞助码](https://xjq-img.oss-cn-shenzhen.aliyuncs.com/WechatIMG59.jpg)
