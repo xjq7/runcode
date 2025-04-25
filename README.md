@@ -38,12 +38,12 @@
 
 前置条件
 
-nodejs >= 18.20.4
+nodejs >= 16
 
 包管理工具 pnpm 安装
 
 ```sh
-npm install pnpm -g
+npm install pnpm@8 -g
 ```
 
 ### server

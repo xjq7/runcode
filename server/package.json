@@ -12,7 +12,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 16"
   },
   "keywords": [],
   "author": "",

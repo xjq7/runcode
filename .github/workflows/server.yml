@@ -29,13 +29,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 16.20.2
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16.20.2
 
       - name: Install pnpm
-        run: npm i pnpm@9 -g
+        run: npm i pnpm@8 -g
 
       - name: Install Packages
         run: pnpm install
